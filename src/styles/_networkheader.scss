@@ -1,0 +1,14 @@
+.network-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background-color: $color-1;
+    box-shadow: inset $color-2 0px -1px 4px;
+    a{
+        text-align: center;
+    }
+    a:hover{
+        opacity: 0.6;
+    }
+}

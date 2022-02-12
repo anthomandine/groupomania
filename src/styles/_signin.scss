@@ -1,0 +1,51 @@
+.signin{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10%;
+
+    .box-signin{
+        box-shadow: $color-2 1px 1px 4px;
+        background-color: white;
+        padding: 10px;
+        margin: 10px;
+        width: 60%;
+    }
+    .box-input form{
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+    }
+    .box-input div{
+        margin: 5px;
+    }
+    button{
+        color: $color-2;
+        margin: 5px;
+    }
+    button:hover{
+        background-color: rgba(210, 25, 65, 0.04);
+    }
+    
+    .avatar-content{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 10px;
+    }
+    .avatar-text{
+        padding-top: 30px;
+    }
+    
+
+}
+
+@media (max-width: 575.98px) { 
+    .signin{
+        width: 100%;
+        .box-signin{
+            width: 100%;
+        }
+    }
+    
+}
