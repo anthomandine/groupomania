@@ -15,10 +15,12 @@ La page web s'ouvre ...
 
 ou
 
- - cd /groupomania : ``npm start``
+ - cd /groupomania/backend : ``npm install``
+ - cd /groupomania/backend : ``nodemon server``
  Le back est en marche ...
- et
- - cd /groupomania/backend : ``node server``
+et
+ - cd /groupomania : ``npm install``
+ - cd /groupomania : ``npm start``
  La page web s'ouvre ...
 
 
