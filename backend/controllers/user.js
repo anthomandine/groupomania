@@ -1,29 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-//-------- Initialisation mysql ---------//
-
-const mysql = require('mysql');
-
-//--------Conexion à la base de données---------//
-
-const connexion = mysql.createConnection({
-
-  host: "localhost",
-
-  user: "root",
-
-  password: "Amandine2006+",
-
-  database : "testdb"
-
-});
-
-connexion.connect(function(err) {
-  if (err) throw err;
-  console.log("Connecté à la base de données MySQL!");
-});
-
+const connexion = require('../middleware/bdd.js');
 
 //---------middleware post pour l'inscription ----------//
 
