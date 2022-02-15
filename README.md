@@ -1,12 +1,24 @@
-# groupomania
+# Groupomania
 
-## to **run** this project :
+Le projet _Groupomania_ est un réseau social interne d'entreprise permettant aux adérents d'envoyer des posts text, image, gif ..., de commenter et de liker. Le but de cet outil est de faciliter les interactions entre collègues.
 
-### bash:
+### Pré-requis
 
-- /groupomania : make start
+- telecharger node js 
 
-or
+### Installation et démarrage 
 
- - /groupomania : npm start
- - /groupomania/backend : node server
+Executer la commande :
+
+- cd /groupomania : ``make start``
+La page web s'ouvre ...
+
+ou
+
+ - cd /groupomania : ``npm start``
+ Le back est en marche ...
+ et
+ - cd /groupomania/backend : ``node server``
+ La page web s'ouvre ...
+
+
