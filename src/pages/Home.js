@@ -3,6 +3,7 @@ import FooterComponent from '../components/FooterComponent';
 import Navigation from '../components/Navigation';
 
 const Home = () => {
+
     return (
         <div className="home">
             <Navigation />
