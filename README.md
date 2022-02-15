@@ -18,7 +18,7 @@ ou
  - cd /groupomania/backend : ``npm install``
  - cd /groupomania/backend : ``nodemon server``
  Le back est en marche ...
-et
+ et
  - cd /groupomania : ``npm install``
  - cd /groupomania : ``npm start``
  La page web s'ouvre ...
