@@ -42,7 +42,7 @@ const SignIn = () => {
 
         axios({
             method: 'post',
-            url: 'http://localhost:3000/SignIn/signin',
+            url: 'http://localhost:3000/api/signin',
             data: userData
         })
         .then(function (reponse) {

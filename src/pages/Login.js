@@ -17,10 +17,13 @@ const Login = () => {
 
     const [ data, setData ] = useState ({ 
         email: "",
-        password: ""
+        password: "",
     });
 
+    const [errorMessage, setErrorMessage] = useState('');
+    
     const handleChange = (e) => {
+        setErrorMessage('');
         const value = e.target.value;
         setData({
             ...data,
@@ -37,14 +40,14 @@ const Login = () => {
 
         axios({
             method: 'post',
-            url: 'http://localhost:3000/SignIn/login',
+            url: 'http://localhost:3000/api/login',
             data: userData
         })
         .then(function (reponse) {
             navigate(`/Network`);
         })
-        .catch(function (erreur) {
-            console.log(erreur);
+        .catch(function (err) {
+            setErrorMessage('Email ou mot de passe incorrect ! ');
         });
     };
 
@@ -74,6 +77,7 @@ const Login = () => {
                                 value={data.password}
                                 type="password"
                             />
+                            {errorMessage && ( <p className="error"> {errorMessage} </p> )}
                             <Button type='submit'>Conexion</Button>
                         </form>
                     </div>

@@ -22,8 +22,8 @@ app.use(express.json());
 
 //--------Demande URL vers les routes inscription et connexion  ---------//
 
-app.use('/signin', userRoutes);
-app.use('/login', userRoutes);
+app.use('/api/', userRoutes);
+
 
 //--------Demande URL vers les routes network  ---------//
 

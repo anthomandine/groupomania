@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
-const connexion = require('../middleware/bdd.js');
+const connexion = require('../config/bdd.js');
 
 //---------middleware post pour l'inscription ----------//
 
@@ -39,21 +38,21 @@ exports.login = (req, res, next) => {
     let userPassword = req.body.password; 
     let userId = req.body.userId;
 
-    let sql = `SELECT * FROM testdb.users`;
+    let sql = `SELECT email, password FROM testdb.users WHERE email= ?`;
 
-    connexion.query(sql, (err, results, fields)=>{
+    connexion.query(sql,userEmail, (err, results, fields)=>{
         if (err) console.log("Echec BD");
 
-        for (let i = 0; i < results.length; i++) {
-            const result = results[i];
+            const result = results;
             
-            if(result.email != userEmail){
-                res.status(401).json({ error: 'Utilisateur non trouvé !' });
-            }
-            bcrypt.compare(userPassword, result.password)
+            if(result == '') {
+                return res.status(401).json({ error: 'Email introuvable ou incorrect !' }); 
+                 }
+            if(result[0].email == userEmail){
+                bcrypt.compare(userPassword, result[0].password)
             .then(valid => {
                 if (!valid) {
-                        res.status(401).json({ error: 'Mot de passe incorrect !' });
+                        return res.status(401).json({ error: 'Mot de passe incorrect !' });
                     }
             console.log("connexion reussie");
             res.status(200).json({
@@ -65,7 +64,7 @@ exports.login = (req, res, next) => {
                 )
             });
         })
-        .catch(error => res.status(500).json({ error }));
-        }
+        .catch(error => res.status(500).json({ error: 'erreur catch' }));
+            }
     });
 };

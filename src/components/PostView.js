@@ -15,7 +15,7 @@ const PostView = () => {
                         <DeleteIcon />
                     </IconButton>
                 </div>
-                <p>"Pseudo du post"</p>
+                <p>"Pseudo" à posté : </p>
                 <img src='' alt='' />
                 <p className='text-color-3'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
                 <div className='add-comment'>
@@ -39,7 +39,7 @@ const PostView = () => {
                         <DeleteIcon />
                     </IconButton>
                 </div>
-                <p>"Pseudo du post"</p>
+                <p>"Pseudo" à posté : </p>
                 <img src='' alt='' />
                 <p className='text-color-3'>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
                 <div className='add-comment'>
