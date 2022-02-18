@@ -6,12 +6,15 @@ const router = express.Router();
 
 
 const userCtrl = require('../controllers/user');
+const auth = require('../middleware/auth');
 
 //--------Chargement de la route vers middleware s'inscrire et se connecter---------//
 
 router.post('/signin', userCtrl.signup);
 
 router.post('/login', userCtrl.login);
+
+router.get('/:userId', userCtrl.getOneUser);
 
 
 module.exports = router;

@@ -44,6 +44,7 @@ const Login = () => {
             data: userData
         })
         .then(function (reponse) {
+            sessionStorage.setItem('userId', reponse.data.userId);
             navigate(`/Network`);
         })
         .catch(function (err) {

@@ -46,7 +46,8 @@ const SignIn = () => {
             data: userData
         })
         .then(function (reponse) {
-            navigate(`/Network`);
+            console.log("profil créé!")
+            navigate(`/Login`);
         })
         .catch(function (erreur) {
             console.log(erreur);

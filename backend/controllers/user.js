@@ -33,17 +33,17 @@ exports.signup = (req, res, next) => {
 
 exports.login = (req, res, next) => {
     
-    
     let userEmail = req.body.email;
     let userPassword = req.body.password; 
-    let userId = req.body.userId;
+    
 
-    let sql = `SELECT email, password FROM testdb.users WHERE email= ?`;
+    let sql = `SELECT email, password, userId FROM testdb.users WHERE email= ?`;
 
     connexion.query(sql,userEmail, (err, results, fields)=>{
         if (err) console.log("Echec BD");
-
+            
             const result = results;
+            const userId = result[0].userId;
             
             if(result == '') {
                 return res.status(401).json({ error: 'Email introuvable ou incorrect !' }); 
@@ -66,5 +66,21 @@ exports.login = (req, res, next) => {
         })
         .catch(error => res.status(500).json({ error: 'erreur catch' }));
             }
+    });
+};
+
+
+
+//---------middleware get pour recupérer un compte  ----------//
+
+
+exports.getOneUser = (req, res, next) => {
+
+    const sql = `SELECT * FROM testdb.users WHERE userId= ?`;
+    const userId = req.params.userId;
+
+    connexion.query(sql, userId, (err, results, fields) =>{
+        if (err) console.log("Echec BD");
+        res.status(200).json(results)
     });
 };
