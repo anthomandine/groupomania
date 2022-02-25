@@ -17,7 +17,6 @@ const Home = () => {
             <FooterComponent />
         </div>
     )
-
 }
 
 export default Home;

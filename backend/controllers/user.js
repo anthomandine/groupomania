@@ -4,7 +4,6 @@ const connexion = require('../config/bdd.js');
 
 //---------middleware post pour l'inscription ----------//
 
-
 exports.signup = (req, res, next) => {
 
     bcrypt.hash(req.body.password, 10)
@@ -25,10 +24,6 @@ exports.signup = (req, res, next) => {
       .catch(error => res.status(500).json({ error })); 
     };
 
-
-        
-
-
 //---------middleware post pour la connexion  ----------//
 
 exports.login = (req, res, next) => {
@@ -36,12 +31,10 @@ exports.login = (req, res, next) => {
     let userEmail = req.body.email;
     let userPassword = req.body.password; 
     
-
     let sql = `SELECT email, password, userId FROM testdb.users WHERE email= ?`;
 
     connexion.query(sql,userEmail, (err, results, fields)=>{
         if (err) console.log("Echec BD");
-            
             const result = results;
             const userId = result[0].userId;
             
@@ -55,23 +48,21 @@ exports.login = (req, res, next) => {
                         return res.status(401).json({ error: 'Mot de passe incorrect !' });
                     }
             console.log("connexion reussie");
-            res.status(200).json({
-                userId: userId,
-                token: jwt.sign(
-                    {userId: userId},
-                    'RANDOM_TOKEN',
-                    { expiresIn: '24h' }
-                )
-            });
-        })
-        .catch(error => res.status(500).json({ error: 'erreur catch' }));
-            }
+                res.status(200).json({
+                    userId: userId,
+                    token: jwt.sign(
+                        {userId: userId},
+                        'RANDOM_TOKEN',
+                        { expiresIn: '24h' }
+                    )
+                });
+            })
+        }
     });
 };
 
 
-
-//---------middleware get pour recupérer un compte  ----------//
+//---------middleware get pour recupérer un profil  ----------//
 
 
 exports.getOneUser = (req, res, next) => {
@@ -82,5 +73,22 @@ exports.getOneUser = (req, res, next) => {
     connexion.query(sql, userId, (err, results, fields) =>{
         if (err) console.log("Echec BD");
         res.status(200).json(results)
+    });
+};
+
+//---------middleware get pour modifier un profil  ----------//
+
+exports.modifyUser = (req, res, next) => {
+    
+    const userId = req.params.userId;
+    const pseudo = req.body.pseudo;
+    const sql = 'UPDATE users SET pseudo=\'' + pseudo + '\' WHERE userId=' + userId ;
+
+    connexion.query(sql, (err, results, fields) => {
+        if (err) console.log("Echec BD");
+        else{
+            console.log("information mis à jour.")
+            res.status(200).json(results);
+        };
     });
 };

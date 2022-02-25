@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const userRoutes = require('./routes/user');
+const postRoutes = require('./routes/post');
 const app = express();
 
 
@@ -22,10 +23,12 @@ app.use(express.json());
 
 //--------Demande URL vers les routes inscription et connexion  ---------//
 
-app.use('/api/', userRoutes);
+app.use('/api/auth', userRoutes);
 
 
 //--------Demande URL vers les routes network  ---------//
+
+app.use('/api/post/', postRoutes);
 
 
   module.exports = app;

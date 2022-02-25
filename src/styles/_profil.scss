@@ -2,3 +2,18 @@
     display: flex;
     flex-direction: column;
 }
+
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper{
+    width: 80%;
+}
+
+.css-153eyq5-MuiModal-root-MuiDialog-root .MuiDialogContent-root {
+    padding: 30px;
+
+    button{ 
+        margin: 15px 0px;
+    }
+    span{ 
+        padding: 10px;
+    }
+}

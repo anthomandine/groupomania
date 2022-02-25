@@ -8,19 +8,22 @@ import PostView from '../components/PostView';
 import axios from 'axios';
 
 
-
-const userId = sessionStorage.getItem('userId');
-    axios.get('http://localhost:3000/api/'+userId)
-    .then(function (reponse) {
-        const pseudo = reponse.data[0].pseudo;
-        console.log(pseudo);
-    });
-
-
-
 const Network = () => {
 
-    
+    const userId = sessionStorage.getItem('userId');
+    const token = sessionStorage.getItem('token');
+
+    axios.get('http://localhost:3000/api/auth/'+userId,
+    {
+        headers: {
+        'Authorization': 'Bearer ' + token
+    }
+      })
+    .then(function (reponse) {
+        const pseudo = reponse.data[0].pseudo;
+        sessionStorage.setItem('user', pseudo);
+    });
+
     return (
         <div>
             <BackHome />
@@ -28,8 +31,6 @@ const Network = () => {
             <NetworkHeaderComponent />
             <PostAddView />
             <PostView />
-            
-            
         </div>
     );
 };

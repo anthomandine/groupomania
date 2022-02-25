@@ -1,12 +1,14 @@
 .post-add-text{
+    form{
     box-shadow: 1px 1px 0px 1px $color-1;
     border-radius: 15px;
-    margin: 3% 1%;
+    margin: 4% 4%;
     padding: 10px;
     background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
+    }
     p{
         margin: 20px 10px;
     }

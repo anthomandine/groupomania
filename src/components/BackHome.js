@@ -12,11 +12,11 @@ const BackHome = () => {
     return (
         <div className='backhome' onClick={handleClick}>
             <NavLink  to="/" >
-                <HomeIcon />log-out
+                <HomeIcon />
+                <p>Déconnexion</p>
             </NavLink>
         </div>
     );
 };
-
 
 export default BackHome;

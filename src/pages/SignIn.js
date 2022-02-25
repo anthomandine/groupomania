@@ -1,18 +1,13 @@
 import React from 'react';
 import { IconButton, TextField } from '@mui/material';
 import { Button } from '@mui/material';
-import BackHome from '../components/BackHome';
 import HeaderComponent from '../components/HeaderComponent';
 import Navigation from '../components/Navigation';
 import FooterComponent from '../components/FooterComponent';
 import { useState } from 'react';
-
 import { Avatar } from '@mui/material';
-
 import axios from 'axios';
-
 import { useNavigate } from "react-router-dom";
-
 
 const SignIn = () => {
 
@@ -42,7 +37,7 @@ const SignIn = () => {
 
         axios({
             method: 'post',
-            url: 'http://localhost:3000/api/signin',
+            url: 'http://localhost:3000/api/auth/signin',
             data: userData
         })
         .then(function (reponse) {
@@ -52,15 +47,12 @@ const SignIn = () => {
         .catch(function (erreur) {
             console.log(erreur);
         });
-
-
     };
 
     return (
         <>
              <HeaderComponent />
              <Navigation />
-             <BackHome />
             <div className='signin'>
                 <div className='box-signin'>
                     <h1>Inscription</h1>
@@ -113,7 +105,6 @@ const SignIn = () => {
         </>
     );
 };
-
 
 
 export default SignIn;

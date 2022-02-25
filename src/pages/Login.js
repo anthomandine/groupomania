@@ -2,7 +2,6 @@ import React from 'react';
 import { TextField } from '@mui/material';
 import { Button } from '@mui/material';
 import Navigation from '../components/Navigation';
-import BackHome from '../components/BackHome';
 import HeaderComponent from '../components/HeaderComponent';
 
 import { useState } from 'react';
@@ -40,12 +39,15 @@ const Login = () => {
 
         axios({
             method: 'post',
-            url: 'http://localhost:3000/api/login',
+            url: 'http://localhost:3000/api/auth/login',
             data: userData
         })
         .then(function (reponse) {
             sessionStorage.setItem('userId', reponse.data.userId);
+            sessionStorage.setItem('token', reponse.data.token);
+
             navigate(`/Network`);
+            window.location.reload();
         })
         .catch(function (err) {
             setErrorMessage('Email ou mot de passe incorrect ! ');
@@ -56,7 +58,6 @@ const Login = () => {
         <>
             <HeaderComponent />
             <Navigation />
-            <BackHome />
             <div className='login'>
                 <div className='box-login'>
                     <h1>Se connecter</h1>

@@ -2,4 +2,11 @@
     position: absolute;
     top: 20px;
     right: 20px;
+
+    a{
+        display: flex;
+        align-items: center;
+        flex-direction: row-reverse;
+        flex-wrap: wrap;
+    }
 }
