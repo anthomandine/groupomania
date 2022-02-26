@@ -11,7 +11,6 @@ exports.createPost = (req, res, next) => {
     connexion.query(sql, post, (err, results, fields)=>{
         if(err)console.log("Echec d'enregistrement à BD");
         else{
-            console.log('coucou back post');
             res.status(200).json({message: "post créé !"});
         }
     });
@@ -22,12 +21,11 @@ exports.createPost = (req, res, next) => {
 
   exports.getAllPosts = (req, res, next) => {
 
-    let sql=`SELECT * FROM testdb.posts`;
+    let sql=`SELECT * FROM testdb.posts ORDER BY idpost DESC`;
 
     connexion.query(sql, (err, results, fields) => {
         if(err)console.log("Echec d'enregistrement à BD");
         else{
-            console.log(results);
             res.status(200).json(results);
         }
     })
