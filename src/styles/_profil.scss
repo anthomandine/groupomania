@@ -17,3 +17,9 @@
         padding: 10px;
     }
 }
+.avatar-content{
+    margin-top: 10px;
+    .active{  
+        box-shadow: $color-2 2px 2px 2px;
+    }
+}

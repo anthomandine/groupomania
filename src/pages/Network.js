@@ -6,6 +6,8 @@ import NetworkHeaderComponent from '../components/NetworkHeaderComponent';
 import PostAddView from '../components/PostAddView';
 import PostView from '../components/PostView';
 import axios from 'axios';
+import CachedIcon from '@mui/icons-material/Cached';
+import { IconButton } from '@mui/material';
 
 
 const Network = () => {
@@ -21,7 +23,10 @@ const Network = () => {
       })
     .then(function (reponse) {
         const pseudo = reponse.data[0].pseudo;
+        const avatar = reponse.data[0].avatar;
+
         sessionStorage.setItem('user', pseudo);
+        sessionStorage.setItem('avatar', avatar);
     });
 
     return (
@@ -29,6 +34,7 @@ const Network = () => {
             <BackHome />
             <HeaderComponent />
             <NetworkHeaderComponent />
+            <div className='refresh'><IconButton onClick={() => window.location.reload()}><CachedIcon />actualiser</IconButton></div>
             <PostAddView />
             <PostView />
         </div>

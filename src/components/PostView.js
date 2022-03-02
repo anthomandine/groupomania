@@ -7,6 +7,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from '@mui/material';
 import axios from 'axios';
 
+
+
+
 const PostView = () => {
 
     const pseudo = sessionStorage.getItem('user');
@@ -27,25 +30,40 @@ const PostView = () => {
     }, []); 
 
 
-    const handleDelete = (e) => {
-        e.preventDefault();
-            console.log('coucou');
+    const handleDelete = (idpost, imageUrl) => {
+        const token = sessionStorage.getItem('token');
+        const url = imageUrl;
+
+        axios({
+            method: 'delete',
+            url: 'http://localhost:3000/api/post/' + idpost,
+            headers: {
+                'Authorization': 'Bearer ' + token
+              },
+            data: {url}
+            })
+            .then(function (reponse) {
+                window.location.reload();
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
         };
+
       
-
-    
-
     return (
         <>
             {posts.map((post, index) => (
                 <div className='post-view' key={index}>
                     <div className='delete-button'>
-                        <IconButton aria-label="delete" size="large" onClick={handleDelete} >
+                        <IconButton aria-label="delete" size="large" onClick={() => handleDelete(post.idpost, post.imageUrl)} >
                             <DeleteIcon />
                         </IconButton>
                     </div>
                     <p>{pseudo} à posté : </p>
-                    <img src='../images/icon-above-font-dec.png' alt='' />
+
+                    {post.imageUrl.length > 0 &&
+                        <img src={post.imageUrl} alt={'image post n:'+ post.idpost}/>}
                     <p className='text-color-3'>{post.post}</p>
                     <div className='add-comment'>
                         <div>

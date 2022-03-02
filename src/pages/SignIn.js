@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconButton, TextField } from '@mui/material';
+import { Alert, IconButton, TextField } from '@mui/material';
 import { Button } from '@mui/material';
 import HeaderComponent from '../components/HeaderComponent';
 import Navigation from '../components/Navigation';
@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { Avatar } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+
 
 const SignIn = () => {
 
@@ -18,6 +19,22 @@ const SignIn = () => {
         password: "",
         pseudo: ""
     });
+
+    const [avatar, setAvatar] = useState (0);
+
+    const [confirm, setConfirm] = useState(false);
+
+    const avatars = [
+        "../images/avatar/1.png",
+        "../images/avatar/2.png",
+        "../images/avatar/3.png",
+        "../images/avatar/4.png",
+        "../images/avatar/5.png",
+        "../images/avatar/6.png",
+        "../images/avatar/7.png",
+        "../images/avatar/8.png",
+        "../images/avatar/9.png"
+    ];
     
     const handleChange = (e) => {
         const value = e.target.value;
@@ -29,20 +46,23 @@ const SignIn = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        
         const userData = {
             email: data.email,
             password: data.password,
-            pseudo: data.pseudo
+            pseudo: data.pseudo,
+            avatar: avatars[avatar]
         };
-
         axios({
             method: 'post',
             url: 'http://localhost:3000/api/auth/signin',
             data: userData
         })
         .then(function (reponse) {
-            console.log("profil créé!")
-            navigate(`/Login`);
+            console.log("profil créé!");
+            setConfirm(true);
+            setTimeout(() => navigate(`/Login`) , 2000);
+            
         })
         .catch(function (erreur) {
             console.log(erreur);
@@ -86,16 +106,13 @@ const SignIn = () => {
                             />
                             <p className='avatar-text'>Choisissez un avatar :</p>
                             <div className='avatar-content'>
-                                <IconButton><Avatar alt="avatar-1" src="../images/avatar/1.png" /></IconButton>
-                                <IconButton><Avatar alt="avatar-2" src="../images/avatar/2.png" /></IconButton>
-                                <IconButton><Avatar alt="avatar-3" src="../images/avatar/3.png" /></IconButton>
-                                <IconButton><Avatar alt="avatar-4" src="../images/avatar/4.png" /></IconButton>
-                                <IconButton><Avatar alt="avatar-5" src="../images/avatar/5.png" /></IconButton>
-                                <IconButton><Avatar alt="avatar-6" src="../images/avatar/6.png" /></IconButton>
-                                <IconButton><Avatar alt="avatar-7" src="../images/avatar/7.png" /></IconButton>
-                                <IconButton><Avatar alt="avatar-8" src="../images/avatar/8.png" /></IconButton>
-                                <IconButton><Avatar alt="avatar-9" src="../images/avatar/9.png" /></IconButton>
+                                {avatars.map((avatarUrl, index) => (
+                                    <IconButton key={index} onClick={() => setAvatar(index)} className={index === avatar ? 'active' : ''}>
+                                        <Avatar alt="avatar-1" src={avatars[index]}/>
+                                    </IconButton>
+                                ))}
                             </div>
+                            {confirm ? <Alert severity="success">Inscription terminée veuillez vous connecter</Alert> : "" }
                             <Button type='submit'>Valider</Button>
                         </form>
                     </div>

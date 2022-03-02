@@ -3,6 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
@@ -20,6 +21,7 @@ app.use(express.json());
 
 //--------Demande URL vers l'arboraissance des images---------//
 
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 //--------Demande URL vers les routes inscription et connexion  ---------//
 
@@ -28,7 +30,7 @@ app.use('/api/auth', userRoutes);
 
 //--------Demande URL vers les routes network  ---------//
 
-app.use('/api/post/', postRoutes);
+app.use('/api/post', postRoutes);
 
 
   module.exports = app;

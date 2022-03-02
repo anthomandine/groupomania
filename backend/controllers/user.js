@@ -11,9 +11,10 @@ exports.signup = (req, res, next) => {
         let userEmail = req.body.email;
         let userPassword = hash;
         let userPseudo = req.body.pseudo;
-        let sql=`INSERT INTO users(email, password, pseudo) VALUES (?,?,?)`;
+        let userAvatar = req.body.avatar;
+        let sql=`INSERT INTO users(email, password, pseudo, avatar) VALUES (?,?,?,?)`;
  
-        connexion.query(sql,[userEmail, userPassword, userPseudo],(err, results, fields)=>{
+        connexion.query(sql,[userEmail, userPassword, userPseudo, userAvatar],(err, results, fields)=>{
             if(err)console.log("Echec d'enregistrement à BD");
             else{
                 console.log("Enregistrement effectuee");
@@ -82,7 +83,8 @@ exports.modifyUser = (req, res, next) => {
     
     const userId = req.params.userId;
     const pseudo = req.body.pseudo;
-    const sql = 'UPDATE users SET pseudo=\'' + pseudo + '\' WHERE userId=' + userId ;
+    const avatar = req.body.avatar;
+    const sql = 'UPDATE users SET pseudo=\'' + pseudo + '\', avatar=\'' + avatar + '\' WHERE userId=' + userId ;
 
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec BD");

@@ -8,11 +8,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { TextField } from '@mui/material';
+import { Alert, Avatar, TextField } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit'; 
-import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import axios from 'axios';
+
+
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -56,6 +57,8 @@ BootstrapDialogTitle.propTypes = {
 export default function CustomizedDialogs() {
   const [open, setOpen] = React.useState(false);
 
+  const [confirm, setConfirm] = useState(false);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -76,7 +79,8 @@ export default function CustomizedDialogs() {
 const handleSubmit = (e) => {
   e.preventDefault();
   const userData = {
-      pseudo: data.pseudo
+      pseudo: data.pseudo,
+      avatar: avatars[avatar]
   };
 
   const userId = sessionStorage.getItem('userId');
@@ -91,13 +95,28 @@ const handleSubmit = (e) => {
       }
     })
     .then(function (reponse) {
-      window.location.reload();
+      setConfirm(true);
+      setTimeout(() => (window.location.reload(),setOpen(false)) , 2000);
     })
     .catch(function (erreur) {
       console.log(erreur);
     });
-    setOpen(false);
 };
+
+const [avatar, setAvatar] = useState (0);
+
+
+    const avatars = [
+        "../images/avatar/1.png",
+        "../images/avatar/2.png",
+        "../images/avatar/3.png",
+        "../images/avatar/4.png",
+        "../images/avatar/5.png",
+        "../images/avatar/6.png",
+        "../images/avatar/7.png",
+        "../images/avatar/8.png",
+        "../images/avatar/9.png"
+    ];
 
   return (
     <div>
@@ -124,10 +143,18 @@ const handleSubmit = (e) => {
                 value={data.pseudo}
                 onChange={handleChange}
             />
-            <Button><AddIcon />Ajouter photo de profil</Button>
+            <div className='avatar-content'>
+              <span>Changer votre avatar :</span><br></br>
+                {avatars.map((avatarUrl, index) => (
+                    <IconButton key={index} onClick={() => setAvatar(index)} className={index === avatar ? 'active' : ''}>
+                        <Avatar alt="avatar-1" src={avatars[index]}/>
+                    </IconButton>
+                ))}
+            </div>
+            {confirm ? <Alert severity="success">Profil modifié avec succès</Alert> : "" }
             </DialogContent>
             <DialogActions>
-              <Button autoFocus onClick={handleSubmit} >
+              <Button autoFocus onClick={handleSubmit}>
                 Sauvergarder
               </Button>
             </DialogActions>

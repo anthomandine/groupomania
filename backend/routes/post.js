@@ -7,12 +7,15 @@ const router = express.Router();
 
 const postCtrl = require('../controllers/post');
 const auth = require('../middleware/auth');
+const multer = require('../middleware/multer-config');
 
 //--------Chargement des routes vers middleware---------//
 
-router.post('/', auth,  postCtrl.createPost);
+router.post('/', auth, multer,  postCtrl.createPost);
 
-router.get('/', auth, postCtrl.getAllPosts);
+router.get('/', auth, multer, postCtrl.getAllPosts);
+
+router.delete('/:idpost', auth, multer, postCtrl.deletPost);
 
 
 module.exports = router;

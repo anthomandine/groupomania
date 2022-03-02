@@ -32,6 +32,10 @@
         flex-wrap: wrap;
         justify-content: center;
         padding: 10px;
+
+        .active{  
+            box-shadow: $color-2 2px 2px 2px;
+        }
     }
     .avatar-text{
         padding-top: 30px;

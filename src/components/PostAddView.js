@@ -8,34 +8,46 @@ import axios from 'axios';
 
 const PostAddView = () => {
 
-    const [ data, setData ] = useState ({ 
-        post: ''
-    });
+    const [ data, setData ] = useState ({  post: '',image: ''  });
+
+
+    const handleChangeImg = (e) => {
+        const file = e.target.files[0];
+        setData({
+            ...data,
+            'image': file,
+        });
+        let preview = document.getElementById('preview');
+        preview.style.display = "inline";
+        preview.src = window.URL.createObjectURL(file);
+    };
     
     const handleChange = (e) => {
         const value = e.target.value;
         setData({
             ...data,
-            [e.target.name]: value,
+            'post': value,
         });
     };
+    
     const handleSubmit = (e) => {
         e.preventDefault();
-        const userData = {
-            post: data.post
-        };
+
         const token = sessionStorage.getItem('token');
+
+        const form = new FormData();
+        form.append('post', data.post);
+        form.append('image', data.image);
 
         axios({
             method: 'post',
             url: 'http://localhost:3000/api/post',
-            data: userData,
+            data: form,
             headers: {
                 'Authorization': 'Bearer ' + token
               }
         })
         .then(function (reponse) {
-            console.log('front post coucou');
             window.location.reload();
         })
         .catch(function (err) {
@@ -55,7 +67,18 @@ const PostAddView = () => {
                     >
                     </TextField>
                     <div className='add-img'>
-                        <Button><AddIcon />Ajouter une image</Button>
+                        <label>
+                        <Button component="span">
+                            <AddIcon />Ajouter une image
+                            <input
+                                id="image"
+                                name="image"
+                                type="file"
+                                onChange={handleChangeImg}
+                            />
+                        </Button>
+                        </label>
+                        <img id="preview" alt="apercu"/>
                     </div>
                     <Button type='submit'>Publier</Button>
                 </form>
