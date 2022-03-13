@@ -18,4 +18,21 @@ exports.createComment = (req, res, next) => {
     });
   };
 
+
+  //---------middleware post pour supprimer 1 commentaire  ----------//
+
+  exports.deletComment = (req, res, next) => {
+
+    let idcomment = req.params.idcomment;
+
+    let sql = 'DELETE FROM comment WHERE idcomment=' + idcomment ;
+
+    connexion.query(sql, (err, results, fields) => {
+        if(err)console.log("Echec de suppréssion en BD", err);
+        else{
+                res.status(200).json({ message: 'commentaire supprimé !'})
+        }
+    })
+  };
+
   

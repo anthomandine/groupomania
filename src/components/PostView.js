@@ -12,7 +12,7 @@ import axios from 'axios';
 
 const PostView = () => {
 
-//---------Init variables----------//
+    //---------Init variables----------//
 
     const [posts, setPosts] = useState([]);
     const [addComment, setAddComment] = useState();
@@ -23,7 +23,7 @@ const PostView = () => {
 
 
 
-//--------------Récupération des posts------------------//
+    //--------------Récupération des posts------------------//
 
     useEffect(() => {
         const token = sessionStorage.getItem('token');
@@ -39,10 +39,10 @@ const PostView = () => {
     }, []);
 
 
-    //--------------Fonction delete------------------//
+    //--------------Fonction delete post------------------//
 
 
-    const handleDelete = (idpost, imageUrl) => {
+    const handleDeletePost = (idpost, imageUrl) => {
         const token = sessionStorage.getItem('token');
         const url = imageUrl;
 
@@ -63,9 +63,9 @@ const PostView = () => {
     };
 
 
-//--------------Fonction récupération input commentaire------------------//
+    //--------------Fonction récupération input commentaire------------------//
 
-    
+
 
     const handleChange = (e) => {
         const value = e.target.value;
@@ -105,10 +105,32 @@ const PostView = () => {
         setAddComment('');
     };
 
+     //--------------Fonction delete commentaire------------------//
+
+
+     const handleDeleteComment = (idcomment) => {
+        const token = sessionStorage.getItem('token');
+
+        axios({
+            method: 'delete',
+            url: 'http://localhost:3000/api/comment/' + idcomment,
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        })
+            .then(function (reponse) {
+                console.log("commentaire supprimé");
+                window.location.reload();
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+    };
+
     //--------------Récupération des commentaires------------------//
 
 
-    
+
     const renderComments = (idpost) => {
         let token = sessionStorage.getItem('token');
         let comments = [];
@@ -127,6 +149,11 @@ const PostView = () => {
                 setLoading(false);
                 setViewComment(<>{comments.map((comment, i) => {
                     return <div className='comment_div' key={i}>
+                        <div className='delete-button-comment'>
+                            <IconButton aria-label="delete" size="small" onClick={() => handleDeleteComment(comment.idcomment)} >
+                                <DeleteIcon />
+                            </IconButton>
+                        </div>
                         <p>Commentaire de : {comment.idAuthor}</p>
                         <p>{comment.comment}</p>
                     </div>
@@ -140,8 +167,8 @@ const PostView = () => {
             {posts.map((post, index) => (
 
                 <div className='post-view' key={index}>
-                    <div className='delete-button'>
-                        <IconButton aria-label="delete" size="large" onClick={() => handleDelete(post.idpost, post.imageUrl)} >
+                    <div className='delete-button-post'>
+                        <IconButton aria-label="delete" size="large" onClick={() => handleDeletePost(post.idpost, post.imageUrl)} >
                             <DeleteIcon />
                         </IconButton>
                     </div>
