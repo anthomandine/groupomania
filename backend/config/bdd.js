@@ -7,17 +7,11 @@ const mysql = require('mysql');
 function connexion() {
 
     const db = mysql.createConnection({
-
         host: "localhost",
-      
         user: "root",
-      
         password: "Amandine2006+",
-      
         database : "testdb"
-      
       });
-
       db.connect(function (err) {
         if (!err) {
           console.log('Connecté à la base de données MySQL!');
@@ -26,7 +20,6 @@ function connexion() {
         }
       });
     return db;
-
 }
 
 module.exports = connexion();

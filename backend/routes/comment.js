@@ -1,7 +1,6 @@
 
 //-------- Initialisation express et routeur ---------//
 
-
 const express = require('express');
 const router = express.Router();
 
@@ -13,7 +12,5 @@ const auth = require('../middleware/auth');
 router.post('/', auth, commentCtrl.createComment);
 
 router.delete('/:idcomment', auth, commentCtrl.deletComment);
-
-
 
 module.exports = router;

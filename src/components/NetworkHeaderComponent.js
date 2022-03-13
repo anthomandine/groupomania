@@ -2,7 +2,6 @@ import { Avatar } from '@mui/material';
 import React from 'react';
 import CustomizedDialogs from './Profil';
 
-
 const NetworkHeaderComponent = () => {
 
 //---------Init variables----------//

@@ -17,5 +17,4 @@ router.get('/:userId', auth, userCtrl.getOneUser);
 
 router.put('/:userId', auth, userCtrl.modifyUser);
 
-
 module.exports = router;

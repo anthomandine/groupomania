@@ -13,7 +13,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useState } from 'react';
 import axios from 'axios';
 
-
 //--------------MUI dialog---------------------//
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -65,8 +64,6 @@ export default function CustomizedDialogs() {
   const handleClose = () => {
     setOpen(false);
   };
-
-
   //--------------end MUI dialog---------------------//
 
   //--------------Init variables---------------------//
@@ -124,8 +121,6 @@ const handleSubmit = (e) => {
       console.log(erreur);
     });
 };
-
-   
 
   return (
     <div>

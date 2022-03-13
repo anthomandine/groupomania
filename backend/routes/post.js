@@ -1,7 +1,6 @@
 
 //-------- Initialisation express et routeur ---------//
 
-
 const express = require('express');
 const router = express.Router();
 
@@ -18,6 +17,5 @@ router.get('/', auth, multer, postCtrl.getAllPosts);
 router.delete('/:idpost', auth, multer, postCtrl.deletPost);
 
 router.get('/:idpost/comments', auth, postCtrl.getComments);
-
 
 module.exports = router;

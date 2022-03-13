@@ -8,7 +8,6 @@ exports.createPost = (req, res, next) => {
     let post = req.body.post;
     let userId = req.body.userId;
     let imageUrl = req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : '' ;
-    
 
     let sql='INSERT INTO posts (post, imageUrl, idAuthor) VALUES (\'' + post + '\', \'' + imageUrl + '\', \'' + userId + '\' )';
     
@@ -39,7 +38,6 @@ exports.createPost = (req, res, next) => {
   exports.deletPost = (req, res, next) => {
 
     let idpost = req.params.idpost;
-
     let sql = 'DELETE FROM testdb.posts WHERE idpost=' + idpost ;
 
     connexion.query(sql, (err, results, fields) => {
@@ -54,7 +52,6 @@ exports.createPost = (req, res, next) => {
             else {
                 res.status(200).json({ message: 'post supprimé !'})
             }
-            
         }
     })
   };

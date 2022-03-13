@@ -9,7 +9,6 @@ import axios from 'axios';
 import CachedIcon from '@mui/icons-material/Cached';
 import { IconButton } from '@mui/material';
 
-
 const Network = () => {
 
 //---------Init variables----------//

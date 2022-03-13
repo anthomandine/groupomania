@@ -7,9 +7,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from '@mui/material';
 import axios from 'axios';
 
-
-
-
 const PostView = () => {
 
     //---------Init variables----------//
@@ -20,8 +17,6 @@ const PostView = () => {
     const [viewComment, setViewComment] = useState();
     const [isLoading, setLoading] = useState(true);
     const [display, setDisplay] = useState();
-
-
 
     //--------------Récupération des posts------------------//
 
@@ -38,9 +33,7 @@ const PostView = () => {
         axiosGet();
     }, []);
 
-
     //--------------Fonction delete post------------------//
-
 
     const handleDeletePost = (idpost, imageUrl) => {
         const token = sessionStorage.getItem('token');
@@ -62,10 +55,7 @@ const PostView = () => {
             });
     };
 
-
     //--------------Fonction récupération input commentaire------------------//
-
-
 
     const handleChange = (e) => {
         const value = e.target.value;
@@ -76,8 +66,6 @@ const PostView = () => {
     };
 
     //--------------Ajout des commentaires------------------//
-
-
 
     const handleAddComment = (idpost) => {
         let idAuthor = sessionStorage.getItem('userId');
@@ -129,8 +117,6 @@ const PostView = () => {
 
     //--------------Récupération des commentaires------------------//
 
-
-
     const renderComments = (idpost) => {
         let token = sessionStorage.getItem('token');
         let comments = [];
@@ -165,7 +151,6 @@ const PostView = () => {
     return (
         <>
             {posts.map((post, index) => (
-
                 <div className='post-view' key={index}>
                     <div className='delete-button-post'>
                         <IconButton aria-label="delete" size="large" onClick={() => handleDeletePost(post.idpost, post.imageUrl)} >
@@ -173,7 +158,6 @@ const PostView = () => {
                         </IconButton>
                     </div>
                     <p>{post.pseudo} à posté : </p>
-
                     {post.imageUrl.length > 0 &&
                         <img src={post.imageUrl} alt={'image post n:' + post.idpost} />}
                     <p className='text-color-3'>{post.post}</p>
@@ -188,7 +172,7 @@ const PostView = () => {
                                 <ThumbDownAltIcon />
                             </IconButton>
                         </div>
-                        <Button onClick={() => setAddComment(index)} size="small" endIcon={<MessageIcon />}>Commentaire</Button>
+                        <Button onClick={() => setAddComment(index)} size="small" endIcon={<MessageIcon />}>Ajouter un Commentaire</Button>
                     </div>
                     <div className='add-comment' key={index} style={{ display: index === addComment ? "flex" : "none" }}>
                         <TextField id="text-comment" label="Écrire votre commentaire"

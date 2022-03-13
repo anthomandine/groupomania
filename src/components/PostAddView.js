@@ -5,7 +5,6 @@ import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import axios from 'axios';
 
-
 const PostAddView = () => {
 
 //---------Init variables----------//
@@ -45,7 +44,6 @@ const PostAddView = () => {
         form.append('post', data.post);
         form.append('image', data.image);
         form.append('userId', userId);
-        
 
         axios({
             method: 'post',
