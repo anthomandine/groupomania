@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, CircularProgress, TextField } from '@mui/material';
+import { Button, LinearProgress, TextField } from '@mui/material';
 import MessageIcon from '@mui/icons-material/Message';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
@@ -155,9 +155,9 @@ const PostView = () => {
                         ></TextField>
                         <Button onClick={() => handleAddComment(post.idpost)} size="small">publier votre commentaire</Button>
                     </div>
-                    <Button onClick={() => { setLoading(true); renderComments(post.idpost); setDisplay(index); }}>click</Button>
+                    <Button onClick={() => { setLoading(true); renderComments(post.idpost); setDisplay(index); }}>voir les commentaires</Button>
                     <div className='comment' style={{ display: index === display ? "block" : "none" }}>
-                        {isLoading ? <CircularProgress /> : viewComment}
+                        {isLoading ? <LinearProgress /> : viewComment}
                     </div>
                 </div>
             ))}

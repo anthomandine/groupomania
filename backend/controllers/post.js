@@ -29,7 +29,7 @@ exports.createPost = (req, res, next) => {
     connexion.query(sql, (err, results, fields) => {
         if(err)console.log("Echec d'enregistrement à BD", err);
         else{
-            res.status(200).json({message: "getAllPosts OK"}, results);
+            res.status(200).json(results);
         }
     })
   };
@@ -69,7 +69,7 @@ exports.createPost = (req, res, next) => {
         if(err)console.log("Echec BD", err);
         else{
             const result = Object.values(JSON.parse(JSON.stringify(results)));
-            res.status(200).send({message: "getComments OK"}, result)
+            res.status(200).send(result)
         }
     })
   };
