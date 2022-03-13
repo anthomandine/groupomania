@@ -12,15 +12,17 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
 
-    let navigate = useNavigate();
+//---------Init variables----------//
 
+    let navigate = useNavigate();
     const [ data, setData ] = useState ({ 
         email: "",
         password: "",
     });
-
     const [errorMessage, setErrorMessage] = useState('');
-    
+
+//---------Récupération des data input user----------//
+
     const handleChange = (e) => {
         setErrorMessage('');
         const value = e.target.value;
@@ -30,13 +32,14 @@ const Login = () => {
         });
     };
 
+    //---------Envoi des data user----------//
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const userData = {
             email: data.email,
             password: data.password
         };
-
         axios({
             method: 'post',
             url: 'http://localhost:3000/api/auth/login',

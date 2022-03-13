@@ -3,6 +3,10 @@ import { NavLink } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 
 
+
+//---------Fonction déconnecter ------------------//
+
+
 const handleClick = (e) => {
     e.preventDefault();
     sessionStorage.clear();

@@ -12,6 +12,8 @@ import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
 
+//---------Init variables----------//
+
     let navigate = useNavigate();
 
     const [ data, setData ] = useState ({ 
@@ -19,11 +21,8 @@ const SignIn = () => {
         password: "",
         pseudo: ""
     });
-
     const [avatar, setAvatar] = useState (0);
-
     const [confirm, setConfirm] = useState(false);
-
     const avatars = [
         "../images/avatar/1.png",
         "../images/avatar/2.png",
@@ -35,6 +34,8 @@ const SignIn = () => {
         "../images/avatar/8.png",
         "../images/avatar/9.png"
     ];
+
+//---------Récupération data input user----------//
     
     const handleChange = (e) => {
         const value = e.target.value;
@@ -43,6 +44,8 @@ const SignIn = () => {
             [e.target.name]: value,
         });
     };
+
+//---------Envoi des data user----------//
 
     const handleSubmit = (e) => {
         e.preventDefault();

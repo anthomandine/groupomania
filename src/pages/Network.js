@@ -12,8 +12,12 @@ import { IconButton } from '@mui/material';
 
 const Network = () => {
 
+//---------Init variables----------//
+
     const userId = sessionStorage.getItem('userId');
     const token = sessionStorage.getItem('token');
+
+//---------Récupération des données user----------//
 
     axios.get('http://localhost:3000/api/auth/'+userId,
     {

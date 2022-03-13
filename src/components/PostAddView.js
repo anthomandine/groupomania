@@ -8,8 +8,11 @@ import axios from 'axios';
 
 const PostAddView = () => {
 
+//---------Init variables----------//
+
     const [ data, setData ] = useState ({  post: '',image: '', userId: '' });
 
+//---------Récupération des data input post ------------------//
 
     const handleChangeImg = (e) => {
         const file = e.target.files[0];
@@ -29,6 +32,8 @@ const PostAddView = () => {
             'post': value,
         });
     };
+
+    //---------Fonction envoi des données post ------------------//
     
     const handleSubmit = (e) => {
         e.preventDefault();

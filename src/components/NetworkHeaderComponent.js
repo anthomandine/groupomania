@@ -4,6 +4,8 @@ import CustomizedDialogs from './Profil';
 
 
 const NetworkHeaderComponent = () => {
+
+//---------Init variables----------//
     
     const pseudo = sessionStorage.getItem('user');
     const avatar = sessionStorage.getItem('avatar');

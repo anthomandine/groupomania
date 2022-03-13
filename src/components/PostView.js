@@ -12,7 +12,18 @@ import axios from 'axios';
 
 const PostView = () => {
 
+//---------Init variables----------//
+
     const [posts, setPosts] = useState([]);
+    const [addComment, setAddComment] = useState();
+    const [data, setData] = useState({ comment: '' });
+    const [viewComment, setViewComment] = useState();
+    const [isLoading, setLoading] = useState(true);
+    const [display, setDisplay] = useState();
+
+
+
+//--------------Récupération des posts------------------//
 
     useEffect(() => {
         const token = sessionStorage.getItem('token');
@@ -26,6 +37,10 @@ const PostView = () => {
         };
         axiosGet();
     }, []);
+
+
+    //--------------Fonction delete------------------//
+
 
     const handleDelete = (idpost, imageUrl) => {
         const token = sessionStorage.getItem('token');
@@ -48,9 +63,9 @@ const PostView = () => {
     };
 
 
+//--------------Fonction récupération input commentaire------------------//
 
-    const [addComment, setAddComment] = useState();
-    const [data, setData] = useState({ comment: '' });
+    
 
     const handleChange = (e) => {
         const value = e.target.value;
@@ -59,6 +74,9 @@ const PostView = () => {
             [e.target.name]: value,
         });
     };
+
+    //--------------Ajout des commentaires------------------//
+
 
 
     const handleAddComment = (idpost) => {
@@ -87,10 +105,10 @@ const PostView = () => {
         setAddComment('');
     };
 
-    const [viewComment, setViewComment] = useState();
-    const [isLoading, setLoading] = useState(true);
-    const [display, setDisplay] = useState();
+    //--------------Récupération des commentaires------------------//
 
+
+    
     const renderComments = (idpost) => {
         let token = sessionStorage.getItem('token');
         let comments = [];
@@ -104,7 +122,6 @@ const PostView = () => {
             comments = reponse.data;
         };
         axiosGet();
-
         setTimeout(
             () => {
                 setLoading(false);

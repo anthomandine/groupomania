@@ -18,19 +18,4 @@ exports.createComment = (req, res, next) => {
     });
   };
 
-
-  /*//---------middleware post pour récupérer tous les posts ----------//
-
-  exports.getComments = (req, res, next) => {
-    let idpost = req.params.idpost;
-    let sql='SELECT * FROM testdb.comment LEFT JOIN testdb.posts ON testdb.comment.idPost = testdb.posts.idpost WHERE testdb.posts.idpost = \'' + idpost + '\' ORDER BY idcomment DESC';
-
-    connexion.query(sql, (err, results, fields) => {
-        if(err)console.log("Echec d'enregistrement à BD");
-        else{
-            res.status(200).json(results);
-        }
-    })
-  };*/
-
   

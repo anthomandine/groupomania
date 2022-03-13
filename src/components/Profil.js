@@ -14,7 +14,7 @@ import { useState } from 'react';
 import axios from 'axios';
 
 
-
+//--------------MUI dialog---------------------//
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -66,7 +66,26 @@ export default function CustomizedDialogs() {
     setOpen(false);
   };
 
+
+  //--------------end MUI dialog---------------------//
+
+  //--------------Init variables---------------------//
+
   const [ data, setData ] = useState ({ pseudo: "" });
+  const [avatar, setAvatar] = useState (0);
+  const avatars = [
+      "../images/avatar/1.png",
+      "../images/avatar/2.png",
+      "../images/avatar/3.png",
+      "../images/avatar/4.png",
+      "../images/avatar/5.png",
+      "../images/avatar/6.png",
+      "../images/avatar/7.png",
+      "../images/avatar/8.png",
+      "../images/avatar/9.png"
+  ];
+
+  //--------------Récupération des input user---------------------//
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -75,6 +94,8 @@ export default function CustomizedDialogs() {
         [e.target.name]: value,
     });
 };
+
+//--------------Update user---------------------//
 
 const handleSubmit = (e) => {
   e.preventDefault();
@@ -104,20 +125,7 @@ const handleSubmit = (e) => {
     });
 };
 
-const [avatar, setAvatar] = useState (0);
-
-
-    const avatars = [
-        "../images/avatar/1.png",
-        "../images/avatar/2.png",
-        "../images/avatar/3.png",
-        "../images/avatar/4.png",
-        "../images/avatar/5.png",
-        "../images/avatar/6.png",
-        "../images/avatar/7.png",
-        "../images/avatar/8.png",
-        "../images/avatar/9.png"
-    ];
+   
 
   return (
     <div>
