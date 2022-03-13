@@ -15,7 +15,7 @@ exports.signup = (req, res, next) => {
         let sql=`INSERT INTO users(email, password, pseudo, avatar) VALUES (?,?,?,?)`;
  
         connexion.query(sql,[userEmail, userPassword, userPseudo, userAvatar],(err, results, fields)=>{
-            if(err)console.log("Echec d'enregistrement à BD");
+            if(err)console.log("Echec d'enregistrement à BD", err);
             else{
                 console.log("Enregistrement effectuee");
                 res.status(200).json({message: "Utilisateur créé !"});
@@ -35,7 +35,7 @@ exports.login = (req, res, next) => {
     let sql = `SELECT email, password, userId FROM testdb.users WHERE email= ?`;
 
     connexion.query(sql,userEmail, (err, results, fields)=>{
-        if (err) console.log("Echec BD");
+        if (err) console.log("Echec BD", err);
             const result = results;
             const userId = result[0].userId;
             
@@ -72,7 +72,7 @@ exports.getOneUser = (req, res, next) => {
     const userId = req.params.userId;
 
     connexion.query(sql, userId, (err, results, fields) =>{
-        if (err) console.log("Echec BD");
+        if (err) console.log("Echec BD", err);
         res.status(200).json(results)
     });
 };
@@ -87,7 +87,7 @@ exports.modifyUser = (req, res, next) => {
     const sql = 'UPDATE users SET pseudo=\'' + pseudo + '\', avatar=\'' + avatar + '\' WHERE userId=' + userId ;
 
     connexion.query(sql, (err, results, fields) => {
-        if (err) console.log("Echec BD");
+        if (err) console.log("Echec BD", err);
         else{
             console.log("information mis à jour.")
             res.status(200).json(results);

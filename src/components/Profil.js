@@ -96,7 +96,8 @@ const handleSubmit = (e) => {
     })
     .then(function (reponse) {
       setConfirm(true);
-      setTimeout(() => (window.location.reload(),setOpen(false)) , 2000);
+      // eslint-disable-next-line
+      setTimeout(() => (window.location.reload(), setOpen(false)) , 2000);
     })
     .catch(function (erreur) {
       console.log(erreur);

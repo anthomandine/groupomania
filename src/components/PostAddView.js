@@ -8,7 +8,7 @@ import axios from 'axios';
 
 const PostAddView = () => {
 
-    const [ data, setData ] = useState ({  post: '',image: ''  });
+    const [ data, setData ] = useState ({  post: '',image: '', userId: '' });
 
 
     const handleChangeImg = (e) => {
@@ -34,10 +34,13 @@ const PostAddView = () => {
         e.preventDefault();
 
         const token = sessionStorage.getItem('token');
+        const userId = sessionStorage.getItem('userId');
 
         const form = new FormData();
         form.append('post', data.post);
         form.append('image', data.image);
+        form.append('userId', userId);
+        
 
         axios({
             method: 'post',

@@ -4,6 +4,10 @@ $color-2: #fc2e06;
 $color-3: #fc9a83;
 $color-4: #fc846c;
 
+@font-face {
+    font-family: "Biryani";
+    src: url(./biryani/Biryani-Light.otf);
+}
 
 *{
     margin: 0;
@@ -14,7 +18,7 @@ body{
     max-width: 1340px;
     min-width: 200px;
     position: relative;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: 'Biryani', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     background-color: whitesmoke;
     margin: auto;
 }
