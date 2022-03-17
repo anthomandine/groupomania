@@ -18,4 +18,6 @@ router.delete('/:idpost', auth, multer, postCtrl.deletPost);
 
 router.get('/:idpost/comments', auth, postCtrl.getComments);
 
+router.post('/:idpost/like', auth, postCtrl.likePost);
+
 module.exports = router;

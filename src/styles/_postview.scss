@@ -17,7 +17,7 @@
     p{
         padding: 10px;
     }
-    img{
+    .post-img{
         width: 30%;
     }
     .post-footer{
@@ -36,9 +36,15 @@
         flex-direction: column;
         width: 80%;
         padding: 10px;
+        button{
+            width: max-content;
+            margin: auto;
+        }
     }
 
     .comment{
+        position: relative;
+        overflow: hidden;
         font-size: 13px;
         box-shadow: 1px 1px 0px 2px $color-3;
         border-radius: 10px;
@@ -47,6 +53,15 @@
         width: 80%;
         p{
             text-align: left;
+        }
+        .author{
+            display: flex;
+            padding: 5px;
+        }
+
+        .no-comment{
+            text-align: center;
+            font-weight: bold;
         }
         .comment_div{
             box-shadow: 1px 1px 3px 0px grey;

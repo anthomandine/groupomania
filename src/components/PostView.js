@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Button, LinearProgress, TextField } from '@mui/material';
+import { Avatar, Button, LinearProgress, Slide, TextField } from '@mui/material';
 import MessageIcon from '@mui/icons-material/Message';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from '@mui/material';
 import axios from 'axios';
+import LikeComponent from './LikeComponent';
 
 const PostView = () => {
 
@@ -14,9 +13,7 @@ const PostView = () => {
     const [posts, setPosts] = useState([]);
     const [addComment, setAddComment] = useState();
     const [data, setData] = useState({ comment: '' });
-    const [viewComment, setViewComment] = useState();
-    const [isLoading, setLoading] = useState(true);
-    const [display, setDisplay] = useState();
+    const [viewComments, setViewComments] = useState([]);
 
     //--------------Récupération des posts------------------//
 
@@ -28,10 +25,14 @@ const PostView = () => {
                     'Authorization': 'Bearer ' + token
                 }
             });
-            setPosts(reponse.data);
+    console.log(reponse.data.results1);
+
+            setPosts(reponse.data.results);
         };
         axiosGet();
     }, []);
+    
+        
 
     //--------------Fonction delete post------------------//
 
@@ -69,10 +70,12 @@ const PostView = () => {
 
     const handleAddComment = (idpost) => {
         let idAuthor = sessionStorage.getItem('userId');
+        let pseudoAuthor = sessionStorage.getItem('user');
         const commentData = {
             comment: data.comment,
             idpost: idpost,
-            idAuthor: idAuthor
+            idAuthor: idAuthor,
+            pseudoAuthor: pseudoAuthor
         };
         const token = sessionStorage.getItem('token');
 
@@ -93,10 +96,9 @@ const PostView = () => {
         setAddComment('');
     };
 
-     //--------------Fonction delete commentaire------------------//
+    //--------------Fonction delete commentaire------------------//
 
-
-     const handleDeleteComment = (idcomment) => {
+    const handleDeleteComment = (idcomment) => {
         const token = sessionStorage.getItem('token');
 
         axios({
@@ -116,37 +118,63 @@ const PostView = () => {
     };
 
     //--------------Récupération des commentaires------------------//
+    /*let [anim, setAnim] = useState({
+        direction: '',
+        in: ''
+    }); */
 
     const renderComments = (idpost) => {
         let token = sessionStorage.getItem('token');
         let comments = [];
 
+        viewComments[idpost] = <div className='comment'><LinearProgress /></div>;
+        setViewComments([...viewComments]);
+
         const axiosGet = async () => {
-            const reponse = await axios.get('http://localhost:3000/api/post/' + idpost + '/comments', {
+            const reponse = axios.get('http://localhost:3000/api/post/' + idpost + '/comments', {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
             });
-            comments = reponse.data;
+            comments = (await reponse).data;
+            if (comments.length === 0) {
+                viewComments[idpost] = <div className='comment'><p className='no-comment'>Aucun commentaire pour ce post !</p></div>;
+            }
+            else {
+                //setAnim({dir: "up", in: true})
+                viewComments[idpost] =
+                    <div className='comment'>
+                        <Slide direction='up' timeout={500} in={true}>
+                            <div>{comments.map((comment, i) => {
+                                return <div className='comment_div' key={i}>
+                                    <div className='delete-button-comment'>
+                                        <IconButton aria-label="delete" size="small" onClick={() => handleDeleteComment(comment.idcomment)} >
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </div>
+                                    <div className='author'>
+                                        <Avatar alt="avatar" src={comment.avatar} sx={{ width: 40, height: 40 }} />
+                                        <p>Commentaire de : {comment.pseudo} le : {comment.created_at}</p>
+                                    </div>
+                                    <p>{comment.comment}</p>
+                                </div>
+                            })}</div>
+                        </Slide>
+                    </div>
+            }
+            setViewComments([...viewComments]);
         };
         axiosGet();
-        setTimeout(
-            () => {
-                setLoading(false);
-                setViewComment(<>{comments.map((comment, i) => {
-                    return <div className='comment_div' key={i}>
-                        <div className='delete-button-comment'>
-                            <IconButton aria-label="delete" size="small" onClick={() => handleDeleteComment(comment.idcomment)} >
-                                <DeleteIcon />
-                            </IconButton>
-                        </div>
-                        <p>Commentaire de : {comment.idAuthor}</p>
-                        <p>{comment.comment}</p>
-                    </div>
-                })}</>)
-            }, 3000
-        );
     };
+
+    const hiddenComments = (idpost) => {
+
+        //setTimeout(() => {
+        delete viewComments[idpost];
+        setViewComments([...viewComments]);
+        //}, 500);
+    };
+
 
     return (
         <>
@@ -157,21 +185,12 @@ const PostView = () => {
                             <DeleteIcon />
                         </IconButton>
                     </div>
-                    <p>{post.pseudo} à posté : </p>
+                    <p>Le : {post.created_at} {post.pseudo} à posté : </p>
                     {post.imageUrl.length > 0 &&
-                        <img src={post.imageUrl} alt={'image post n:' + post.idpost} />}
+                        <img className='post-img' src={post.imageUrl} alt={'image post n:' + post.idpost} />}
                     <p className='text-color-3'>{post.post}</p>
                     <div className='post-footer'>
-                        <div>
-                            <IconButton aria-label="like" size="small">
-                                <span className='count-like'>0</span>
-                                <ThumbUpIcon />
-                            </IconButton>
-                            <IconButton aria-label="like" size="small">
-                                <span className='count-like'>0</span>
-                                <ThumbDownAltIcon />
-                            </IconButton>
-                        </div>
+                        <LikeComponent id={post.idpost} /*isLiked={}*/ />
                         <Button onClick={() => setAddComment(index)} size="small" endIcon={<MessageIcon />}>Ajouter un Commentaire</Button>
                     </div>
                     <div className='add-comment' key={index} style={{ display: index === addComment ? "flex" : "none" }}>
@@ -183,10 +202,10 @@ const PostView = () => {
                         ></TextField>
                         <Button onClick={() => handleAddComment(post.idpost)} size="small">publier votre commentaire</Button>
                     </div>
-                    <Button onClick={() => { setLoading(true); renderComments(post.idpost); setDisplay(index); }}>voir les commentaires</Button>
-                    <div className='comment' style={{ display: index === display ? "block" : "none" }}>
-                        {isLoading ? <LinearProgress /> : viewComment}
-                    </div>
+                    <Button onClick={() => { viewComments[post.idpost] ? hiddenComments(post.idpost) : renderComments(post.idpost) }}>
+                        {viewComments[post.idpost] ? 'Masquer les commentaires' : 'Afficher les commentaires'}
+                    </Button>
+                    {viewComments[post.idpost]}
                 </div>
             ))}
         </>
