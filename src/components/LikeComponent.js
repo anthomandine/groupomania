@@ -9,10 +9,12 @@ const LikeComponent = (props) => {
 
 
     const [state, setState] = useState({
-        likeActive: false,
-        dislikeActive: false
+        likeActive: props.isLiked === 1,
+        dislikeActive: props.isLiked === 0
     });
+
     let like = null;
+
 
     const handleLike = () => {
 
@@ -40,7 +42,7 @@ const LikeComponent = (props) => {
 
     const axiosPostLike = () => {
         let token = sessionStorage.getItem('token');
-        let idpost = props.id;
+        let idpost = props.idpost;
         let userId = sessionStorage.getItem('userId');
         let data = { userId, like };
 

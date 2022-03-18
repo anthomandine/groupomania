@@ -24,18 +24,13 @@ exports.createPost = (req, res, next) => {
 
 exports.getAllPosts = (req, res, next) => {
 
-    let sql = `SELECT * FROM testdb.posts LEFT JOIN testdb.users ON testdb.posts.idAuthor = testdb.users.userId ORDER BY idpost DESC`;
-    let sqllike = 'SELECT * FROM users_posts LEFT JOIN users ON users.userId = users_posts.users_userId'
+    let userId = req.params.userId;
 
+    let sql = 'SELECT * FROM testdb.posts LEFT JOIN users_posts ON posts.idpost = users_posts.posts_idpost AND '+ userId +' = users_posts.users_userId LEFT JOIN testdb.users ON testdb.posts.idAuthor = testdb.users.userId ORDER BY idpost DESC ';
     connexion.query(sql, (err, results, fields) => {
-        if (err) console.log("Echec BD", err);
+        if (err) console.log("Echec d'enregistrement à BD", err);
         else {
-            connexion.query(sqllike, (err, results1, fields) => {
-                if (err) console.log("Echec BD", err);
-                else {
-                    res.status(200).json({results: results, results1: results1});
-                }
-            })
+            res.status(200).json(results);
         }
     })
 };
@@ -126,6 +121,3 @@ exports.likePost = (req, res, next) => {
         }
     });
 };
-
-
-

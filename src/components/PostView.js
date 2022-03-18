@@ -19,20 +19,17 @@ const PostView = () => {
 
     useEffect(() => {
         const token = sessionStorage.getItem('token');
+        const userId = sessionStorage.getItem('userId');
         const axiosGet = async () => {
-            const reponse = await axios.get('http://localhost:3000/api/post/', {
+            const reponse = await axios.get('http://localhost:3000/api/post/'+ userId, {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
             });
-    console.log(reponse.data.results1);
-
-            setPosts(reponse.data.results);
+            setPosts(reponse.data);
         };
         axiosGet();
     }, []);
-    
-        
 
     //--------------Fonction delete post------------------//
 
@@ -190,7 +187,7 @@ const PostView = () => {
                         <img className='post-img' src={post.imageUrl} alt={'image post n:' + post.idpost} />}
                     <p className='text-color-3'>{post.post}</p>
                     <div className='post-footer'>
-                        <LikeComponent id={post.idpost} /*isLiked={}*/ />
+                        <LikeComponent idpost={post.idpost} isLiked={post.islike} />
                         <Button onClick={() => setAddComment(index)} size="small" endIcon={<MessageIcon />}>Ajouter un Commentaire</Button>
                     </div>
                     <div className='add-comment' key={index} style={{ display: index === addComment ? "flex" : "none" }}>
