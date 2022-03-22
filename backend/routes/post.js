@@ -20,4 +20,6 @@ router.get('/:idpost/comments', auth, postCtrl.getComments);
 
 router.post('/:idpost/like', auth, postCtrl.likePost);
 
+router.get('/:idpost/sumlike', auth, postCtrl.getSumLike);
+
 module.exports = router;

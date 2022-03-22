@@ -26,7 +26,7 @@ exports.getAllPosts = (req, res, next) => {
 
     let userId = req.params.userId;
 
-    let sql = 'SELECT * FROM testdb.posts LEFT JOIN users_posts ON posts.idpost = users_posts.posts_idpost AND '+ userId +' = users_posts.users_userId LEFT JOIN testdb.users ON testdb.posts.idAuthor = testdb.users.userId ORDER BY idpost DESC ';
+    let sql = 'SELECT * FROM testdb.posts LEFT JOIN users_posts ON posts.idpost = users_posts.posts_idpost AND ' + userId + ' = users_posts.users_userId LEFT JOIN testdb.users ON testdb.posts.idAuthor = testdb.users.userId ORDER BY idpost DESC ';
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec d'enregistrement à BD", err);
         else {
@@ -120,4 +120,17 @@ exports.likePost = (req, res, next) => {
             }
         }
     });
+};
+
+
+exports.getSumLike = (req, res, next) => {
+
+    let idpost = req.params.idpost;
+    let sql = 'SELECT posts_idpost, SUM(islike = 1) AS liked, SUM(islike = 0) AS disliked FROM users_posts WHERE posts_idpost =' + idpost;
+    connexion.query(sql, (err, results, fields) => {
+        if (err) console.log("Echec BD", err);
+        else {
+            res.status(200).json(results);
+        }
+    })
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import { IconButton } from '@mui/material';
@@ -12,9 +12,7 @@ const LikeComponent = (props) => {
         likeActive: props.isLiked === 1,
         dislikeActive: props.isLiked === 0
     });
-
     let like = null;
-
 
     const handleLike = () => {
 
@@ -56,22 +54,50 @@ const LikeComponent = (props) => {
         })
             .then(function (reponse) {
                 console.log("post like front ok");
+                window.location.reload();
             })
             .catch(function (erreur) {
                 console.log('err post like front', erreur);
             })
     };
 
+    const [sumlike, setSumlike] = useState([]);
+    useEffect(() => {
+        const token = sessionStorage.getItem('token');
+        let idpost = props.idpost;
+        const axiosGet = async () => {
+            const reponse = await axios.get('http://localhost:3000/api/post/'+idpost+'/sumlike', {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+            setSumlike(reponse.data[0]);
+        };
+        axiosGet();
+        // eslint-disable-next-line
+    }, []);
+
+
+    const renderSumLike = () => {
+        return <span className='count-like'>{sumlike.liked}</span>
+    }
+
+    const renderSumDislike = () => {
+        return <span className='count-like'>{sumlike.disliked}</span>
+    }
+
+
+
     return (
         <div>
             <IconButton aria-label="like" size="small" onClick={() => handleLike()}>
                 <ThumbUpIcon color={state.likeActive ? 'primary' : 'default'} />
             </IconButton>
-            <span className='count-like'>0</span>
+            {renderSumLike()}
             <IconButton aria-label="dislike" size="small" onClick={() => handleDislike()}>
                 <ThumbDownAltIcon color={state.dislikeActive ? 'error' : 'default'} />
             </IconButton>
-            <span className='count-like'>0</span>
+            {renderSumDislike()}
         </div>
     );
 };

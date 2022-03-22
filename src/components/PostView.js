@@ -21,7 +21,7 @@ const PostView = () => {
         const token = sessionStorage.getItem('token');
         const userId = sessionStorage.getItem('userId');
         const axiosGet = async () => {
-            const reponse = await axios.get('http://localhost:3000/api/post/'+ userId, {
+            const reponse = await axios.get('http://localhost:3000/api/post/' + userId, {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
@@ -30,7 +30,6 @@ const PostView = () => {
         };
         axiosGet();
     }, []);
-
     //--------------Fonction delete post------------------//
 
     const handleDeletePost = (idpost, imageUrl) => {
@@ -171,7 +170,6 @@ const PostView = () => {
         setViewComments([...viewComments]);
         //}, 500);
     };
-
 
     return (
         <>
