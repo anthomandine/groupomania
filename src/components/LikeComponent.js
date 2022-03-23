@@ -7,12 +7,16 @@ import axios from 'axios';
 
 const LikeComponent = (props) => {
 
+    //---------Init variables----------//
 
     const [state, setState] = useState({
         likeActive: props.isLiked === 1,
         dislikeActive: props.isLiked === 0
     });
     let like = null;
+    const [sumlike, setSumlike] = useState([]);
+
+    //---------fonction click like----------//
 
     const handleLike = () => {
 
@@ -26,6 +30,8 @@ const LikeComponent = (props) => {
         axiosPostLike();
     };
 
+    //---------fonction click dislike----------//
+
     const handleDislike = () => {
         if (state.dislikeActive) {
             setState({ likeActive: false, dislikeActive: false });
@@ -37,6 +43,7 @@ const LikeComponent = (props) => {
         axiosPostLike();
     };
 
+    //---------Fonction envoi des données post pour les likes----------//
 
     const axiosPostLike = () => {
         let token = sessionStorage.getItem('token');
@@ -61,12 +68,13 @@ const LikeComponent = (props) => {
             })
     };
 
-    const [sumlike, setSumlike] = useState([]);
+    //---------Récupération des données somme des likes et dislikes par post----------//
+
     useEffect(() => {
         const token = sessionStorage.getItem('token');
         let idpost = props.idpost;
         const axiosGet = async () => {
-            const reponse = await axios.get('http://localhost:3000/api/post/'+idpost+'/sumlike', {
+            const reponse = await axios.get('http://localhost:3000/api/post/' + idpost + '/sumlike', {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
@@ -78,26 +86,16 @@ const LikeComponent = (props) => {
     }, []);
 
 
-    const renderSumLike = () => {
-        return <span className='count-like'>{sumlike.liked}</span>
-    }
-
-    const renderSumDislike = () => {
-        return <span className='count-like'>{sumlike.disliked}</span>
-    }
-
-
-
     return (
         <div>
             <IconButton aria-label="like" size="small" onClick={() => handleLike()}>
                 <ThumbUpIcon color={state.likeActive ? 'primary' : 'default'} />
             </IconButton>
-            {renderSumLike()}
+            <span className='count-like'>{sumlike.liked}</span>
             <IconButton aria-label="dislike" size="small" onClick={() => handleDislike()}>
                 <ThumbDownAltIcon color={state.dislikeActive ? 'error' : 'default'} />
             </IconButton>
-            {renderSumDislike()}
+            <span className='count-like'>{sumlike.disliked}</span>
         </div>
     );
 };
