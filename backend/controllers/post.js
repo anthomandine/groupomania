@@ -108,7 +108,7 @@ exports.likePost = (req, res, next) => {
                     }
                 });
             }
-            if (result.length && like === false || like === true) {
+            if (result.length && like === false || result.length && like === true) {
                 let sqlUpdateDislike = 'UPDATE users_posts SET islike = ' + like + ' WHERE users_userId = ' + userId + ' AND posts_idpost = ' + idpost + '';
                 connexion.query(sqlUpdateDislike, (err, results, fields) => {
                     if (err) console.log('echec BD', err);
