@@ -7,11 +7,11 @@ import axios from 'axios';
 
 const PostAddView = () => {
 
-//---------Init variables----------//
+    //---------Init variables----------//
 
-    const [ data, setData ] = useState ({  post: '',image: '', userId: '' });
+    const [data, setData] = useState({ post: '', image: '', userId: '' });
 
-//---------Récupération des data input post ------------------//
+    //---------Récupération des data input post ------------------//
 
     const handleChangeImg = (e) => {
         const file = e.target.files[0];
@@ -23,7 +23,7 @@ const PostAddView = () => {
         preview.style.display = "inline";
         preview.src = window.URL.createObjectURL(file);
     };
-    
+
     const handleChange = (e) => {
         const value = e.target.value;
         setData({
@@ -33,12 +33,12 @@ const PostAddView = () => {
     };
 
     //---------Fonction envoi des données post ------------------//
-    
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const token = sessionStorage.getItem('token');
-        const userId = sessionStorage.getItem('userId');
+        const token = localStorage.getItem('token');
+        const userId = localStorage.getItem('userId');
 
         const form = new FormData();
         form.append('post', data.post);
@@ -51,29 +51,29 @@ const PostAddView = () => {
             data: form,
             headers: {
                 'Authorization': 'Bearer ' + token
-              }
+            }
         })
-        .then(function (reponse) {
-            window.location.reload();
-        })
-        .catch(function (err) {
-            console.log(err);
-        });
+            .then(function (reponse) {
+                window.location.reload();
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
     };
 
     return (
-            <div className='post-add-text'>
-                <form method="post" onSubmit={handleSubmit}>
-                    <p>Ajouter un post:</p>
-                    <TextField id="text-post" label="Écrire votre post"
-                        name='post' 
-                        multiline maxRows={6} fullWidth
-                        onChange={handleChange}
-                        value={data.post}
-                    >
-                    </TextField>
-                    <div className='add-img'>
-                        <label>
+        <div className='post-add-text'>
+            <form method="post" onSubmit={handleSubmit}>
+                <p>Ajouter un post:</p>
+                <TextField id="text-post" label="Écrire votre post"
+                    name='post'
+                    multiline maxRows={6} fullWidth
+                    onChange={handleChange}
+                    value={data.post}
+                >
+                </TextField>
+                <div className='add-img'>
+                    <label>
                         <Button component="span">
                             <AddIcon />Ajouter une image
                             <input
@@ -83,12 +83,12 @@ const PostAddView = () => {
                                 onChange={handleChangeImg}
                             />
                         </Button>
-                        </label>
-                        <img id="preview" alt="apercu"/>
-                    </div>
-                    <Button type='submit'>Publier</Button>
-                </form>
-            </div>
+                    </label>
+                    <img id="preview" alt="apercu" />
+                </div>
+                <Button type='submit'>Publier</Button>
+            </form>
+        </div>
     );
 };
 

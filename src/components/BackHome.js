@@ -6,7 +6,7 @@ import HomeIcon from '@mui/icons-material/Home';
 
 const handleClick = (e) => {
     e.preventDefault();
-    sessionStorage.clear();
+    localStorage.clear();
     };
 
 const BackHome = () => {

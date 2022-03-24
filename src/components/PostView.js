@@ -15,11 +15,13 @@ const PostView = () => {
     const [data, setData] = useState({ comment: '' });
     const [viewComments, setViewComments] = useState([]);
 
+    const userId = localStorage.getItem('userId');
+
     //--------------Récupération des posts------------------//
 
     useEffect(() => {
-        const token = sessionStorage.getItem('token');
-        const userId = sessionStorage.getItem('userId');
+        let token = localStorage.getItem('token');
+        let userId = localStorage.getItem('userId');
         const axiosGet = async () => {
             const reponse = await axios.get('http://localhost:3000/api/post/' + userId, {
                 headers: {
@@ -33,8 +35,8 @@ const PostView = () => {
     //--------------Fonction delete post------------------//
 
     const handleDeletePost = (idpost, imageUrl) => {
-        const token = sessionStorage.getItem('token');
-        const url = imageUrl;
+        let token = localStorage.getItem('token');
+        let url = imageUrl;
 
         axios({
             method: 'delete',
@@ -65,15 +67,15 @@ const PostView = () => {
     //--------------Ajout des commentaires------------------//
 
     const handleAddComment = (idpost) => {
-        let idAuthor = sessionStorage.getItem('userId');
-        let pseudoAuthor = sessionStorage.getItem('user');
+        let idAuthor = localStorage.getItem('userId');
+        let pseudoAuthor = localStorage.getItem('user');
         const commentData = {
             comment: data.comment,
             idpost: idpost,
             idAuthor: idAuthor,
             pseudoAuthor: pseudoAuthor
         };
-        const token = sessionStorage.getItem('token');
+        let token = localStorage.getItem('token');
 
         axios({
             method: 'post',
@@ -95,7 +97,7 @@ const PostView = () => {
     //--------------Fonction delete commentaire------------------//
 
     const handleDeleteComment = (idcomment) => {
-        const token = sessionStorage.getItem('token');
+        let token = localStorage.getItem('token');
 
         axios({
             method: 'delete',
@@ -120,7 +122,7 @@ const PostView = () => {
     }); */
 
     const renderComments = (idpost) => {
-        let token = sessionStorage.getItem('token');
+        let token = localStorage.getItem('token');
         let comments = [];
 
         viewComments[idpost] = <div className='comment'><LinearProgress /></div>;
@@ -143,14 +145,14 @@ const PostView = () => {
                         <Slide direction='up' timeout={500} in={true}>
                             <div>{comments.map((comment, i) => {
                                 return <div className='comment_div' key={i}>
-                                    <div className='delete-button-comment'>
+                                    {comment.userId === parseInt(userId) && <div className='delete-button-comment'>
                                         <IconButton aria-label="delete" size="small" onClick={() => handleDeleteComment(comment.idcomment)} >
                                             <DeleteIcon />
                                         </IconButton>
-                                    </div>
+                                    </div>}
                                     <div className='author'>
                                         <Avatar alt="avatar" src={comment.avatar} sx={{ width: 40, height: 40 }} />
-                                        <p>Commentaire de : {comment.pseudo} le : {comment.created_at}</p>
+                                        <p>Commentaire de : {comment.pseudo} le : {comment.com_created_at}</p>
                                     </div>
                                     <p>{comment.comment}</p>
                                 </div>
@@ -170,16 +172,15 @@ const PostView = () => {
         setViewComments([...viewComments]);
         //}, 500);
     };
-
     return (
         <>
             {posts.map((post, index) => (
                 <div className='post-view' key={index}>
-                    <div className='delete-button-post'>
+                    {post.idAuthor === parseInt(userId) && <div className='delete-button-post'>
                         <IconButton aria-label="delete" size="large" onClick={() => handleDeletePost(post.idpost, post.imageUrl)} >
                             <DeleteIcon />
                         </IconButton>
-                    </div>
+                    </div>}
                     <p>Le : {post.created_at} {post.pseudo} à posté : </p>
                     {post.imageUrl.length > 0 &&
                         <img className='post-img' src={post.imageUrl} alt={'image post n:' + post.idpost} />}

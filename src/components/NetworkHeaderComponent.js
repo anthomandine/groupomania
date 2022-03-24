@@ -6,8 +6,8 @@ const NetworkHeaderComponent = () => {
 
 //---------Init variables----------//
     
-    const pseudo = sessionStorage.getItem('user');
-    const avatar = sessionStorage.getItem('avatar');
+    const pseudo = localStorage.getItem('user');
+    const avatar = localStorage.getItem('avatar');
 
     return (
         <div className='network-header'>

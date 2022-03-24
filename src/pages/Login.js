@@ -46,8 +46,8 @@ const Login = () => {
             data: userData
         })
         .then(function (reponse) {
-            sessionStorage.setItem('userId', reponse.data.userId);
-            sessionStorage.setItem('token', reponse.data.token);
+            localStorage.setItem('userId', reponse.data.userId);
+            localStorage.setItem('token', reponse.data.token);
 
             navigate(`/Network`);
             window.location.reload();

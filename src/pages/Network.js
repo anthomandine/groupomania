@@ -13,8 +13,8 @@ const Network = () => {
 
 //---------Init variables----------//
 
-    const userId = sessionStorage.getItem('userId');
-    const token = sessionStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
 
 //---------Récupération des données user----------//
 
@@ -28,8 +28,8 @@ const Network = () => {
         const pseudo = reponse.data[0].pseudo;
         const avatar = reponse.data[0].avatar;
 
-        sessionStorage.setItem('user', pseudo);
-        sessionStorage.setItem('avatar', avatar);
+        localStorage.setItem('user', pseudo);
+        localStorage.setItem('avatar', avatar);
     });
 
     return (

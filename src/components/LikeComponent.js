@@ -46,9 +46,9 @@ const LikeComponent = (props) => {
     //---------Fonction envoi des données post pour les likes----------//
 
     const axiosPostLike = () => {
-        let token = sessionStorage.getItem('token');
+        let token = localStorage.getItem('token');
         let idpost = props.idpost;
-        let userId = sessionStorage.getItem('userId');
+        let userId = localStorage.getItem('userId');
         let data = { userId, like };
 
         axios({
@@ -71,7 +71,7 @@ const LikeComponent = (props) => {
     //---------Récupération des données somme des likes et dislikes par post----------//
 
     useEffect(() => {
-        const token = sessionStorage.getItem('token');
+        const token = localStorage.getItem('token');
         let idpost = props.idpost;
         const axiosGet = async () => {
             const reponse = await axios.get('http://localhost:3000/api/post/' + idpost + '/sumlike', {
