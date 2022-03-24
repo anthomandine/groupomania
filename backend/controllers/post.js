@@ -15,7 +15,7 @@ exports.createPost = (req, res, next) => {
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec d'enregistrement à BD", err);
         else {
-            res.status(200).json({ message: "post créé !" });
+            return res.status(200).json({ message: "post créé !" });
         }
     });
 };
@@ -30,7 +30,7 @@ exports.getAllPosts = (req, res, next) => {
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec d'enregistrement à BD", err);
         else {
-            res.status(200).json(results);
+            return res.status(200).json(results);
         }
     })
 };
@@ -48,11 +48,11 @@ exports.deletPost = (req, res, next) => {
             if (req.body.url.length > 0) {
                 const filename = req.body.url.split('/images/')[1];
                 fs.unlink(`images/${filename}`, () => {
-                    res.status(200).json({ message: 'post supprimé !' })
+                    return res.status(200).json({ message: 'post supprimé !' })
                 });
             }
             else {
-                res.status(200).json({ message: 'post supprimé !' })
+                return res.status(200).json({ message: 'post supprimé !' })
             }
         }
     })
@@ -68,7 +68,7 @@ exports.getComments = (req, res, next) => {
         if (err) console.log("Echec BD");
         else {
             const result = Object.values(JSON.parse(JSON.stringify(results)));
-            res.status(200).json(result)
+            return res.status(200).json(result)
         }
     })
 };
@@ -94,7 +94,7 @@ exports.likePost = (req, res, next) => {
                     if (err) console.log('echec BD', err);
                     else {
                         console.log("like appliqué ! / ligne créé")
-                        res.status(200).json({ message: "like appliqué ! / ligne créé" });
+                        return res.status(200).json({ message: "like appliqué ! / ligne créé" });
                     }
                 });
             }
@@ -104,7 +104,7 @@ exports.likePost = (req, res, next) => {
                     if (err) console.log('echec BD', err);
                     else {
                         console.log("like supprimé !")
-                        res.status(200).json({ message: "like supprimé !" });
+                        return res.status(200).json({ message: "like supprimé !" });
                     }
                 });
             }
@@ -114,7 +114,7 @@ exports.likePost = (req, res, next) => {
                     if (err) console.log('echec BD', err);
                     else {
                         console.log("dislike appliqué !")
-                        res.status(200).json({ message: "dislike appliqué !" });
+                        return res.status(200).json({ message: "dislike appliqué !" });
                     }
                 });
             }
@@ -130,7 +130,7 @@ exports.getSumLike = (req, res, next) => {
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec BD", err);
         else {
-            res.status(200).json(results);
+            return res.status(200).json(results);
         }
     })
 };

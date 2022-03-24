@@ -18,7 +18,7 @@ exports.signup = (req, res, next) => {
                 if (err) console.log("Echec d'enregistrement à BD", err);
                 else {
                     console.log("Enregistrement effectuee");
-                    res.status(200).json({ message: "Utilisateur créé !" });
+                    return res.status(200).json({ message: "Utilisateur créé !" });
                 }
             });
         })
@@ -49,7 +49,7 @@ exports.login = (req, res, next) => {
                         return res.status(401).json({ error: 'Mot de passe incorrect !' });
                     }
                     console.log("connexion reussie");
-                    res.status(200).json({
+                    return res.status(200).json({
                         userId: userId,
                         token: jwt.sign(
                             { userId: userId },
@@ -73,7 +73,7 @@ exports.getOneUser = (req, res, next) => {
 
     connexion.query(sql, userId, (err, results, fields) => {
         if (err) console.log("Echec BD", err);
-        res.status(200).json(results)
+        return res.status(200).json(results)
     });
 };
 
@@ -90,7 +90,7 @@ exports.modifyUser = (req, res, next) => {
         if (err) console.log("Echec BD", err);
         else {
             console.log("information mis à jour.")
-            res.status(200).json(results);
+            return res.status(200).json(results);
         };
     });
 };
