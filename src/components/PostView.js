@@ -152,7 +152,7 @@ const PostView = () => {
                                     </div>}
                                     <div className='author'>
                                         <Avatar alt="avatar" src={comment.avatar} sx={{ width: 40, height: 40 }} />
-                                        <p>Commentaire de : {comment.pseudo} le : {comment.com_created_at}</p>
+                                        <p>Commentaire de : {comment.pseudo} le : {renderDate(comment.com_created_at)}</p>
                                     </div>
                                     <p>{comment.comment}</p>
                                 </div>
@@ -163,6 +163,12 @@ const PostView = () => {
             setViewComments([...viewComments]);
         };
         axiosGet();
+    };
+
+    const renderDate = (date) => {
+       let formatDate = date.split('T')[0].split("-").reverse().join("/");
+       let hour = date.split('T')[1].split("", 8).join("");
+        return <span>{formatDate} à {hour}</span>
     };
 
     const hiddenComments = (idpost) => {
@@ -181,7 +187,7 @@ const PostView = () => {
                             <DeleteIcon />
                         </IconButton>
                     </div>}
-                    <p>Le : {post.created_at} {post.pseudo} à posté : </p>
+                    <p>Le : {renderDate(post.created_at)} {post.pseudo} à posté : </p>
                     {post.imageUrl.length > 0 &&
                         <img className='post-img' src={post.imageUrl} alt={'image post n:' + post.idpost} />}
                     <p className='text-color-3'>{post.post}</p>

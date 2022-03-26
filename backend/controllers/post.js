@@ -8,10 +8,8 @@ exports.createPost = (req, res, next) => {
     let post = req.body.post;
     let userId = req.body.userId;
     let imageUrl = req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : '';
-    const formatYmd = date => date.toLocaleDateString();
-    let date = formatYmd(new Date());
 
-    let sql = 'INSERT INTO posts (post, imageUrl, idAuthor, created_at) VALUES (\'' + post + '\', \'' + imageUrl + '\', \'' + userId + '\', \'' + date + '\' )';
+    let sql = 'INSERT INTO posts (post, imageUrl, idAuthor, created_at) VALUES (\'' + post + '\', \'' + imageUrl + '\', \'' + userId + '\', Now() )';
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec d'enregistrement à BD", err);
         else {
