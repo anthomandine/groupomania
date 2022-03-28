@@ -108,7 +108,7 @@ const PostView = () => {
         })
             .then(function (reponse) {
                 console.log("commentaire supprimé");
-                window.location.reload();
+                //window.location.reload();
             })
             .catch(function (err) {
                 console.log(err);
@@ -116,10 +116,6 @@ const PostView = () => {
     };
 
     //--------------Récupération des commentaires------------------//
-    /*let [anim, setAnim] = useState({
-        direction: '',
-        in: ''
-    }); */
 
     const renderComments = (idpost) => {
         let token = localStorage.getItem('token');
@@ -139,7 +135,6 @@ const PostView = () => {
                 viewComments[idpost] = <div className='comment'><p className='no-comment'>Aucun commentaire pour ce post !</p></div>;
             }
             else {
-                //setAnim({dir: "up", in: true})
                 viewComments[idpost] =
                     <div className='comment'>
                         <Slide direction='up' timeout={500} in={true}>
@@ -152,7 +147,7 @@ const PostView = () => {
                                     </div>}
                                     <div className='author'>
                                         <Avatar alt="avatar" src={comment.avatar} sx={{ width: 40, height: 40 }} />
-                                        <p>Commentaire de : {comment.pseudo} le : {renderDate(comment.com_created_at)}</p>
+                                        <p>Le {renderDate(comment.com_created_at)}, {comment.pseudo} à commenté :</p>
                                     </div>
                                     <p>{comment.comment}</p>
                                 </div>
@@ -165,19 +160,17 @@ const PostView = () => {
         axiosGet();
     };
 
-    const renderDate = (date) => {
-       let formatDate = date.split('T')[0].split("-").reverse().join("/");
-       let hour = date.split('T')[1].split("", 8).join("");
-        return <span>{formatDate} à {hour}</span>
-    };
-
     const hiddenComments = (idpost) => {
-
-        //setTimeout(() => {
         delete viewComments[idpost];
         setViewComments([...viewComments]);
-        //}, 500);
     };
+
+    const renderDate = (date) => {
+        let formatDate = date.split('T')[0].split("-").reverse().join("/");
+        //let hour = date.split('T')[1].split("", 5).join("");
+        return <span>{formatDate}</span>
+    };
+
     return (
         <>
             {posts.map((post, index) => (
@@ -187,7 +180,7 @@ const PostView = () => {
                             <DeleteIcon />
                         </IconButton>
                     </div>}
-                    <p>Le : {renderDate(post.created_at)} {post.pseudo} à posté : </p>
+                    <p>Le {renderDate(post.created_at)} {post.pseudo} à posté : </p>
                     {post.imageUrl.length > 0 &&
                         <img className='post-img' src={post.imageUrl} alt={'image post n:' + post.idpost} />}
                     <p className='text-color-3'>{post.post}</p>
@@ -204,7 +197,9 @@ const PostView = () => {
                         ></TextField>
                         <Button onClick={() => handleAddComment(post.idpost)} size="small">publier votre commentaire</Button>
                     </div>
-                    <Button onClick={() => { viewComments[post.idpost] ? hiddenComments(post.idpost) : renderComments(post.idpost) }}>
+                    <Button onClick={() => {
+                        viewComments[post.idpost] ? hiddenComments(post.idpost) : renderComments(post.idpost)
+                    }}>
                         {viewComments[post.idpost] ? 'Masquer les commentaires' : 'Afficher les commentaires'}
                     </Button>
                     {viewComments[post.idpost]}

@@ -19,11 +19,14 @@ const LikeComponent = (props) => {
     //---------fonction click like----------//
 
     const handleLike = () => {
-
+        
         if (state.likeActive) {
+            sumlike.liked -- ;
             setState({ likeActive: false, dislikeActive: false });
         }
         else {
+            if (state.dislikeActive) { sumlike.disliked -- ; }
+            sumlike.liked ++ ;
             setState({ likeActive: true, dislikeActive: false });
             like = true;
         }
@@ -34,9 +37,12 @@ const LikeComponent = (props) => {
 
     const handleDislike = () => {
         if (state.dislikeActive) {
+            sumlike.disliked -- ;
             setState({ likeActive: false, dislikeActive: false });
         }
         else {
+            if (state.likeActive) { sumlike.liked -- ; };
+            sumlike.disliked ++ ;
             setState({ likeActive: false, dislikeActive: true });
             like = false;
         }
@@ -61,7 +67,6 @@ const LikeComponent = (props) => {
         })
             .then(function (reponse) {
                 console.log("post like front ok");
-                window.location.reload();
             })
             .catch(function (erreur) {
                 console.log('err post like front', erreur);
@@ -85,17 +90,16 @@ const LikeComponent = (props) => {
         // eslint-disable-next-line
     }, []);
 
-
     return (
         <div>
             <IconButton aria-label="like" size="small" onClick={() => handleLike()}>
                 <ThumbUpIcon color={state.likeActive ? 'primary' : 'default'} />
             </IconButton>
-            <span className='count-like'>{sumlike.liked}</span>
+            <span className='count-like'>{sumlike.liked ? sumlike.liked : '0' }</span>
             <IconButton aria-label="dislike" size="small" onClick={() => handleDislike()}>
                 <ThumbDownAltIcon color={state.dislikeActive ? 'error' : 'default'} />
             </IconButton>
-            <span className='count-like'>{sumlike.disliked}</span>
+            <span className='count-like'>{sumlike.disliked ? sumlike.disliked : '0'}</span>
         </div>
     );
 };

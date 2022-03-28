@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import FooterComponent from '../components/FooterComponent';
 import Navigation from '../components/Navigation';
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+
+    let navigate = useNavigate();
+    useEffect(() => {
+        if (localStorage.length > 0) {
+            navigate(`/Network`);
+        };
+        // eslint-disable-next-line
+    }, [])
 
     return (
         <div className="home">

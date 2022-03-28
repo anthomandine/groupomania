@@ -3,7 +3,6 @@ import { TextField } from '@mui/material';
 import { Button } from '@mui/material';
 import Navigation from '../components/Navigation';
 import HeaderComponent from '../components/HeaderComponent';
-
 import { useState } from 'react';
 import FooterComponent from '../components/FooterComponent';
 import axios from 'axios';
@@ -12,16 +11,16 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
 
-//---------Init variables----------//
+    //---------Init variables----------//
 
     let navigate = useNavigate();
-    const [ data, setData ] = useState ({ 
+    const [data, setData] = useState({
         email: "",
         password: "",
     });
     const [errorMessage, setErrorMessage] = useState('');
 
-//---------Récupération des data input user----------//
+    //---------Récupération des data input user----------//
 
     const handleChange = (e) => {
         setErrorMessage('');
@@ -45,16 +44,16 @@ const Login = () => {
             url: 'http://localhost:3000/api/auth/login',
             data: userData
         })
-        .then(function (reponse) {
-            localStorage.setItem('userId', reponse.data.userId);
-            localStorage.setItem('token', reponse.data.token);
+            .then(function (reponse) {
+                localStorage.setItem('userId', reponse.data.userId);
+                localStorage.setItem('token', reponse.data.token);
 
-            navigate(`/Network`);
-            window.location.reload();
-        })
-        .catch(function (err) {
-            setErrorMessage('Email ou mot de passe incorrect ! ');
-        });
+                navigate(`/Network`);
+                window.location.reload();
+            })
+            .catch(function (err) {
+                setErrorMessage('Email ou mot de passe incorrect ! ');
+            });
     };
 
     return (
@@ -66,8 +65,8 @@ const Login = () => {
                     <h1>Se connecter</h1>
                     <div className='box-input'>
                         <form method="post" onSubmit={handleSubmit}>
-                            <TextField 
-                                id="input-email" label="email" color="warning" variant="outlined" 
+                            <TextField
+                                id="input-email" label="email" color="warning" variant="outlined"
                                 name='email'
                                 helperText="Entrer votre Email" required
                                 onChange={handleChange}
@@ -75,14 +74,14 @@ const Login = () => {
                                 type="email"
                             />
                             <TextField
-                                id="input-password" label="password" color="warning" variant="outlined" 
+                                id="input-password" label="password" color="warning" variant="outlined"
                                 name='password'
                                 helperText="Saisissez votre mot de passe" required
                                 onChange={handleChange}
                                 value={data.password}
                                 type="password"
                             />
-                            {errorMessage && ( <p className="error"> {errorMessage} </p> )}
+                            {errorMessage && (<p className="error"> {errorMessage} </p>)}
                             <Button type='submit'>Conexion</Button>
                         </form>
                     </div>
