@@ -9,7 +9,7 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { Alert, Avatar, TextField } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit'; 
+import EditIcon from '@mui/icons-material/Edit';
 import { useState } from 'react';
 import axios from 'axios';
 
@@ -25,7 +25,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 const BootstrapDialogTitle = (props) => {
-const { children, onClose, ...other } = props;
+  const { children, onClose, ...other } = props;
 
   return (
     <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
@@ -68,18 +68,18 @@ export default function CustomizedDialogs() {
 
   //--------------Init variables---------------------//
 
-  const [ data, setData ] = useState ({ pseudo: "" });
-  const [avatar, setAvatar] = useState (0);
+  const [data, setData] = useState({ pseudo: "" });
+  const [avatar, setAvatar] = useState(0);
   const avatars = [
-      "../images/avatar/1.png",
-      "../images/avatar/2.png",
-      "../images/avatar/3.png",
-      "../images/avatar/4.png",
-      "../images/avatar/5.png",
-      "../images/avatar/6.png",
-      "../images/avatar/7.png",
-      "../images/avatar/8.png",
-      "../images/avatar/9.png"
+    "../images/avatar/1.png",
+    "../images/avatar/2.png",
+    "../images/avatar/3.png",
+    "../images/avatar/4.png",
+    "../images/avatar/5.png",
+    "../images/avatar/6.png",
+    "../images/avatar/7.png",
+    "../images/avatar/8.png",
+    "../images/avatar/9.png"
   ];
 
   //--------------Récupération des input user---------------------//
@@ -87,40 +87,73 @@ export default function CustomizedDialogs() {
   const handleChange = (e) => {
     const value = e.target.value;
     setData({
-        ...data,
-        [e.target.name]: value,
+      ...data,
+      [e.target.name]: value,
     });
-};
-
-//--------------Update user---------------------//
-
-const handleSubmit = (e) => {
-  e.preventDefault();
-  const userData = {
-      pseudo: data.pseudo,
-      avatar: avatars[avatar]
   };
 
-  const userId = localStorage.getItem('userId');
-  const token = localStorage.getItem('token');
+  //--------------Update user---------------------//
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let userData = {
+      pseudo: data.pseudo,
+      avatar: avatars[avatar]
+    };
+
+    let userId = localStorage.getItem('userId');
+    let token = localStorage.getItem('token');
 
     axios({
       method: 'put',
-      url: 'http://localhost:3000/api/auth/'+userId,
+      url: 'http://localhost:3000/api/auth/' + userId,
       data: userData,
       headers: {
         'Authorization': 'Bearer ' + token
       }
     })
-    .then(function (reponse) {
-      setConfirm(true);
-      // eslint-disable-next-line
-      setTimeout(() => (window.location.reload(), setOpen(false)) , 2000);
-    })
-    .catch(function (erreur) {
-      console.log(erreur);
-    });
-};
+      .then(function (reponse) {
+        setConfirm(true);
+        // eslint-disable-next-line
+        setTimeout(() => (window.location.reload(), setOpen(false)), 2000);
+      })
+      .catch(function (erreur) {
+        console.log(erreur);
+      });
+  };
+
+  //--------------delete user---------------------//
+
+  const handleDelet = (e) => {
+    e.preventDefault();
+    let confirm = window.confirm("La suppression sera définitive et votre email inutilisable pour ce site, voulez-vous continuer ?");
+
+    if (confirm) {
+      console.log('confirm if ok');
+      let userId = localStorage.getItem('userId');
+      let token = localStorage.getItem('token');
+
+      axios({
+        method: 'put',
+        url: 'http://localhost:3000/api/auth/delete/' + userId,
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      })
+        .then(function (reponse) {
+          console.log('user deleted at');
+          localStorage.clear();
+          window.location.reload();
+        })
+        .catch(function (erreur) {
+          console.log(erreur);
+        });
+    }
+    else {
+      setOpen(false);
+      console.log('confirm else not ok');
+    }
+  };
 
   return (
     <div>
@@ -134,35 +167,36 @@ const handleSubmit = (e) => {
           open={open}
         >
           <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Editer profil
+            Editer profil
           </BootstrapDialogTitle>
           <DialogContent dividers>
-          <span>Nouveau Pseudo:</span>
-          
+            <span>Nouveau Pseudo:</span>
+
             <TextField fullWidth
-                id="input-pseudo"  
-                name="pseudo"
-                label="pseudo" variant="outlined" 
-                helperText="Saisissez votre nouveau Pseudo"
-                value={data.pseudo}
-                onChange={handleChange}
+              id="input-pseudo"
+              name="pseudo"
+              label="pseudo" variant="outlined"
+              helperText="Saisissez votre nouveau Pseudo"
+              value={data.pseudo}
+              onChange={handleChange}
             />
             <div className='avatar-content'>
               <span>Changer votre avatar :</span><br></br>
-                {avatars.map((avatarUrl, index) => (
-                    <IconButton key={index} onClick={() => setAvatar(index)} className={index === avatar ? 'active' : ''}>
-                        <Avatar alt="avatar-1" src={avatars[index]}/>
-                    </IconButton>
-                ))}
+              {avatars.map((avatarUrl, index) => (
+                <IconButton key={index} onClick={() => setAvatar(index)} className={index === avatar ? 'active' : ''}>
+                  <Avatar alt="avatar-1" src={avatars[index]} />
+                </IconButton>
+              ))}
             </div>
-            {confirm ? <Alert severity="success">Profil modifié avec succès</Alert> : "" }
-            </DialogContent>
-            <DialogActions>
-              <Button autoFocus onClick={handleSubmit}>
-                Sauvergarder
-              </Button>
-            </DialogActions>
-          </BootstrapDialog>
+            {confirm ? <Alert severity="success">Profil modifié avec succès</Alert> : ""}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleDelet} color="error">supprimer mon compte</Button>
+            <Button autoFocus onClick={handleSubmit}>
+              Sauvergarder
+            </Button>
+          </DialogActions>
+        </BootstrapDialog>
       </form>
     </div>
   );

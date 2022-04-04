@@ -5,6 +5,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from '@mui/material';
 import axios from 'axios';
 import LikeComponent from './LikeComponent';
+import moment from 'moment';
+import "moment/locale/fr";
 
 const PostView = () => {
 
@@ -108,7 +110,7 @@ const PostView = () => {
         })
             .then(function (reponse) {
                 console.log("commentaire supprimé");
-                //window.location.reload();
+                window.location.reload();
             })
             .catch(function (err) {
                 console.log(err);
@@ -147,7 +149,7 @@ const PostView = () => {
                                     </div>}
                                     <div className='author'>
                                         <Avatar alt="avatar" src={comment.avatar} sx={{ width: 40, height: 40 }} />
-                                        <p>Le {renderDate(comment.com_created_at)}, {comment.pseudo} à commenté :</p>
+                                        <p>{renderDate(comment.com_created_at)}, {comment.pseudo} à commenté :</p>
                                     </div>
                                     <p>{comment.comment}</p>
                                 </div>
@@ -166,9 +168,8 @@ const PostView = () => {
     };
 
     const renderDate = (date) => {
-        let formatDate = date.split('T')[0].split("-").reverse().join("/");
-        //let hour = date.split('T')[1].split("", 5).join("");
-        return <span>{formatDate}</span>
+        let formatDate = moment(date);
+        return <span>{formatDate.calendar()}</span>
     };
 
     return (
@@ -180,7 +181,7 @@ const PostView = () => {
                             <DeleteIcon />
                         </IconButton>
                     </div>}
-                    <p>Le {renderDate(post.created_at)} {post.pseudo} à posté : </p>
+                    <p>{renderDate(post.created_at)} {post.pseudo} à posté : </p>
                     {post.imageUrl.length > 0 &&
                         <img className='post-img' src={post.imageUrl} alt={'image post n:' + post.idpost} />}
                     <p className='text-color-3'>{post.post}</p>

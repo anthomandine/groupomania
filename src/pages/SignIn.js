@@ -15,6 +15,8 @@ const SignIn = () => {
 
     let navigate = useNavigate();
 
+    const [errorMessage, setErrorMessage] = useState('');
+
     const [ data, setData ] = useState ({ 
         email: "",
         password: "",
@@ -67,7 +69,7 @@ const SignIn = () => {
             
         })
         .catch(function (erreur) {
-            console.log(erreur);
+            setErrorMessage('Email déjà utilisé');
         });
     };
 
@@ -115,6 +117,7 @@ const SignIn = () => {
                                 ))}
                             </div>
                             {confirm ? <Alert severity="success">Inscription terminée veuillez vous connecter</Alert> : "" }
+                            {errorMessage && (<p className="error"> {errorMessage} </p>)}
                             <Button type='submit'>Valider</Button>
                         </form>
                     </div>

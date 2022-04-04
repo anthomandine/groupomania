@@ -16,6 +16,9 @@ exports.signup = (req, res, next) => {
 
             connexion.query(sql, [userEmail, userPassword, userPseudo, userAvatar], (err, results, fields) => {
                 if (err) console.log("Echec d'enregistrement à BD", err);
+                if (!results) {
+                    return res.status(401).json({ error: 'Email déjà utilisé !' });
+                }
                 else {
                     console.log("Enregistrement effectuee");
                     return res.status(200).json({ message: "Utilisateur créé !" });
@@ -91,6 +94,23 @@ exports.modifyUser = (req, res, next) => {
         else {
             console.log("information mis à jour.")
             return res.status(200).json(results);
+        };
+    });
+};
+
+
+//---------middleware get pour supprimer un profil  ----------//
+
+exports.deletUser = (req, res, next) => {
+
+    const userId = req.params.userId;
+    const sql = 'UPDATE users SET deleted_at= NOW(), password=null, pseudo=\'«utilisateur supprimé»\' WHERE userId=' + userId;
+
+    connexion.query(sql, (err, results, fields) => {
+        if (err) console.log("Echec BD", err);
+        else {
+            console.log("utilisateur supprimer.");
+            return res.status(200).json({ message: 'utilisateur supprimé !' })
         };
     });
 };
