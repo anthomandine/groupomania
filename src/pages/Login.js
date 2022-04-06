@@ -47,7 +47,7 @@ const Login = () => {
             .then(function (reponse) {
                 localStorage.setItem('userId', reponse.data.userId);
                 localStorage.setItem('token', reponse.data.token);
-
+                localStorage.setItem('isadmin', reponse.data.isadmin);
                 navigate(`/Network`);
                 window.location.reload();
             })

@@ -35,12 +35,13 @@ exports.login = (req, res, next) => {
     let userEmail = req.body.email;
     let userPassword = req.body.password;
 
-    let sql = `SELECT email, password, userId FROM testdb.users WHERE email= ?`;
+    let sql = `SELECT email, password, userId, isadmin FROM testdb.users WHERE email= ?`;
 
     connexion.query(sql, userEmail, (err, results, fields) => {
         if (err) console.log("Echec BD", err);
         const result = results;
         const userId = result[0].userId;
+        const isadmin = result[0].isadmin;
 
         if (result == '') {
             return res.status(401).json({ error: 'Email introuvable ou incorrect !' });
@@ -54,6 +55,7 @@ exports.login = (req, res, next) => {
                     console.log("connexion reussie");
                     return res.status(200).json({
                         userId: userId,
+                        isadmin: isadmin,
                         token: jwt.sign(
                             { userId: userId },
                             'RANDOM_TOKEN',

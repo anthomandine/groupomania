@@ -112,7 +112,7 @@ exports.likePost = (req, res, next) => {
                     if (err) console.log('echec BD', err);
                     else {
                         console.log("dislike appliqué !")
-                        return res.status(200).json({ message: "dislike appliqué !" });
+                        return res.status(200).json({ message: "dislike/like appliqué !" });
                     }
                 });
             }

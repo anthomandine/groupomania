@@ -18,6 +18,7 @@ const PostView = () => {
     const [viewComments, setViewComments] = useState([]);
 
     const userId = localStorage.getItem('userId');
+    const isadmin = localStorage.getItem('isadmin');
 
     //--------------Récupération des posts------------------//
 
@@ -118,7 +119,6 @@ const PostView = () => {
     };
 
     //--------------Récupération des commentaires------------------//
-
     const renderComments = (idpost) => {
         let token = localStorage.getItem('token');
         let comments = [];
@@ -134,7 +134,12 @@ const PostView = () => {
             });
             comments = (await reponse).data;
             if (comments.length === 0) {
-                viewComments[idpost] = <div className='comment'><p className='no-comment'>Aucun commentaire pour ce post !</p></div>;
+                viewComments[idpost] =
+                    <div className='comment'>
+                        <Slide direction='up' timeout={500} in={true}>
+                            <p className='no-comment'>Aucun commentaire pour ce post !</p>
+                        </Slide>
+                    </div>
             }
             else {
                 viewComments[idpost] =
@@ -142,7 +147,7 @@ const PostView = () => {
                         <Slide direction='up' timeout={500} in={true}>
                             <div>{comments.map((comment, i) => {
                                 return <div className='comment_div' key={i}>
-                                    {comment.userId === parseInt(userId) && <div className='delete-button-comment'>
+                                    {(comment.userId === parseInt(userId) || isadmin) && <div className='delete-button-comment'>
                                         <IconButton aria-label="delete" size="small" onClick={() => handleDeleteComment(comment.idcomment)} >
                                             <DeleteIcon />
                                         </IconButton>
@@ -163,8 +168,13 @@ const PostView = () => {
     };
 
     const hiddenComments = (idpost) => {
-        delete viewComments[idpost];
-        setViewComments([...viewComments]);
+
+
+        setTimeout(() => {
+            delete viewComments[idpost];
+            setViewComments([...viewComments]);
+        }, 1000);
+
     };
 
     const renderDate = (date) => {
@@ -176,7 +186,7 @@ const PostView = () => {
         <>
             {posts.map((post, index) => (
                 <div className='post-view' key={index}>
-                    {post.idAuthor === parseInt(userId) && <div className='delete-button-post'>
+                    {(post.idAuthor === parseInt(userId) || isadmin) && <div className='delete-button-post'>
                         <IconButton aria-label="delete" size="large" onClick={() => handleDeletePost(post.idpost, post.imageUrl)} >
                             <DeleteIcon />
                         </IconButton>

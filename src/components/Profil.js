@@ -81,6 +81,7 @@ export default function CustomizedDialogs() {
     "../images/avatar/8.png",
     "../images/avatar/9.png"
   ];
+  const isadmin = localStorage.getItem('isadmin');
 
   //--------------Récupération des input user---------------------//
 
@@ -191,7 +192,7 @@ export default function CustomizedDialogs() {
             {confirm ? <Alert severity="success">Profil modifié avec succès</Alert> : ""}
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleDelet} color="error">supprimer mon compte</Button>
+            { !isadmin && <Button onClick={handleDelet} color="error">supprimer mon compte</Button>}
             <Button autoFocus onClick={handleSubmit}>
               Sauvergarder
             </Button>
