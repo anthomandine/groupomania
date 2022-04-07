@@ -116,3 +116,19 @@ exports.deletUser = (req, res, next) => {
         };
     });
 };
+
+
+//---------middleware get pour recupérer tous les profils  ----------//
+
+
+exports.getAllUsers = (req, res, next) => {
+
+    const sql = 'SELECT * FROM users';
+
+    connexion.query(sql, (err, results, fields) => {
+        if (err) console.log("Echec BD", err);
+        
+        const result = Object.values(JSON.parse(JSON.stringify(results)));
+            return res.status(200).json(result)
+    });
+};

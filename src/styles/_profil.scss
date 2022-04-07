@@ -4,14 +4,15 @@
 }
 
 .css-1t1j96h-MuiPaper-root-MuiDialog-paper{
-    width: 80%;
+    width: 85%;
+    max-width: 800px!important;
 }
 
 .css-153eyq5-MuiModal-root-MuiDialog-root .MuiDialogContent-root {
     padding: 30px;
 
     button{ 
-        margin: 15px 0px;
+        margin: 15px 10px;
     }
     span{ 
         padding: 10px;

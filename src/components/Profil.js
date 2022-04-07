@@ -192,7 +192,7 @@ export default function CustomizedDialogs() {
             {confirm ? <Alert severity="success">Profil modifié avec succès</Alert> : ""}
           </DialogContent>
           <DialogActions>
-            { !isadmin && <Button onClick={handleDelet} color="error">supprimer mon compte</Button>}
+            { parseInt(isadmin) === 0 && <Button onClick={handleDelet} color="error">supprimer mon compte</Button>}
             <Button autoFocus onClick={handleSubmit}>
               Sauvergarder
             </Button>

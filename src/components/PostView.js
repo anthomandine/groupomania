@@ -20,6 +20,8 @@ const PostView = () => {
     const userId = localStorage.getItem('userId');
     const isadmin = localStorage.getItem('isadmin');
 
+    //const [slideIn, setSlideIn] = useState();
+
     //--------------Récupération des posts------------------//
 
     useEffect(() => {
@@ -117,8 +119,9 @@ const PostView = () => {
                 console.log(err);
             });
     };
-
+    
     //--------------Récupération des commentaires------------------//
+    
     const renderComments = (idpost) => {
         let token = localStorage.getItem('token');
         let comments = [];
@@ -147,7 +150,7 @@ const PostView = () => {
                         <Slide direction='up' timeout={500} in={true}>
                             <div>{comments.map((comment, i) => {
                                 return <div className='comment_div' key={i}>
-                                    {(comment.userId === parseInt(userId) || isadmin) && <div className='delete-button-comment'>
+                                    {(comment.userId === parseInt(userId) || parseInt(isadmin) === 1) && <div className='delete-button-comment'>
                                         <IconButton aria-label="delete" size="small" onClick={() => handleDeleteComment(comment.idcomment)} >
                                             <DeleteIcon />
                                         </IconButton>
@@ -169,7 +172,7 @@ const PostView = () => {
 
     const hiddenComments = (idpost) => {
 
-
+        
         setTimeout(() => {
             delete viewComments[idpost];
             setViewComments([...viewComments]);
@@ -186,7 +189,7 @@ const PostView = () => {
         <>
             {posts.map((post, index) => (
                 <div className='post-view' key={index}>
-                    {(post.idAuthor === parseInt(userId) || isadmin) && <div className='delete-button-post'>
+                    {(post.idAuthor === parseInt(userId) || parseInt(isadmin) === 1) && <div className='delete-button-post'>
                         <IconButton aria-label="delete" size="large" onClick={() => handleDeletePost(post.idpost, post.imageUrl)} >
                             <DeleteIcon />
                         </IconButton>
