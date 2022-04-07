@@ -20,8 +20,6 @@ const PostView = () => {
     const userId = localStorage.getItem('userId');
     const isadmin = localStorage.getItem('isadmin');
 
-    //const [slideIn, setSlideIn] = useState();
-
     //--------------Récupération des posts------------------//
 
     useEffect(() => {
@@ -119,14 +117,17 @@ const PostView = () => {
                 console.log(err);
             });
     };
-    
+
     //--------------Récupération des commentaires------------------//
-    
+
     const renderComments = (idpost) => {
         let token = localStorage.getItem('token');
         let comments = [];
 
-        viewComments[idpost] = <div className='comment'><LinearProgress /></div>;
+        viewComments[idpost] = {
+            render: <div className='comment'><LinearProgress /></div>,
+            isShow: true
+        };
         setViewComments([...viewComments]);
 
         const axiosGet = async () => {
@@ -137,33 +138,31 @@ const PostView = () => {
             });
             comments = (await reponse).data;
             if (comments.length === 0) {
-                viewComments[idpost] =
-                    <div className='comment'>
-                        <Slide direction='up' timeout={500} in={true}>
-                            <p className='no-comment'>Aucun commentaire pour ce post !</p>
-                        </Slide>
-                    </div>
+                viewComments[idpost] = {
+                    render:
+                        <p className='no-comment'>Aucun commentaire pour ce post !</p>,
+                    isShow: true
+                }
             }
             else {
-                viewComments[idpost] =
-                    <div className='comment'>
-                        <Slide direction='up' timeout={500} in={true}>
-                            <div>{comments.map((comment, i) => {
-                                return <div className='comment_div' key={i}>
-                                    {(comment.userId === parseInt(userId) || parseInt(isadmin) === 1) && <div className='delete-button-comment'>
-                                        <IconButton aria-label="delete" size="small" onClick={() => handleDeleteComment(comment.idcomment)} >
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </div>}
-                                    <div className='author'>
-                                        <Avatar alt="avatar" src={comment.avatar} sx={{ width: 40, height: 40 }} />
-                                        <p>{renderDate(comment.com_created_at)}, {comment.pseudo} à commenté :</p>
-                                    </div>
-                                    <p>{comment.comment}</p>
+                viewComments[idpost] = {
+                    render:
+                        <div>{comments.map((comment, i) => {
+                            return <div className='comment_div' key={i}>
+                                {(comment.userId === parseInt(userId) || parseInt(isadmin) === 1) && <div className='delete-button-comment'>
+                                    <IconButton aria-label="delete" size="small" onClick={() => handleDeleteComment(comment.idcomment)} >
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </div>}
+                                <div className='author'>
+                                    <Avatar alt="avatar" src={comment.avatar} sx={{ width: 40, height: 40 }} />
+                                    <p>{renderDate(comment.com_created_at)}, {comment.pseudo} à commenté :</p>
                                 </div>
-                            })}</div>
-                        </Slide>
-                    </div>
+                                <p>{comment.comment}</p>
+                            </div>
+                        })}</div>,
+                    isShow: true
+                }
             }
             setViewComments([...viewComments]);
         };
@@ -172,12 +171,13 @@ const PostView = () => {
 
     const hiddenComments = (idpost) => {
 
-        
+        viewComments[idpost].isShow = false;
+        setViewComments([...viewComments]);
+
         setTimeout(() => {
             delete viewComments[idpost];
             setViewComments([...viewComments]);
-        }, 1000);
-
+        }, 400);
     };
 
     const renderDate = (date) => {
@@ -216,7 +216,14 @@ const PostView = () => {
                     }}>
                         {viewComments[post.idpost] ? 'Masquer les commentaires' : 'Afficher les commentaires'}
                     </Button>
-                    {viewComments[post.idpost]}
+                    <div style={{ overflow: 'hidden', width: '85%' }}>
+                        <Slide direction='down' timeout={500} in={(viewComments[post.idpost] && viewComments[post.idpost].isShow)}>
+                            <div className='comment'>
+                                    {viewComments[post.idpost] && viewComments[post.idpost].render}
+                            </div>
+                        </Slide>
+                    </div>
+
                 </div>
             ))}
         </>
