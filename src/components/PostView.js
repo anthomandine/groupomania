@@ -217,13 +217,12 @@ const PostView = () => {
                         {viewComments[post.idpost] ? 'Masquer les commentaires' : 'Afficher les commentaires'}
                     </Button>
                     <div style={{ overflow: 'hidden', width: '85%' }}>
-                        <Slide direction='down' timeout={500} in={(viewComments[post.idpost] && viewComments[post.idpost].isShow)}>
+                        <Slide direction='down' timeout={800} in={(viewComments[post.idpost] && viewComments[post.idpost].isShow)}>
                             <div className='comment'>
-                                    {viewComments[post.idpost] && viewComments[post.idpost].render}
+                                {viewComments[post.idpost] && viewComments[post.idpost].render}
                             </div>
                         </Slide>
                     </div>
-
                 </div>
             ))}
         </>

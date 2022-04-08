@@ -18,7 +18,7 @@
         padding: 10px;
     }
     .post-img{
-        width: 30%;
+        width: 40%;
     }
     .post-footer{
         display: flex;
@@ -74,6 +74,24 @@
                 right: 0;
             }
         }
+        
+    }
+}
+
+@media(max-width: 800px){
+    .post-view .post-img{
+        width: 60%;
+    }
+}
+
+@media(max-width: 500px){
+    .post-view .post-img{
+        width: 60%;
+    }
+    .post-footer div{
+        display: flex;
+    flex-direction: row;
+    align-items: center;
         
     }
 }

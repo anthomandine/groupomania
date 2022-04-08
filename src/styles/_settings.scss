@@ -37,4 +37,15 @@ p, h1, h2{
     color: $color-3;
 }
 
+@media (max-width: 500px) {
+    p,
+    li,
+    span{
+        font-size: 12px!important;
+    }
+    button{
+        font-size: 10px!important;
+    }
+}
+
 
