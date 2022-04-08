@@ -82,7 +82,7 @@ const Login = () => {
                         <form method="post" onSubmit={handleSubmit}>
                             <TextField
                                 id="input-email" 
-                                color="warning" 
+                                color="primary" 
                                 variant="outlined"
                                 name='email'
                                 label="email"
@@ -90,15 +90,17 @@ const Login = () => {
                                 onChange={handleChange}
                                 value={data.email}
                                 type="email"
+                                error={emailErr}
                             />
                             <TextField
-                                id="input-password" color="warning" variant="outlined"
+                                id="input-password" color="primary" variant="outlined"
                                 label="mot de passe"
                                 name='password'
-                                helperText={pwdError ? 'Le mot de passe doit contenir ...' : "Saisissez votre mot de passe" } required
+                                helperText={pwdError ? 'Votre mot de passe doit contenir au moins 8 caractères, 1 nombre et 1 majuscule' : "Saisissez votre mot de passe" } required
                                 onChange={handleChange}
                                 value={data.password}
                                 type="password"
+                                error={pwdError}
                             />
                             <Button type='submit' onClick={validate}>Conexion</Button>
                             {errorMessage && (<p className="error"> {errorMessage} </p>)}

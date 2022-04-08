@@ -224,6 +224,7 @@ const PostView = () => {
                             multiline maxRows={4} fullWidth
                             onChange={handleChange}
                             value={data.comment}
+                            error={commentErr}
                         ></TextField>
                         <Button onClick={() => handleAddComment(post.idpost)} size="small">publier votre commentaire</Button>
                     </div>

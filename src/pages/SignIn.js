@@ -103,29 +103,36 @@ const SignIn = () => {
                                 id="input-email" required
                                 name="email"
                                 label="email" 
-                                color="warning" 
+                                color="primary" 
                                 variant="outlined"
-                                helperText={emailErr ? 'Email non valide' : "Entrer votre Email"}
+                                helperText={emailErr ? 'Email doit être au format «toto@adresse.com»' : "Entrer votre Email"}
                                 onChange={handleChange}
                                 value={data.email}
                                 type="email"
+                                error={emailErr}
                             />
                             <TextField
                                 id="input-password" required
                                 name="password"
-                                label="password" color="warning" variant="outlined"
-                                helperText={pwdError ? 'Password non valide' : "Saisissez votre mot de passe"}
+                                label="password" 
+                                color="primary" 
+                                variant="outlined"
+                                helperText={pwdError ? 'Votre mot de passe doit contenir au moins 8 caractères, 1 nombre et 1 majuscule' : "Saisissez votre mot de passe"}
                                 onChange={handleChange}
                                 value={data.password}
                                 type="password"
+                                error={pwdError}
                             />
                             <TextField
                                 id="input-pseudo" required
                                 name="pseudo"
-                                label="pseudo" color="warning" variant="outlined"
+                                label="pseudo" 
+                                color="primary" 
+                                variant="outlined"
                                 helperText={pseudoError ? 'Pseudo non valide' : "Saisissez votre Pseudo"} 
-                                onChange={handleChange}
+                                onChange={handleChange && validate}
                                 value={data.pseudo}
+                                error={pseudoError}
                             />
                             <p className='avatar-text'>Choisissez un avatar :</p>
                             <div className='avatar-content'>

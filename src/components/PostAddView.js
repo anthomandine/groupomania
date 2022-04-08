@@ -82,6 +82,7 @@ const PostAddView = () => {
                     multiline maxRows={6} fullWidth
                     onChange={handleChange}
                     value={data.post}
+                    error={postError}
                 >
                 </TextField>
                 <div className='add-img'>
