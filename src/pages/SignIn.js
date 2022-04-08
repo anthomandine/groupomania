@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { Avatar } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { validEmail, validPassword, validPseudo } from '../components/Regex';
 
 const SignIn = () => {
 
@@ -16,6 +17,9 @@ const SignIn = () => {
     let navigate = useNavigate();
 
     const [errorMessage, setErrorMessage] = useState('');
+    const [emailErr, setEmailErr] = useState(false);
+    const [pwdError, setPwdError] = useState(false);
+    const [pseudoError, setPseudoError] = useState(false);
     const [data, setData] = useState({
         email: "",
         password: "",
@@ -34,6 +38,20 @@ const SignIn = () => {
         "../images/avatar/8.png",
         "../images/avatar/9.png"
     ];
+
+    //---------Verification Regex----------//
+
+    const validate = () => {
+        if (!validEmail.test(data.email)) {
+            setEmailErr(true);
+        }
+        if (!validPassword.test(data.password)) {
+            setPwdError(true);
+        }
+        if (!validPseudo.test(data.pseudo)) {
+            setPseudoError(true);
+        }
+    };
 
     //---------Récupération data input user----------//
 
@@ -84,8 +102,10 @@ const SignIn = () => {
                             <TextField
                                 id="input-email" required
                                 name="email"
-                                label="email" color="warning" variant="outlined"
-                                helperText="Entrer votre Email"
+                                label="email" 
+                                color="warning" 
+                                variant="outlined"
+                                helperText={emailErr ? 'Email non valide' : "Entrer votre Email"}
                                 onChange={handleChange}
                                 value={data.email}
                                 type="email"
@@ -94,7 +114,7 @@ const SignIn = () => {
                                 id="input-password" required
                                 name="password"
                                 label="password" color="warning" variant="outlined"
-                                helperText="Saisissez votre mot de passe"
+                                helperText={pwdError ? 'Password non valide' : "Saisissez votre mot de passe"}
                                 onChange={handleChange}
                                 value={data.password}
                                 type="password"
@@ -103,7 +123,7 @@ const SignIn = () => {
                                 id="input-pseudo" required
                                 name="pseudo"
                                 label="pseudo" color="warning" variant="outlined"
-                                helperText="Saisissez votre Pseudo"
+                                helperText={pseudoError ? 'Pseudo non valide' : "Saisissez votre Pseudo"} 
                                 onChange={handleChange}
                                 value={data.pseudo}
                             />
@@ -117,7 +137,7 @@ const SignIn = () => {
                             </div>
                             {confirm ? <Alert severity="success">Inscription terminée veuillez vous connecter</Alert> : ""}
                             {errorMessage && (<p className="error"> {errorMessage} </p>)}
-                            <Button type='submit'>Valider</Button>
+                            <Button type='submit' onClick={validate}>Valider</Button>
                         </form>
                     </div>
                 </div>

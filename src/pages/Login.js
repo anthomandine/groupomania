@@ -7,6 +7,8 @@ import { useState } from 'react';
 import FooterComponent from '../components/FooterComponent';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { validEmail, validPassword } from '../components/Regex';
+
 
 
 const Login = () => {
@@ -19,6 +21,19 @@ const Login = () => {
         password: "",
     });
     const [errorMessage, setErrorMessage] = useState('');
+    const [emailErr, setEmailErr] = useState(false);
+    const [pwdError, setPwdError] = useState(false);
+
+    //---------Verification Regex----------//
+
+    const validate = () => {
+        if (!validEmail.test(data.email)) {
+            setEmailErr(true);
+        }
+        if (!validPassword.test(data.password)) {
+            setPwdError(true);
+        }
+    };
 
     //---------Récupération des data input user----------//
 
@@ -66,23 +81,27 @@ const Login = () => {
                     <div className='box-input'>
                         <form method="post" onSubmit={handleSubmit}>
                             <TextField
-                                id="input-email" label="email" color="warning" variant="outlined"
+                                id="input-email" 
+                                color="warning" 
+                                variant="outlined"
                                 name='email'
-                                helperText="Entrer votre Email" required
+                                label="email"
+                                helperText={emailErr ? 'Email doit être au format «toto@adresse.com»' : "Entrer votre Email"} required
                                 onChange={handleChange}
                                 value={data.email}
                                 type="email"
                             />
                             <TextField
-                                id="input-password" label="password" color="warning" variant="outlined"
+                                id="input-password" color="warning" variant="outlined"
+                                label="mot de passe"
                                 name='password'
-                                helperText="Saisissez votre mot de passe" required
+                                helperText={pwdError ? 'Le mot de passe doit contenir ...' : "Saisissez votre mot de passe" } required
                                 onChange={handleChange}
                                 value={data.password}
                                 type="password"
                             />
+                            <Button type='submit' onClick={validate}>Conexion</Button>
                             {errorMessage && (<p className="error"> {errorMessage} </p>)}
-                            <Button type='submit'>Conexion</Button>
                         </form>
                     </div>
                 </div>

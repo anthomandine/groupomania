@@ -7,6 +7,8 @@ import axios from 'axios';
 import LikeComponent from './LikeComponent';
 import moment from 'moment';
 import "moment/locale/fr";
+import { validComment } from '../components/Regex';
+
 
 const PostView = () => {
 
@@ -19,6 +21,8 @@ const PostView = () => {
 
     const userId = localStorage.getItem('userId');
     const isadmin = localStorage.getItem('isadmin');
+
+    const [commentErr, setCommentErr] = useState(false);
 
     //--------------Récupération des posts------------------//
 
@@ -35,11 +39,14 @@ const PostView = () => {
         };
         axiosGet();
     }, []);
+
+
     //--------------Fonction delete post------------------//
 
     const handleDeletePost = (idpost, imageUrl) => {
         let token = localStorage.getItem('token');
         let url = imageUrl;
+
 
         axios({
             method: 'delete',
@@ -55,6 +62,7 @@ const PostView = () => {
             .catch(function (err) {
                 console.log(err);
             });
+
     };
 
     //--------------Fonction récupération input commentaire------------------//
@@ -80,21 +88,28 @@ const PostView = () => {
         };
         let token = localStorage.getItem('token');
 
-        axios({
-            method: 'post',
-            url: 'http://localhost:3000/api/comment',
-            data: commentData,
-            headers: {
-                'Authorization': 'Bearer ' + token
-            }
-        })
-            .then(function (reponse) {
-                console.log("commentaire envoyer");
+        //---------Verification Regex----------//
+        if (!validComment.test(data.comment)) {
+            setCommentErr(true);
+        }
+        else {
+
+            axios({
+                method: 'post',
+                url: 'http://localhost:3000/api/comment',
+                data: commentData,
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
             })
-            .catch(function (erreur) {
-                console.log(erreur);
-            });
-        setAddComment('');
+                .then(function (reponse) {
+                    console.log("commentaire envoyer");
+                })
+                .catch(function (erreur) {
+                    console.log(erreur);
+                });
+            setAddComment('');
+        }
     };
 
     //--------------Fonction delete commentaire------------------//
@@ -204,6 +219,7 @@ const PostView = () => {
                     </div>
                     <div className='add-comment' key={index} style={{ display: index === addComment ? "flex" : "none" }}>
                         <TextField id="text-comment" label="Écrire votre commentaire"
+                            helperText={commentErr ? 'commentaire non valide' : ''}
                             name='comment'
                             multiline maxRows={4} fullWidth
                             onChange={handleChange}
