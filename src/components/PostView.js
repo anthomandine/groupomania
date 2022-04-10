@@ -23,23 +23,24 @@ const PostView = () => {
     const isadmin = localStorage.getItem('isadmin');
 
     const [commentErr, setCommentErr] = useState(false);
+    const [limit, setLimit] = useState(5);
 
-    //--------------Récupération des posts------------------//
-
+    //--------------Récupération des posts 5 par 5------------------//
+        
     useEffect(() => {
         let token = localStorage.getItem('token');
         let userId = localStorage.getItem('userId');
         const axiosGet = async () => {
-            const reponse = await axios.get('http://localhost:3000/api/post/' + userId, {
+
+            const reponse = axios.get('http://localhost:3000/api/post/all/' + userId + '/' +limit, {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
             });
-            setPosts(reponse.data);
+            setPosts((await reponse).data);
         };
         axiosGet();
-    }, []);
-
+    }, [limit]);
 
     //--------------Fonction delete post------------------//
 
@@ -242,6 +243,16 @@ const PostView = () => {
                     </div>
                 </div>
             ))}
+            <div>
+                <Button
+                    onClick={() => setLimit(limit+5)}
+                    color='error'
+                    variant="contained"
+                    size="large"
+                    style={{ width: '100%'}}>
+                    (Afficher 5 autres posts)
+                </Button>
+            </div>
         </>
     );
 };

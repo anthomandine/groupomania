@@ -23,8 +23,10 @@ exports.createPost = (req, res, next) => {
 exports.getAllPosts = (req, res, next) => {
 
     let userId = req.params.userId;
+    let limit = req.params.limit;
+    //console.log(limit);
 
-    let sql = 'SELECT * FROM testdb.posts LEFT JOIN users_posts ON posts.idpost = users_posts.posts_idpost AND ' + userId + ' = users_posts.users_userId LEFT JOIN testdb.users ON testdb.posts.idAuthor = testdb.users.userId ORDER BY idpost DESC ';
+    let sql = 'SELECT * FROM testdb.posts LEFT JOIN users_posts ON posts.idpost = users_posts.posts_idpost AND ' + userId + ' = users_posts.users_userId LEFT JOIN testdb.users ON testdb.posts.idAuthor = testdb.users.userId ORDER BY idpost DESC LIMIT 0, '+limit;
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec d'enregistrement à BD", err);
         else {
@@ -79,7 +81,7 @@ exports.likePost = (req, res, next) => {
     let like = req.body[0].like;
     let userId = req.body[0].userId;
 
-    let sqlSelect = 'SELECT * FROM users_posts WHERE users_userId = ' + userId + ' AND posts_idpost = ' + idpost + '';
+    let sqlSelect = 'SELECT users_userId, posts_idpost, islike FROM users_posts WHERE users_userId = ' + userId + ' AND posts_idpost = ' + idpost + '';
 
     connexion.query(sqlSelect, (err, results) => {
         if (err) console.log('echec BD', err);

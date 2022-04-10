@@ -73,7 +73,7 @@ exports.login = (req, res, next) => {
 
 exports.getOneUser = (req, res, next) => {
 
-    const sql = `SELECT * FROM testdb.users WHERE userId= ?`;
+    const sql = `SELECT userId, email, pseudo, avatar FROM testdb.users WHERE userId= ?`;
     const userId = req.params.userId;
 
     connexion.query(sql, userId, (err, results, fields) => {
@@ -123,7 +123,7 @@ exports.deletUser = (req, res, next) => {
 
 exports.getAllUsers = (req, res, next) => {
 
-    const sql = 'SELECT * FROM users';
+    const sql = 'SELECT userId, pseudo, deleted_at, isadmin, email FROM users LIMIT 0, 1000';
 
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec BD", err);

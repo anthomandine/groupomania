@@ -178,7 +178,6 @@ export default function CustomizedDialogsAdmin() {
                                 columns={columns}
                                 pageSize={5}
                                 rowsPerPageOptions={[5]}
-                                checkboxSelection
                             />
                         </div>
                         : ''}
