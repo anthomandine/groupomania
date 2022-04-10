@@ -21,8 +21,8 @@ const Login = () => {
         password: "",
     });
     const [errorMessage, setErrorMessage] = useState('');
-    const [emailErr, setEmailErr] = useState(false);
-    const [pwdError, setPwdError] = useState(false);
+    const [emailErr, setEmailErr] = useState();
+    const [pwdError, setPwdError] = useState();
 
     //---------Verification Regex----------//
 
@@ -30,8 +30,14 @@ const Login = () => {
         if (!validEmail.test(data.email)) {
             setEmailErr(true);
         }
+        else{
+            setEmailErr(false);
+        }
         if (!validPassword.test(data.password)) {
             setPwdError(true);
+        }
+        else{
+            setPwdError(false);
         }
     };
 
@@ -82,21 +88,27 @@ const Login = () => {
                         <form method="post" onSubmit={handleSubmit}>
                             <TextField
                                 id="input-email" 
-                                color="primary" 
+                                focused={emailErr === false}
+                                color={emailErr === false ? "success" : "primary"}
                                 variant="outlined"
                                 name='email'
                                 label="email"
-                                helperText={emailErr ? 'Email doit être au format «toto@adresse.com»' : "Entrer votre Email"} required
+                                helperText={emailErr ? 'Email doit être au format «toto@adresse.com»' : "Entrer votre Email"} 
+                                required
                                 onChange={handleChange}
                                 value={data.email}
                                 type="email"
                                 error={emailErr}
                             />
                             <TextField
-                                id="input-password" color="primary" variant="outlined"
+                                id="input-password" 
+                                color={pwdError === false ? "success" : "primary"}
+                                variant="outlined"
+                                focused={pwdError === false}
                                 label="mot de passe"
                                 name='password'
-                                helperText={pwdError ? 'Votre mot de passe doit contenir au moins 8 caractères, 1 nombre et 1 majuscule' : "Saisissez votre mot de passe" } required
+                                helperText={pwdError ? 'Votre mot de passe doit contenir au moins 8 caractères, 1 nombre et 1 majuscule' : "Saisissez votre mot de passe" } 
+                                required
                                 onChange={handleChange}
                                 value={data.password}
                                 type="password"
