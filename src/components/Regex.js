@@ -1,6 +1,6 @@
 
-
-export const validEmail = new RegExp('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$');
+// eslint-disable-next-line
+export const validEmail = new RegExp('^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,3}$');
 
 //export const validPassword = new RegExp('^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{8})$');
 export const validPassword = new RegExp('[A-Za-z1-9]');

@@ -26,13 +26,13 @@ const PostView = () => {
     const [limit, setLimit] = useState(5);
 
     //--------------Récupération des posts 5 par 5------------------//
-        
+
     useEffect(() => {
         let token = localStorage.getItem('token');
         let userId = localStorage.getItem('userId');
         const axiosGet = async () => {
 
-            const reponse = axios.get('http://localhost:3000/api/post/all/' + userId + '/' +limit, {
+            const reponse = axios.get('http://localhost:3000/api/post/all/' + userId + '/' + limit, {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
@@ -243,15 +243,10 @@ const PostView = () => {
                     </div>
                 </div>
             ))}
-            <div>
-                <Button
-                    onClick={() => setLimit(limit+5)}
-                    color='error'
-                    variant="contained"
-                    size="large"
-                    style={{ width: '100%'}}>
+            <div className='renderPostButton'>
+                <button onClick={() => setLimit(limit + 5)}>
                     (Afficher 5 autres posts)
-                </Button>
+                </button>
             </div>
         </>
     );

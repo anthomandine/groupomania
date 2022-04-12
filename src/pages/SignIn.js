@@ -20,6 +20,11 @@ const SignIn = () => {
     const [emailErr, setEmailErr] = useState();
     const [pwdError, setPwdError] = useState();
     const [pseudoError, setPseudoError] = useState();
+
+    const [focusEmail, setFocusEmail] = useState(false);
+    const [focusPwd, setFocusPwd] = useState(false);
+    const [focusPseudo, setFocusPseudo] = useState(false);
+
     const [data, setData] = useState({
         email: "",
         password: "",
@@ -45,19 +50,19 @@ const SignIn = () => {
         if (!validEmail.test(data.email)) {
             setEmailErr(true);
         }
-        else{
+        else {
             setEmailErr(false);
         }
         if (!validPassword.test(data.password)) {
             setPwdError(true);
         }
-        else{
+        else {
             setPwdError(false);
         }
         if (!validPseudo.test(data.pseudo)) {
             setPseudoError(true);
         }
-        else{
+        else {
             setPseudoError(false);
         }
     };
@@ -66,6 +71,31 @@ const SignIn = () => {
 
     const handleChange = (e) => {
         const value = e.target.value;
+
+        if (e.target.name === 'email') {
+            if (validEmail.test(value)) {
+                setFocusEmail(true);
+                setEmailErr(false);
+            }
+            else { setFocusEmail(false); setEmailErr(true); }
+        }
+
+        if (e.target.name === 'password') {
+            if (validPassword.test(value)) {
+                setFocusPwd(true);
+                setPwdError(false);
+            }
+            else { setFocusPwd(false); setPwdError(true); }
+        }
+        if (e.target.name === 'pseudo') {
+            if (validPseudo.test(value)) {
+                setFocusPseudo(true);
+                setPseudoError(false);
+            }
+            else { setFocusPwd(false); setPwdError(true); }
+        }
+
+
         setData({
             ...data,
             [e.target.name]: value,
@@ -109,12 +139,11 @@ const SignIn = () => {
                     <div className='box-input'>
                         <form methode='post' onSubmit={handleSubmit}>
                             <TextField
-                                id="input-email" 
+                                id="input-email"
                                 required
-                                focused={emailErr === false}
                                 name="email"
-                                label="email" 
-                                color={emailErr === false ? "success" : "primary"}
+                                label="email"
+                                color={focusEmail ? "success" : "primary"}
                                 variant="outlined"
                                 helperText={emailErr ? 'Email doit être au format «toto@adresse.com»' : "Entrer votre Email"}
                                 onChange={handleChange}
@@ -123,12 +152,12 @@ const SignIn = () => {
                                 error={emailErr}
                             />
                             <TextField
-                                id="input-password" 
+                                id="input-password"
                                 required
                                 focused={pwdError === false}
                                 name="password"
-                                label="password" 
-                                color={pwdError === false ? "success" : "primary"}
+                                label="password"
+                                color={focusPwd ? "success" : "primary"}
                                 variant="outlined"
                                 helperText={pwdError ? 'Votre mot de passe doit contenir au moins 8 caractères, 1 nombre et 1 majuscule' : "Saisissez votre mot de passe"}
                                 onChange={handleChange}
@@ -137,14 +166,14 @@ const SignIn = () => {
                                 error={pwdError}
                             />
                             <TextField
-                                id="input-pseudo" 
+                                id="input-pseudo"
                                 required
                                 focused={pseudoError === false}
                                 name="pseudo"
-                                label="pseudo" 
-                                color={pseudoError === false ? "success" : "primary"}
+                                label="pseudo"
+                                color={focusPseudo ? "success" : "primary"}
                                 variant="outlined"
-                                helperText={pseudoError ? 'Pseudo non valide' : "Saisissez votre Pseudo"} 
+                                helperText={pseudoError ? 'Pseudo non valide' : "Saisissez votre Pseudo"}
                                 onChange={handleChange}
                                 value={data.pseudo}
                                 error={pseudoError}

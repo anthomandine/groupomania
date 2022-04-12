@@ -24,19 +24,22 @@ const Login = () => {
     const [emailErr, setEmailErr] = useState();
     const [pwdError, setPwdError] = useState();
 
+    const [focusEmail, setFocusEmail] = useState(false);
+    const [focusPwd, setFocusPwd] = useState(false);
+
     //---------Verification Regex----------//
 
     const validate = () => {
         if (!validEmail.test(data.email)) {
             setEmailErr(true);
         }
-        else{
+        else {
             setEmailErr(false);
         }
         if (!validPassword.test(data.password)) {
             setPwdError(true);
         }
-        else{
+        else {
             setPwdError(false);
         }
     };
@@ -46,6 +49,23 @@ const Login = () => {
     const handleChange = (e) => {
         setErrorMessage('');
         const value = e.target.value;
+
+        if (e.target.name === 'email') {
+            if (validEmail.test(value)) {
+                setFocusEmail(true);
+                setEmailErr(false);
+            }
+            else { setFocusEmail(false); setEmailErr(true); }
+        }
+
+        if (e.target.name === 'password') {
+            if (validPassword.test(value)) {
+                setFocusPwd(true);
+                setPwdError(false);
+            }
+            else { setFocusPwd(false); setPwdError(true); }
+        }
+
         setData({
             ...data,
             [e.target.name]: value,
@@ -87,13 +107,12 @@ const Login = () => {
                     <div className='box-input'>
                         <form method="post" onSubmit={handleSubmit}>
                             <TextField
-                                id="input-email" 
-                                focused={emailErr === false}
-                                color={emailErr === false ? "success" : "primary"}
+                                id="input-email"
+                                color={focusEmail ? "success" : "primary"}
                                 variant="outlined"
                                 name='email'
                                 label="email"
-                                helperText={emailErr ? 'Email doit être au format «toto@adresse.com»' : "Entrer votre Email"} 
+                                helperText={emailErr ? 'Email doit être au format «toto@adresse.com»' : "Entrer votre Email"}
                                 required
                                 onChange={handleChange}
                                 value={data.email}
@@ -101,13 +120,12 @@ const Login = () => {
                                 error={emailErr}
                             />
                             <TextField
-                                id="input-password" 
-                                color={pwdError === false ? "success" : "primary"}
+                                id="input-password"
+                                color={focusPwd ? "success" : "primary"}
                                 variant="outlined"
-                                focused={pwdError === false}
                                 label="mot de passe"
                                 name='password'
-                                helperText={pwdError ? 'Votre mot de passe doit contenir au moins 8 caractères, 1 nombre et 1 majuscule' : "Saisissez votre mot de passe" } 
+                                helperText={pwdError ? 'Votre mot de passe doit contenir au moins 8 caractères, 1 nombre et 1 majuscule' : "Saisissez votre mot de passe"}
                                 required
                                 onChange={handleChange}
                                 value={data.password}
