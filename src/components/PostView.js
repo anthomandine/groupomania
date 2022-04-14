@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Avatar, Button, LinearProgress, Slide, TextField } from '@mui/material';
 import MessageIcon from '@mui/icons-material/Message';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -9,6 +9,7 @@ import moment from 'moment';
 import "moment/locale/fr";
 import { validComment } from '../components/Regex';
 
+let lazy = { limit: 5, stop: false };
 
 const PostView = () => {
 
@@ -23,7 +24,7 @@ const PostView = () => {
     const isadmin = localStorage.getItem('isadmin');
 
     const [commentErr, setCommentErr] = useState(false);
-    const [limit, setLimit] = useState(5);
+    const [limit, setLimit] = useState(lazy.limit);
 
     //--------------Récupération des posts 5 par 5------------------//
 
@@ -37,9 +38,12 @@ const PostView = () => {
                     'Authorization': 'Bearer ' + token
                 }
             });
+            let data = (await reponse).data;
+            lazy.stop = !(Number.isInteger(data.length / 5) || (posts.length === data.length));
             setPosts((await reponse).data);
         };
         axiosGet();
+        // eslint-disable-next-line
     }, [limit]);
 
     //--------------Fonction delete post------------------//
@@ -201,8 +205,28 @@ const PostView = () => {
         return <span>{formatDate.calendar()}</span>
     };
 
+
+    //--------------Fonction limit pour la requete des posts------------------//
+
+    const postsContent = useRef(null);
+    const handleScroll = () => {
+        if (lazy.stop) return;
+        let contentWidth = postsContent.current.scrollHeight;
+        let scrollY = window.pageYOffset;
+
+        if (contentWidth < (scrollY + (scrollY / 3))) {
+            lazy.limit += 5;
+            lazy.stop = true;
+            setLimit(lazy.limit);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+    }, []);
+
     return (
-        <>
+        <div ref={postsContent}>
             {posts.map((post, index) => (
                 <div className='post-view' key={index}>
                     {(post.idAuthor === parseInt(userId) || parseInt(isadmin) === 1) && <div className='delete-button-post'>
@@ -243,12 +267,7 @@ const PostView = () => {
                     </div>
                 </div>
             ))}
-            <div className='renderPostButton'>
-                <button onClick={() => setLimit(limit + 5)}>
-                    (Afficher 5 autres posts)
-                </button>
-            </div>
-        </>
+        </div>
     );
 };
 
