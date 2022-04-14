@@ -92,7 +92,7 @@ const SignIn = () => {
                 setFocusPseudo(true);
                 setPseudoError(false);
             }
-            else { setFocusPwd(false); setPwdError(true); }
+            else { setFocusPseudo(false); setPseudoError(true); }
         }
 
 
@@ -154,7 +154,6 @@ const SignIn = () => {
                             <TextField
                                 id="input-password"
                                 required
-                                focused={pwdError === false}
                                 name="password"
                                 label="password"
                                 color={focusPwd ? "success" : "primary"}
@@ -168,7 +167,6 @@ const SignIn = () => {
                             <TextField
                                 id="input-pseudo"
                                 required
-                                focused={pseudoError === false}
                                 name="pseudo"
                                 label="pseudo"
                                 color={focusPseudo ? "success" : "primary"}
