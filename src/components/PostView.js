@@ -10,6 +10,7 @@ import "moment/locale/fr";
 import { validComment } from '../components/Regex';
 
 let lazy = { limit: 5, stop: false };
+let lazyComment = { limit: 5, stop: false };
 
 const PostView = () => {
 
@@ -24,7 +25,10 @@ const PostView = () => {
     const isadmin = localStorage.getItem('isadmin');
 
     const [commentErr, setCommentErr] = useState(false);
+
     const [limit, setLimit] = useState(lazy.limit);
+
+    const postsContent = useRef(null);
 
     //--------------Récupération des posts 5 par 5------------------//
 
@@ -140,28 +144,38 @@ const PostView = () => {
 
     //--------------Récupération des commentaires------------------//
 
+    const limitComments = (idpost) => {
+        if (lazyComment.stop) return;
+        lazyComment.limit += 5;
+        renderComments(idpost);
+    };
+
     const renderComments = (idpost) => {
         let token = localStorage.getItem('token');
         let comments = [];
 
         viewComments[idpost] = {
             render: <div className='comment'><LinearProgress /></div>,
-            isShow: true
+            isShow: true,
+            isEmpty: true
         };
         setViewComments([...viewComments]);
 
         const axiosGet = async () => {
-            const reponse = axios.get('http://localhost:3000/api/post/' + idpost + '/comments', {
+            const reponse = axios.get('http://localhost:3000/api/post/' + idpost + '/' + lazyComment.limit + '/comments', {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
             });
             comments = (await reponse).data;
+            lazyComment.stop = !(Number.isInteger(comments.length / 5));
+
             if (comments.length === 0) {
                 viewComments[idpost] = {
                     render:
                         <p className='no-comment'>Aucun commentaire pour ce post !</p>,
-                    isShow: true
+                    isShow: true,
+                    isEmpty: true
                 }
             }
             else {
@@ -180,8 +194,14 @@ const PostView = () => {
                                 </div>
                                 <p>{comment.comment}</p>
                             </div>
-                        })}</div>,
-                    isShow: true
+                        })}
+                            {!lazyComment.stop && <div>
+                                {viewComments[idpost].isEmpty ? <p onClick={() => limitComments(idpost)} style={{ textAlign: 'center', cursor: 'pointer' }}> (Voir plus)</p> : ''}
+                            </div>}
+
+                        </div>,
+                    isShow: true,
+                    isEmpty: false
                 }
             }
             setViewComments([...viewComments]);
@@ -208,7 +228,7 @@ const PostView = () => {
 
     //--------------Fonction limit pour la requete des posts------------------//
 
-    const postsContent = useRef(null);
+
     const handleScroll = () => {
         if (lazy.stop) return;
         let contentWidth = postsContent.current.scrollHeight;
@@ -262,6 +282,7 @@ const PostView = () => {
                         <Slide direction='down' timeout={800} in={(viewComments[post.idpost] && viewComments[post.idpost].isShow)}>
                             <div className='comment'>
                                 {viewComments[post.idpost] && viewComments[post.idpost].render}
+
                             </div>
                         </Slide>
                     </div>

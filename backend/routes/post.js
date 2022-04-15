@@ -10,13 +10,13 @@ const multer = require('../middleware/multer-config');
 
 //--------Chargement des routes vers middleware---------//
 
-router.post('/', auth, multer,  postCtrl.createPost);
+router.post('/', auth, multer, postCtrl.createPost);
 
 router.get('/all/:userId/:limit', auth, multer, postCtrl.getAllPosts);
 
 router.delete('/:idpost', auth, multer, postCtrl.deletPost);
 
-router.get('/:idpost/comments', auth, postCtrl.getComments);
+router.get('/:idpost/:limit/comments', auth, postCtrl.getComments);
 
 router.post('/:idpost/like', auth, postCtrl.likePost);
 
