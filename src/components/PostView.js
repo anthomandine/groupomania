@@ -9,6 +9,9 @@ import moment from 'moment';
 import "moment/locale/fr";
 import { validComment } from '../components/Regex';
 
+
+//---------Init variables limit sql posts et commentaires----------//
+
 let lazy = { limit: 5, stop: false };
 let lazyComment = { limit: 5, stop: false };
 
@@ -20,14 +23,10 @@ const PostView = () => {
     const [addComment, setAddComment] = useState();
     const [data, setData] = useState({ comment: '' });
     const [viewComments, setViewComments] = useState([]);
-
     const userId = localStorage.getItem('userId');
     const isadmin = localStorage.getItem('isadmin');
-
     const [commentErr, setCommentErr] = useState(false);
-
     const [limit, setLimit] = useState(lazy.limit);
-
     const postsContent = useRef(null);
 
     //--------------Récupération des posts 5 par 5------------------//
@@ -142,13 +141,15 @@ const PostView = () => {
             });
     };
 
-    //--------------Récupération des commentaires------------------//
+    //--------------fonction limit des commentaires------------------//
 
     const limitComments = (idpost) => {
         if (lazyComment.stop) return;
         lazyComment.limit += 5;
         renderComments(idpost);
     };
+
+    //--------------fonction affichage des commentaires------------------//
 
     const renderComments = (idpost) => {
         let token = localStorage.getItem('token');
@@ -209,6 +210,8 @@ const PostView = () => {
         axiosGet();
     };
 
+    //--------------fonction cacher les commentaires------------------//
+
     const hiddenComments = (idpost) => {
 
         viewComments[idpost].isShow = false;
@@ -220,14 +223,14 @@ const PostView = () => {
         }, 400);
     };
 
+    //--------------Fonction d'affichage de la date en francais--------//
+
     const renderDate = (date) => {
         let formatDate = moment(date);
         return <span>{formatDate.calendar()}</span>
     };
 
-
-    //--------------Fonction limit pour la requete des posts------------------//
-
+    //--------------Fonction limit pour la requete des posts au scroll------------------//
 
     const handleScroll = () => {
         if (lazy.stop) return;
@@ -244,6 +247,8 @@ const PostView = () => {
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
     }, []);
+
+    //--------------render/return viewpost------------------//
 
     return (
         <div ref={postsContent}>
