@@ -217,8 +217,7 @@ export default function CustomizedDialogsAdmin() {
                 open={open}
             >
                 <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-                    {postsIsEmpty && 'Gerer les utilisateurs'}
-                    {usersIsEmpty && 'Gerer les posts'}
+                    {((postsIsEmpty && usersIsEmpty) && 'GESTION ADMIN') || (postsIsEmpty && 'Gerer les utilisateurs') || (usersIsEmpty && 'Gerer les posts')}
                 </BootstrapDialogTitle>
                 {usersIsEmpty && <Button onClick={renderUsers}>Afficher les utilisateurs</Button>}
                 {postsIsEmpty && <Button onClick={renderPosts}>Afficher les posts</Button>}
