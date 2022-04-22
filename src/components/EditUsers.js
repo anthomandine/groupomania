@@ -70,6 +70,7 @@ export default function CustomizedDialogsAdmin() {
     //--------------Init variables---------------------//
 
     const [data, setData] = useState([]);
+    const [isEmpty, setIsEmpty] = useState(true);
 
 
     //--------------Récupération de tous les utilisateurs---------------------//
@@ -86,6 +87,7 @@ export default function CustomizedDialogsAdmin() {
                 }
             });
             setData(reponse.data);
+            setIsEmpty(false);
         };
         axiosGet();
     };
@@ -112,8 +114,6 @@ export default function CustomizedDialogsAdmin() {
                 });
         }
         else console.log('coucou else');
-
-
     };
 
     //---------------table-------------//
@@ -153,7 +153,6 @@ export default function CustomizedDialogsAdmin() {
 
     //---------------/table-------------//
 
-
     return (
         <div>
             <Button variant="text" color='error' startIcon={<EditIcon />} onClick={handleClickOpen}>
@@ -167,9 +166,8 @@ export default function CustomizedDialogsAdmin() {
                 <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
                     Gerer les utilisateurs
                 </BootstrapDialogTitle>
-                <Button onClick={renderUsers}>Afficher les utilisateurs</Button>
+                {isEmpty && <Button onClick={renderUsers}>Afficher les utilisateurs</Button>}
                 <DialogContent dividers>
-
                     {data.length !== 0 ?
                         <div style={{ height: 400, width: '100%' }}>
                             <DataGrid
