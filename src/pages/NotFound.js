@@ -6,10 +6,13 @@ import HomeIcon from '@mui/icons-material/Home';
 const NotFound = () => {
     return (
         <div className='notfound'>
-            <h1>Erreur 404</h1>
+            <h1>Erreur</h1>
+            <div>
+                <img src={'./images/notFound.png'} alt={'Not Found'} />
+            </div>
             <p>Page NotFound</p>
-            <NavLink  to="/" >
-                <HomeIcon />retour home
+            <NavLink to="/" >
+                <HomeIcon />Redirection accueil
             </NavLink>
         </div>
     );
