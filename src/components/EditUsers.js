@@ -70,12 +70,19 @@ export default function CustomizedDialogsAdmin() {
     //--------------Init variables---------------------//
 
     const [data, setData] = useState([]);
-    const [isEmpty, setIsEmpty] = useState(true);
+    const [dataPosts, setDataPosts] = useState([]);
+    const [usersIsEmpty, setusersIsEmpty] = useState(true);
+    const [postsIsEmpty, setpostIsEmpty] = useState(true);
 
 
     //--------------Récupération de tous les utilisateurs---------------------//
 
     const renderUsers = () => {
+
+        setpostIsEmpty(true);
+        setDataPosts([]);
+
+
 
         let token = localStorage.getItem('token');
         let isadmin = localStorage.getItem('isadmin');
@@ -87,7 +94,7 @@ export default function CustomizedDialogsAdmin() {
                 }
             });
             setData(reponse.data);
-            setIsEmpty(false);
+            setusersIsEmpty(false);
         };
         axiosGet();
     };
@@ -116,7 +123,7 @@ export default function CustomizedDialogsAdmin() {
         else console.log('coucou else');
     };
 
-    //---------------table-------------//
+    //---------------table users-------------//
     const renderButtonDelete = (props) => {
         return (
             <Button
@@ -153,10 +160,56 @@ export default function CustomizedDialogsAdmin() {
 
     //---------------/table-------------//
 
+    //---------------table posts-------------//
+
+
+    const columns2 = [
+        { field: 'idpost', headerName: 'Id post', width: 80 },
+        { field: 'post', headerName: 'Contenu du post', width: 400 },
+        { field: 'idAuthor', headerName: 'Id auteur', width: 80 },
+        
+        { field: 'pseudo', headerName: 'Pseudo de l\'auteur', width: 200 },
+        { field: 'deleted_at', headerName: 'Supprimé le', width: 150 },
+
+
+    ];
+    let rows2 = dataPosts.map((post) => (
+        {
+            idpost: post.idpost,
+            post: post.post,
+            idAuthor: post.idAuthor,
+            pseudo: post.pseudo,
+            deleted_at: post.deleted_at ? moment(post.deleted_at).format('L') : ''
+        }
+    ));
+    //---------------/table-------------//
+
+
+    const renderPosts = () => {
+
+        setusersIsEmpty(true);
+        setData([]);
+
+        let token = localStorage.getItem('token');
+        let userId = localStorage.getItem('userId');
+        let limit = 50;
+
+        const axiosGet = async () => {
+            const reponse = axios.get('http://localhost:3000/api/post/all/' + userId + '/' + limit, {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+            setDataPosts((await reponse).data);
+            setpostIsEmpty(false);
+        };
+        axiosGet();
+    };
+
     return (
         <div>
             <Button variant="text" color='error' startIcon={<EditIcon />} onClick={handleClickOpen}>
-                Gerer les utilisateurs
+                Gestion ADMIN
             </Button>
             <BootstrapDialog
                 onClose={handleClose}
@@ -164,11 +217,13 @@ export default function CustomizedDialogsAdmin() {
                 open={open}
             >
                 <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-                    Gerer les utilisateurs
+                    {postsIsEmpty && 'Gerer les utilisateurs'}
+                    {usersIsEmpty && 'Gerer les posts'}
                 </BootstrapDialogTitle>
-                {isEmpty && <Button onClick={renderUsers}>Afficher les utilisateurs</Button>}
+                {usersIsEmpty && <Button onClick={renderUsers}>Afficher les utilisateurs</Button>}
+                {postsIsEmpty && <Button onClick={renderPosts}>Afficher les posts</Button>}
                 <DialogContent dividers>
-                    {data.length !== 0 ?
+                    {data.length !== 0 &&
                         <div style={{ height: 400, width: '100%' }}>
                             <DataGrid
                                 getRowId={(row) => row.userId}
@@ -177,8 +232,17 @@ export default function CustomizedDialogsAdmin() {
                                 pageSize={5}
                                 rowsPerPageOptions={[5]}
                             />
-                        </div>
-                        : ''}
+                        </div>}
+
+                    {dataPosts.length !== 0 && <div style={{ height: 400, width: '100%' }}>
+                        <DataGrid
+                            getRowId={(row) => row.idpost}
+                            rows={rows2}
+                            columns={columns2}
+                            pageSize={5}
+                            rowsPerPageOptions={[5]}
+                        />
+                    </div>}
                 </DialogContent>
             </BootstrapDialog>
         </div>
