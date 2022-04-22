@@ -9,6 +9,7 @@ import axios from 'axios';
 import CachedIcon from '@mui/icons-material/Cached';
 import { IconButton } from '@mui/material';
 import { useNavigate } from "react-router-dom";
+import FooterComponent from '../components/FooterComponent';
 
 const Network = () => {
 
@@ -50,6 +51,7 @@ const Network = () => {
             <NetworkHeaderComponent />
             <div className='refresh'><IconButton onClick={() => window.location.reload()}><CachedIcon />actualiser</IconButton></div>
             <PostAddView />
+            <FooterComponent />
             <PostView />
         </div>
     );
