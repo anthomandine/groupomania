@@ -14,6 +14,8 @@ import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import moment from 'moment';
 import "moment/locale/fr";
+import swal from 'sweetalert';
+
 
 
 //--------------MUI dialog---------------------//
@@ -103,55 +105,77 @@ export default function CustomizedDialogsAdmin() {
 
         if (props.idpost) {
 
-            let confirm = window.confirm("Voulez vous vraiment supprimer le post ?");
+            swal({
+                title: "Etes vous sure de vouloir supprimer ce post ?",
+                text: "La suppression sera définitive !",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("Le post à été supprimer!", {
+                            icon: "success",
+                        });
+                        let token = localStorage.getItem('token');
+                        let idpost = props.idpost;
+                        let url = props.imageUrl;
 
-            if (confirm) {
-                let token = localStorage.getItem('token');
-                let idpost = props.idpost;
-                let url = props.imageUrl;
-
-                axios({
-                    method: 'delete',
-                    url: 'http://localhost:3000/api/post/' + idpost,
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    },
-                    data: { url }
-                })
-                    .then(function (reponse) {
-                        renderPosts();
-                    })
-                    .catch(function (err) {
-                        console.log(err);
-                    });
-            }
-            else {
-                console.log('coucou else');
-            }
+                        axios({
+                            method: 'delete',
+                            url: 'http://localhost:3000/api/post/' + idpost,
+                            headers: {
+                                'Authorization': 'Bearer ' + token
+                            },
+                            data: { url }
+                        })
+                            .then(function (reponse) {
+                                renderPosts();
+                            })
+                            .catch(function (err) {
+                                console.log(err);
+                            });
+                    } else {
+                        swal("Action Annulé !", {
+                            icon: "error",
+                        });
+                    }
+                });
         }
         else {
-            let confirm = window.confirm("La suppression sera définitive et le email inutilisable, on continue ?");
-
-            if (confirm) {
-                let token = localStorage.getItem('token');
-                let userId = props.userId;
-                axios({
-                    method: 'put',
-                    url: 'http://localhost:3000/api/auth/delete/' + userId,
-                    headers: {
-                        'Authorization': 'Bearer ' + token
+            swal({
+                title: "Etes vous sure de vouloir supprimer ce compte ?",
+                text: "La suppression sera définitive et le email inutilisable !",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("Le compte à été supprimer!", {
+                            icon: "success",
+                        });
+                        let token = localStorage.getItem('token');
+                        let userId = props.userId;
+                        axios({
+                            method: 'put',
+                            url: 'http://localhost:3000/api/auth/delete/' + userId,
+                            headers: {
+                                'Authorization': 'Bearer ' + token
+                            }
+                        })
+                            .then(function (reponse) {
+                                renderUsers();
+                            })
+                            .catch(function (erreur) {
+                                console.log(erreur);
+                            });
+                    } else {
+                        swal("Action Annulé !", {
+                            icon: "error",
+                        });
                     }
-                })
-                    .then(function (reponse) {
-                        renderUsers();
-                    })
-                    .catch(function (erreur) {
-                        console.log(erreur);
-                    });
-            }
-            else {
-                console.log('coucou else');
-            }
+                });
         }
     };
 
