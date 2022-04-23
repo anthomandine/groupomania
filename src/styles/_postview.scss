@@ -79,22 +79,15 @@
                 right: 0;
             }
         }
+        .more-comment:hover{
+            background-color: ghostwhite;
+            border-radius: 20px;
+            font-size: 16px;
+        }
     }
 }
-.renderPostButton button{
-    width: 100%;
-    
-    border: none;
-    opacity: 0.5;
-    padding: 10px;
-    height: 1px;
-    &:hover{
-        background: $color-1;
-        box-shadow: inset #fc2e06 0px -1px 4px;
-        opacity: 1;
-        height: 100%;
-    }
-}
+
+
 
 @media(max-width: 800px){
     .post-view .post-img{

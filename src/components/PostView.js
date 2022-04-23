@@ -196,7 +196,7 @@ const PostView = () => {
                                 <p>{comment.comment}</p>
                             </div>
                         })}
-                            {!lazyComment.stop && <div>
+                            {!lazyComment.stop && <div className='more-comment'>
                                 {viewComments[idpost].isEmpty ? <p onClick={() => limitComments(idpost)} style={{ textAlign: 'center', cursor: 'pointer' }}> (Voir plus)</p> : ''}
                             </div>}
 

@@ -64,6 +64,7 @@ export default function CustomizedDialogsAdmin() {
     };
     const handleClose = () => {
         setOpen(false);
+        window.location.reload();
     };
     //--------------end MUI dialog---------------------//
 
@@ -74,15 +75,12 @@ export default function CustomizedDialogsAdmin() {
     const [usersIsEmpty, setusersIsEmpty] = useState(true);
     const [postsIsEmpty, setpostIsEmpty] = useState(true);
 
-
-    //--------------Récupération de tous les utilisateurs---------------------//
+    //---------------render users in admin -------------//
 
     const renderUsers = () => {
 
         setpostIsEmpty(true);
         setDataPosts([]);
-
-
 
         let token = localStorage.getItem('token');
         let isadmin = localStorage.getItem('isadmin');
@@ -99,31 +97,66 @@ export default function CustomizedDialogsAdmin() {
         axiosGet();
     };
 
+    //---------------Fonction delete users et posts -------------//
+
     const handleDelet = (props) => {
 
-        let confirm = window.confirm("La suppression sera définitive et le email inutilisable, on continue ?");
+        if (props.idpost) {
 
-        if (confirm) {
-            let token = localStorage.getItem('token');
-            let userId = props.userId;
-            axios({
-                method: 'put',
-                url: 'http://localhost:3000/api/auth/delete/' + userId,
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                }
-            })
-                .then(function (reponse) {
-                    renderUsers();
+            let confirm = window.confirm("Voulez vous vraiment supprimer le post ?");
+
+            if (confirm) {
+                let token = localStorage.getItem('token');
+                let idpost = props.idpost;
+                let url = props.imageUrl;
+
+                axios({
+                    method: 'delete',
+                    url: 'http://localhost:3000/api/post/' + idpost,
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    data: { url }
                 })
-                .catch(function (erreur) {
-                    console.log(erreur);
-                });
+                    .then(function (reponse) {
+                        renderPosts();
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                    });
+            }
+            else {
+                console.log('coucou else');
+            }
         }
-        else console.log('coucou else');
+        else {
+            let confirm = window.confirm("La suppression sera définitive et le email inutilisable, on continue ?");
+
+            if (confirm) {
+                let token = localStorage.getItem('token');
+                let userId = props.userId;
+                axios({
+                    method: 'put',
+                    url: 'http://localhost:3000/api/auth/delete/' + userId,
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                })
+                    .then(function (reponse) {
+                        renderUsers();
+                    })
+                    .catch(function (erreur) {
+                        console.log(erreur);
+                    });
+            }
+            else {
+                console.log('coucou else');
+            }
+        }
     };
 
     //---------------table users-------------//
+
     const renderButtonDelete = (props) => {
         return (
             <Button
@@ -148,6 +181,7 @@ export default function CustomizedDialogsAdmin() {
             }
         }
     ];
+
     let rows = data.map((user) => (
         {
             userId: user.userId,
@@ -158,32 +192,34 @@ export default function CustomizedDialogsAdmin() {
         }
     ));
 
-    //---------------/table-------------//
+    //---------------/table users-------------//
 
     //---------------table posts-------------//
-
 
     const columns2 = [
         { field: 'idpost', headerName: 'Id post', width: 80 },
         { field: 'post', headerName: 'Contenu du post', width: 400 },
         { field: 'idAuthor', headerName: 'Id auteur', width: 80 },
-        
         { field: 'pseudo', headerName: 'Pseudo de l\'auteur', width: 200 },
-        { field: 'deleted_at', headerName: 'Supprimé le', width: 150 },
-
-
+        {
+            field: 'delet_button', headerName: 'Supprimer post', width: 130, renderCell: (val) => {
+                return val.row.delet_button;
+            }
+        }
     ];
+
     let rows2 = dataPosts.map((post) => (
         {
             idpost: post.idpost,
             post: post.post,
             idAuthor: post.idAuthor,
             pseudo: post.pseudo,
-            deleted_at: post.deleted_at ? moment(post.deleted_at).format('L') : ''
+            delet_button: renderButtonDelete(post)
         }
     ));
-    //---------------/table-------------//
+    //---------------/table posts-------------//
 
+    //---------------render posts in admin -------------//
 
     const renderPosts = () => {
 
@@ -205,6 +241,8 @@ export default function CustomizedDialogsAdmin() {
         };
         axiosGet();
     };
+
+    //---------------- render --------------//
 
     return (
         <div>
