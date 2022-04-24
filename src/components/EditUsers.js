@@ -65,7 +65,6 @@ export default function CustomizedDialogsAdmin() {
     };
     const handleClose = () => {
         setOpen(false);
-        window.location.reload();
     };
     //--------------end MUI dialog---------------------//
 

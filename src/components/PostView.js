@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Avatar, Button, LinearProgress, Slide, TextField } from '@mui/material';
+import { Alert, Avatar, Button, LinearProgress, Slide, TextField } from '@mui/material';
 import MessageIcon from '@mui/icons-material/Message';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from '@mui/material';
@@ -27,6 +27,7 @@ const PostView = () => {
     const [commentErr, setCommentErr] = useState(false);
     const [limit, setLimit] = useState(lazy.limit);
     const postsContent = useRef(null);
+    const [success, setSuccess] = useState(false);
 
     //--------------Récupération des posts 5 par 5------------------//
 
@@ -45,7 +46,6 @@ const PostView = () => {
             setPosts((await reponse).data);
         };
         axiosGet();
-        // eslint-disable-next-line
     }, [limit, posts]);
 
     //--------------Fonction delete post------------------//
@@ -63,7 +63,10 @@ const PostView = () => {
             data: { url }
         })
             .then(function (reponse) {
-                window.location.reload();
+               setSuccess(true);
+               setTimeout(() => {
+                setSuccess(false);
+               }, 2000);
             })
             .catch(function (err) {
                 console.log(err);
@@ -248,6 +251,7 @@ const PostView = () => {
 
     return (
         <div ref={postsContent}>
+            {success && <div className='delet-success'><Alert severity="success">Post supprimé !</Alert></div>}
             {posts.map((post, index) => (
                 <div className='post-view' key={index}>
                     {(post.idAuthor === parseInt(userId) || parseInt(isadmin) === 1) && <div className='delete-button-post'>
