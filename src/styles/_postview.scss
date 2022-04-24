@@ -14,6 +14,10 @@
         top: 0;
         right: 0;
     }
+    .comment-content{
+        width: 85%;
+        overflow: hidden;
+    }
     p{
         padding: 10px;
     }
@@ -104,5 +108,11 @@
     flex-direction: row;
     align-items: center;
         
+    }
+    .post-view .comment{
+        max-height: 110px;
+    }
+    .post-view .comment-content{
+        width: 100%;
     }
 }
