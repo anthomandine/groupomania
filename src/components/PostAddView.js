@@ -65,6 +65,7 @@ const PostAddView = () => {
             }
         })
             .then(function (reponse) {
+                window.location.reload();
                 setSuccess(true);
                 setTimeout(() => {
                     setSuccess(false);

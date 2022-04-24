@@ -46,7 +46,8 @@ const PostView = () => {
             setPosts((await reponse).data);
         };
         axiosGet();
-    }, [limit, posts]);
+        // eslint-disable-next-line
+    }, [limit]);
 
     //--------------Fonction delete post------------------//
 
@@ -63,10 +64,10 @@ const PostView = () => {
             data: { url }
         })
             .then(function (reponse) {
-               setSuccess(true);
-               setTimeout(() => {
-                setSuccess(false);
-               }, 2000);
+                setSuccess(true);
+                setTimeout(() => {
+                    setSuccess(false);
+                }, 2000);
             })
             .catch(function (err) {
                 console.log(err);
