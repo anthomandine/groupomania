@@ -12,6 +12,7 @@ import { Alert, Avatar, TextField } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { useState } from 'react';
 import axios from 'axios';
+import swal from 'sweetalert';
 
 //--------------MUI dialog---------------------//
 
@@ -125,33 +126,46 @@ export default function CustomizedDialogs() {
 
   const handleDelet = (e) => {
     e.preventDefault();
-    let confirm = window.confirm("La suppression sera définitive et votre email inutilisable pour ce site, voulez-vous continuer ?");
 
-    if (confirm) {
-      console.log('confirm if ok');
-      let userId = localStorage.getItem('userId');
-      let token = localStorage.getItem('token');
+    swal({
+      title: "Etes vous sure de vouloir supprimer votre compte ?",
+      text: "La suppression sera définitive et votre adresse email inutilisable sur notre site !",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          swal("Compte supprimer!", {
+            icon: "success",
+          });
+          let token = localStorage.getItem('token');
+          let userId = localStorage.getItem('userId');
 
-      axios({
-        method: 'put',
-        url: 'http://localhost:3000/api/auth/delete/' + userId,
-        headers: {
-          'Authorization': 'Bearer ' + token
+          axios({
+            method: 'put',
+            url: 'http://localhost:3000/api/auth/delete/' + userId,
+            headers: {
+              'Authorization': 'Bearer ' + token
+            }
+          })
+            .then(function (reponse) {
+              console.log('user deleted at');
+              localStorage.clear();
+              setTimeout(() => {
+                window.location.reload();
+              }, 1000);
+            })
+            .catch(function (err) {
+              console.log(err);
+            });
+        } else {
+          swal("Action Annulé !", {
+            icon: "error",
+          });
+          setOpen(false);
         }
-      })
-        .then(function (reponse) {
-          console.log('user deleted at');
-          localStorage.clear();
-          window.location.reload();
-        })
-        .catch(function (erreur) {
-          console.log(erreur);
-        });
-    }
-    else {
-      setOpen(false);
-      console.log('confirm else not ok');
-    }
+      });
   };
 
   return (
@@ -193,7 +207,7 @@ export default function CustomizedDialogs() {
             <Button autoFocus onClick={handleSubmit}>
               Sauvergarder
             </Button>
-            <Button onClick={()=>{setOpen(false)}}>Annuler</Button>
+            <Button onClick={() => { setOpen(false) }}>Annuler</Button>
           </DialogActions>
         </BootstrapDialog>
       </form>

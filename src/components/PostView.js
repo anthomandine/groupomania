@@ -49,9 +49,6 @@ const PostView = () => {
         // eslint-disable-next-line
     }, [limit]);
 
-
-
-
     //--------------Fonction delete post------------------//
 
     const handleDeletePost = (idpost, imageUrl) => {
@@ -71,7 +68,7 @@ const PostView = () => {
                 setTimeout(() => {
                     setSuccess(false);
                     window.location.reload();
-                }, 2000);
+                }, 1200);
             })
             .catch(function (err) {
                 console.log(err);
