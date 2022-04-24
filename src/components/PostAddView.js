@@ -21,7 +21,6 @@ const PostAddView = () => {
         }
     };
 
-
     //---------Récupération des data input post ------------------//
 
     const handleChangeImg = (e) => {
@@ -47,10 +46,8 @@ const PostAddView = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('userId');
-
         const form = new FormData();
         form.append('post', data.post);
         form.append('image', data.image);

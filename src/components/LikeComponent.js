@@ -4,7 +4,6 @@ import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import { IconButton } from '@mui/material';
 import axios from 'axios';
 
-
 const LikeComponent = (props) => {
 
     //---------Init variables----------//

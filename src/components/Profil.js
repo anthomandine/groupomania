@@ -101,10 +101,8 @@ export default function CustomizedDialogs() {
       pseudo: data.pseudo,
       avatar: avatars[avatar]
     };
-
     let userId = localStorage.getItem('userId');
     let token = localStorage.getItem('token');
-
     axios({
       method: 'put',
       url: 'http://localhost:3000/api/auth/' + userId,
@@ -172,7 +170,6 @@ export default function CustomizedDialogs() {
           </BootstrapDialogTitle>
           <DialogContent dividers>
             <span>Nouveau Pseudo:</span>
-
             <TextField fullWidth
               id="input-pseudo"
               name="pseudo"
@@ -192,7 +189,7 @@ export default function CustomizedDialogs() {
             {confirm ? <Alert severity="success">Profil modifié avec succès</Alert> : ""}
           </DialogContent>
           <DialogActions>
-            { parseInt(isadmin) === 0 && <Button onClick={handleDelet} color="error">supprimer mon compte</Button>}
+            {parseInt(isadmin) === 0 && <Button onClick={handleDelet} color="error">supprimer mon compte</Button>}
             <Button autoFocus onClick={handleSubmit}>
               Sauvergarder
             </Button>

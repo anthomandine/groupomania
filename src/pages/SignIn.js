@@ -15,16 +15,13 @@ const SignIn = () => {
     //---------Init variables----------//
 
     let navigate = useNavigate();
-
     const [errorMessage, setErrorMessage] = useState('');
     const [emailErr, setEmailErr] = useState();
     const [pwdError, setPwdError] = useState();
     const [pseudoError, setPseudoError] = useState();
-
     const [focusEmail, setFocusEmail] = useState(false);
     const [focusPwd, setFocusPwd] = useState(false);
     const [focusPseudo, setFocusPseudo] = useState(false);
-
     const [data, setData] = useState({
         email: "",
         password: "",
@@ -47,24 +44,12 @@ const SignIn = () => {
     //---------Verification Regex----------//
 
     const validate = () => {
-        if (!validEmail.test(data.email)) {
-            setEmailErr(true);
-        }
-        else {
-            setEmailErr(false);
-        }
-        if (!validPassword.test(data.password)) {
-            setPwdError(true);
-        }
-        else {
-            setPwdError(false);
-        }
-        if (!validPseudo.test(data.pseudo)) {
-            setPseudoError(true);
-        }
-        else {
-            setPseudoError(false);
-        }
+        if (!validEmail.test(data.email)) { setEmailErr(true); }
+        else { setEmailErr(false); }
+        if (!validPassword.test(data.password)) { setPwdError(true); }
+        else { setPwdError(false); }
+        if (!validPseudo.test(data.pseudo)) { setPseudoError(true); }
+        else { setPseudoError(false); }
     };
 
     //---------Récupération data input user----------//
@@ -79,7 +64,6 @@ const SignIn = () => {
             }
             else { setFocusEmail(false); setEmailErr(true); }
         }
-
         if (e.target.name === 'password') {
             if (validPassword.test(value)) {
                 setFocusPwd(true);
@@ -95,7 +79,6 @@ const SignIn = () => {
             else { setFocusPseudo(false); setPseudoError(true); }
         }
 
-
         setData({
             ...data,
             [e.target.name]: value,
@@ -106,7 +89,6 @@ const SignIn = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         const userData = {
             email: data.email,
             password: data.password,

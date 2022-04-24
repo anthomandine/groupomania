@@ -9,7 +9,6 @@ import moment from 'moment';
 import "moment/locale/fr";
 import { validComment } from '../components/Regex';
 
-
 //---------Init variables limit sql posts et commentaires----------//
 
 let lazy = { limit: 5, stop: false };
@@ -54,7 +53,6 @@ const PostView = () => {
     const handleDeletePost = (idpost, imageUrl) => {
         let token = localStorage.getItem('token');
         let url = imageUrl;
-
 
         axios({
             method: 'delete',
@@ -101,7 +99,6 @@ const PostView = () => {
             setCommentErr(true);
         }
         else {
-
             axios({
                 method: 'post',
                 url: 'http://localhost:3000/api/comment',
@@ -124,7 +121,6 @@ const PostView = () => {
 
     const handleDeleteComment = (idcomment) => {
         let token = localStorage.getItem('token');
-
         axios({
             method: 'delete',
             url: 'http://localhost:3000/api/comment/' + idcomment,
@@ -287,7 +283,6 @@ const PostView = () => {
                         <Slide direction='down' timeout={800} in={(viewComments[post.idpost] && viewComments[post.idpost].isShow)}>
                             <div className='comment'>
                                 {viewComments[post.idpost] && viewComments[post.idpost].render}
-
                             </div>
                         </Slide>
                     </div>

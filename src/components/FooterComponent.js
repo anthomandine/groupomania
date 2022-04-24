@@ -9,9 +9,7 @@ import mail from "react-useanimations/lib/mail";
 
 const FooterComponent = () => {
     return (
-
         <div className='footer'>
-
             <p>Suivez le groupe Groupomania sur nos réseaux : </p>
             <div className='link'>
                 <UseAnimations
@@ -45,12 +43,7 @@ const FooterComponent = () => {
                     onClick={() => window.open("mailto:groupomania@test.com")}
                 />
             </div>
-
         </div>
-
-
-
-
     );
 };
 

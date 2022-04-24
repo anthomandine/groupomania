@@ -17,7 +17,6 @@ import "moment/locale/fr";
 import swal from 'sweetalert';
 import { CircularProgress } from '@mui/material';
 
-
 //--------------MUI dialog---------------------//
 
 let BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -76,13 +75,11 @@ export default function CustomizedDialogsAdmin() {
     const [dataPosts, setDataPosts] = useState([]);
     const [usersIsEmpty, setusersIsEmpty] = useState(true);
     const [postsIsEmpty, setpostIsEmpty] = useState(true);
-
     const [loading, setLoading] = useState(false);
 
     //---------------render users in admin -------------//
 
     const renderUsers = () => {
-
         setpostIsEmpty(true);
         setDataPosts([]);
         setLoading(true);
@@ -106,7 +103,6 @@ export default function CustomizedDialogsAdmin() {
     const handleDelet = (props) => {
 
         if (props.idpost) {
-
             swal({
                 title: "Etes vous sure de vouloir supprimer ce post ?",
                 text: "La suppression sera définitive !",
@@ -314,8 +310,3 @@ export default function CustomizedDialogsAdmin() {
         </div>
     );
 }
-
-
-
-
-

@@ -9,8 +9,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { validEmail, validPassword } from '../components/Regex';
 
-
-
 const Login = () => {
 
     //---------Init variables----------//
@@ -65,7 +63,6 @@ const Login = () => {
             }
             else { setFocusPwd(false); setPwdError(true); }
         }
-
         setData({
             ...data,
             [e.target.name]: value,
