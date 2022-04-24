@@ -12,7 +12,6 @@ const PostAddView = () => {
 
     const [data, setData] = useState({ post: '', image: '', userId: '' });
     const [postError, setPostError] = useState(false);
-
     const [alert, setAlert] = useState(false);
     const [success, setSuccess] = useState(false);
 

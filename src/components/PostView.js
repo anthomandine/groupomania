@@ -42,12 +42,15 @@ const PostView = () => {
                 }
             });
             let data = (await reponse).data;
-            lazy.stop = !(Number.isInteger(data.length / 5) || (posts.length === data.length));
+            lazy.stop = (posts.length === data.length) || !(Number.isInteger(data.length / 5));
             setPosts((await reponse).data);
         };
         axiosGet();
         // eslint-disable-next-line
     }, [limit]);
+
+
+
 
     //--------------Fonction delete post------------------//
 
@@ -67,6 +70,7 @@ const PostView = () => {
                 setSuccess(true);
                 setTimeout(() => {
                     setSuccess(false);
+                    window.location.reload();
                 }, 2000);
             })
             .catch(function (err) {
@@ -234,6 +238,7 @@ const PostView = () => {
 
     const handleScroll = () => {
         if (lazy.stop) return;
+        
         let contentWidth = postsContent.current.scrollHeight;
         let scrollY = window.pageYOffset;
 

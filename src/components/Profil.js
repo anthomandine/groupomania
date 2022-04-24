@@ -193,6 +193,7 @@ export default function CustomizedDialogs() {
             <Button autoFocus onClick={handleSubmit}>
               Sauvergarder
             </Button>
+            <Button onClick={()=>{setOpen(false)}}>Annuler</Button>
           </DialogActions>
         </BootstrapDialog>
       </form>
