@@ -46,7 +46,7 @@ const PostView = () => {
         };
         axiosGet();
         // eslint-disable-next-line
-    }, [limit]);
+    }, [limit, posts]);
 
     //--------------Fonction delete post------------------//
 

@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material';
+import { Alert, TextField } from '@mui/material';
 import { Button } from '@mui/material';
 import React from 'react';
 import AddIcon from '@mui/icons-material/Add';
@@ -12,6 +12,9 @@ const PostAddView = () => {
 
     const [data, setData] = useState({ post: '', image: '', userId: '' });
     const [postError, setPostError] = useState(false);
+
+    const [alert, setAlert] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     //---------Verification Regex----------//
 
@@ -62,10 +65,17 @@ const PostAddView = () => {
             }
         })
             .then(function (reponse) {
-                window.location.reload();
+                setSuccess(true);
+                setTimeout(() => {
+                    setSuccess(false);
+                }, 2000);
             })
             .catch(function (err) {
                 console.log(err);
+                setAlert(true);
+                setTimeout(() => {
+                    setAlert(false);
+                }, 2000);
             });
     };
 
@@ -97,6 +107,8 @@ const PostAddView = () => {
                     <img id="preview" alt="apercu" />
                 </div>
                 <Button type='submit' onClick={validate}>Publier</Button>
+                {alert && <Alert severity="error">Erreur Post</Alert>}
+                {success && <Alert severity="success">Post publié !</Alert>}
             </form>
         </div>
     );
