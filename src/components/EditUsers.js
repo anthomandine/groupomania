@@ -15,7 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import moment from 'moment';
 import "moment/locale/fr";
 import swal from 'sweetalert';
-
+import { CircularProgress } from '@mui/material';
 
 
 //--------------MUI dialog---------------------//
@@ -77,16 +77,17 @@ export default function CustomizedDialogsAdmin() {
     const [usersIsEmpty, setusersIsEmpty] = useState(true);
     const [postsIsEmpty, setpostIsEmpty] = useState(true);
 
+    const [loading, setLoading] = useState(false);
+
     //---------------render users in admin -------------//
 
     const renderUsers = () => {
 
         setpostIsEmpty(true);
         setDataPosts([]);
-
+        setLoading(true);
         let token = localStorage.getItem('token');
         let isadmin = localStorage.getItem('isadmin');
-
         const axiosGet = async () => {
             const reponse = await axios.get('http://localhost:3000/api/auth/' + isadmin + '/users', {
                 headers: {
@@ -95,6 +96,7 @@ export default function CustomizedDialogsAdmin() {
             });
             setData(reponse.data);
             setusersIsEmpty(false);
+            setLoading(false);
         };
         axiosGet();
     };
@@ -249,7 +251,7 @@ export default function CustomizedDialogsAdmin() {
 
         setusersIsEmpty(true);
         setData([]);
-
+        setLoading(true);
         let token = localStorage.getItem('token');
         let userId = localStorage.getItem('userId');
         let limit = 50;
@@ -262,6 +264,7 @@ export default function CustomizedDialogsAdmin() {
             });
             setDataPosts((await reponse).data);
             setpostIsEmpty(false);
+            setLoading(false);
         };
         axiosGet();
     };
@@ -283,28 +286,30 @@ export default function CustomizedDialogsAdmin() {
                 </BootstrapDialogTitle>
                 {usersIsEmpty && <Button onClick={renderUsers}>Afficher les utilisateurs</Button>}
                 {postsIsEmpty && <Button onClick={renderPosts}>Afficher les posts</Button>}
-                <DialogContent dividers>
-                    {data.length !== 0 &&
-                        <div style={{ height: 400, width: '100%' }}>
-                            <DataGrid
-                                getRowId={(row) => row.userId}
-                                rows={rows}
-                                columns={columns}
-                                pageSize={5}
-                                rowsPerPageOptions={[5]}
-                            />
-                        </div>}
+                {loading ? <CircularProgress style={{ margin: 'auto', padding: '10px' }} /> :
+                    <DialogContent dividers>
+                        {data.length !== 0 &&
+                            <div style={{ height: 400, width: '100%' }}>
+                                <DataGrid
+                                    getRowId={(row) => row.userId}
+                                    rows={rows}
+                                    columns={columns}
+                                    pageSize={5}
+                                    rowsPerPageOptions={[5]}
+                                />
+                            </div>}
 
-                    {dataPosts.length !== 0 && <div style={{ height: 400, width: '100%' }}>
-                        <DataGrid
-                            getRowId={(row) => row.idpost}
-                            rows={rows2}
-                            columns={columns2}
-                            pageSize={5}
-                            rowsPerPageOptions={[5]}
-                        />
-                    </div>}
-                </DialogContent>
+                        {dataPosts.length !== 0 &&
+                            <div style={{ height: 400, width: '100%' }}>
+                                <DataGrid
+                                    getRowId={(row) => row.idpost}
+                                    rows={rows2}
+                                    columns={columns2}
+                                    pageSize={5}
+                                    rowsPerPageOptions={[5]}
+                                />
+                            </div>}
+                    </DialogContent>}
             </BootstrapDialog>
         </div>
     );
