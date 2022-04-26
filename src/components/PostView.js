@@ -14,10 +14,9 @@ import { validComment } from '../components/Regex';
 let lazy = { limit: 5, stop: false };
 let lazyComment = { limit: 5, stop: false };
 
-const PostView = () => {
+const PostView = (props) => {
 
     //---------Init variables----------//
-
     const [posts, setPosts] = useState([]);
     const [addComment, setAddComment] = useState();
     const [data, setData] = useState({ comment: '' });
@@ -47,8 +46,7 @@ const PostView = () => {
         };
         axiosGet();
         // eslint-disable-next-line
-    }, [limit]);
-
+    }, [limit, props.isload]);
     //--------------Fonction delete post------------------//
 
     const handleDeletePost = (idpost, imageUrl) => {
@@ -67,7 +65,7 @@ const PostView = () => {
                 setSuccess(true);
                 setTimeout(() => {
                     setSuccess(false);
-                    window.location.reload();
+                    props.isLoadF();
                 }, 1200);
             })
             .catch(function (err) {

@@ -57,7 +57,7 @@ BootstrapDialogTitle.propTypes = {
     onClose: PropTypes.func.isRequired,
 };
 
-export default function CustomizedDialogsAdmin() {
+export default function CustomizedDialogsAdmin(props) {
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -65,6 +65,7 @@ export default function CustomizedDialogsAdmin() {
     };
     const handleClose = () => {
         setOpen(false);
+        props.isLoadF();
     };
     //--------------end MUI dialog---------------------//
 

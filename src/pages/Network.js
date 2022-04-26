@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import BackHome from '../components/BackHome';
 import HeaderComponent from '../components/HeaderComponent';
 import NetworkHeaderComponent from '../components/NetworkHeaderComponent';
@@ -17,6 +17,13 @@ const Network = () => {
 
     const userId = localStorage.getItem('userId');
     const token = localStorage.getItem('token');
+
+    const [isload, setisload] = useState(false);
+
+    function isLoadF(){
+        setisload(!isload)
+    };
+    
 
     //---------condition connexion ----------//
 
@@ -48,11 +55,11 @@ const Network = () => {
         <div>
             <BackHome />
             <HeaderComponent />
-            <NetworkHeaderComponent />
+            <NetworkHeaderComponent isLoadF={isLoadF} isload={isload} />
             <div className='refresh'><IconButton onClick={() => window.location.reload()}><CachedIcon />actualiser</IconButton></div>
-            <PostAddView />
+            <PostAddView isLoadF={isLoadF} isload={isload} />
             <FooterComponent />
-            <PostView />
+            <PostView isLoadF={isLoadF} isload={isload}/>
         </div>
     );
 };

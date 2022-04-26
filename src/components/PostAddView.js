@@ -6,7 +6,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { validPost } from '../components/Regex';
 
-const PostAddView = () => {
+const PostAddView = (props) => {
 
     //---------Init variables----------//
 
@@ -64,7 +64,7 @@ const PostAddView = () => {
             }
         })
             .then(function (reponse) {
-                window.location.reload();
+                props.isLoadF();
                 setSuccess(true);
                 setTimeout(() => {
                     setSuccess(false);
