@@ -112,6 +112,7 @@ const PostView = (props) => {
             })
                 .then(function (reponse) {
                     console.log("commentaire envoyer");
+                    renderComments(idpost);
                 })
                 .catch(function (erreur) {
                     console.log(erreur);
@@ -122,7 +123,7 @@ const PostView = (props) => {
 
     //--------------Fonction delete commentaire------------------//
 
-    const handleDeleteComment = (idcomment) => {
+    const handleDeleteComment = (idcomment, idpost) => {
         let token = localStorage.getItem('token');
         axios({
             method: 'delete',
@@ -133,7 +134,7 @@ const PostView = (props) => {
         })
             .then(function (reponse) {
                 console.log("commentaire supprimé");
-                window.location.reload();
+                renderComments(idpost);
             })
             .catch(function (err) {
                 console.log(err);
@@ -184,7 +185,7 @@ const PostView = (props) => {
                         <div>{comments.map((comment, i) => {
                             return <div className='comment_div' key={i}>
                                 {(comment.userId === parseInt(userId) || parseInt(isadmin) === 1) && <div className='delete-button-comment'>
-                                    <IconButton aria-label="delete" size="small" onClick={() => handleDeleteComment(comment.idcomment)} >
+                                    <IconButton aria-label="delete" size="small" onClick={() => handleDeleteComment(comment.idcomment, idpost)} >
                                         <DeleteIcon />
                                     </IconButton>
                                 </div>}
