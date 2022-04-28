@@ -63,7 +63,7 @@ exports.getComments = (req, res, next) => {
 
     let idpost = req.params.idpost;
     let limit = req.params.limit;
-    let sql = 'SELECT c.id, c.text, c.id_user, c.id_post, c.created_at, p.id_user, email, pseudo, avatar  FROM comment c LEFT JOIN post p ON p.id = c.id_post LEFT JOIN user u ON u.id = c.id_user WHERE p.id ='+idpost+' ORDER BY c.id DESC LIMIT 0,'+limit
+    let sql = 'SELECT c.id, c.text, c.id_user, c.id_post, c.created_at, email, pseudo, avatar  FROM comment c LEFT JOIN post p ON p.id = c.id_post LEFT JOIN user u ON u.id = c.id_user WHERE p.id ='+idpost+' ORDER BY c.id DESC LIMIT 0,'+limit
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec BD");
         else {

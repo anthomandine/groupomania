@@ -170,7 +170,6 @@ const PostView = (props) => {
             });
             comments = (await reponse).data;
             lazyComment.stop = !(Number.isInteger(comments.length / 5));
-console.log(comments);
             if (comments.length === 0) {
                 viewComments[idpost] = {
                     render:
