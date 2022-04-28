@@ -7,7 +7,7 @@ export const validPassword = new RegExp('[A-Za-z1-9]');
 
 export const validPseudo = new RegExp('^[A-Za-z1-9_-]+$');
 
-export const validPost = new RegExp('^[A-Za-z1-9_-]+$');
+export const validPost = new RegExp('[A-Za-z1-9]');
 
 export const validComment = new RegExp('^[A-Za-z1-9_-]+$');
 

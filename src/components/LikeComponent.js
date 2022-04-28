@@ -5,7 +5,6 @@ import { IconButton } from '@mui/material';
 import axios from 'axios';
 
 const LikeComponent = (props) => {
-
     //---------Init variables----------//
 
     const [state, setState] = useState({

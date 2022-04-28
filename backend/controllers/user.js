@@ -12,7 +12,7 @@ exports.signup = (req, res, next) => {
             let userPassword = hash;
             let userPseudo = req.body.pseudo;
             let userAvatar = req.body.avatar;
-            let sql = `INSERT INTO users(email, password, pseudo, avatar) VALUES (?,?,?,?)`;
+            let sql = `INSERT INTO user(email, password, pseudo, avatar) VALUES (?,?,?,?)`;
 
             connexion.query(sql, [userEmail, userPassword, userPseudo, userAvatar], (err, results, fields) => {
                 if (err) console.log("Echec d'enregistrement à BD", err);
@@ -35,12 +35,12 @@ exports.login = (req, res, next) => {
     let userEmail = req.body.email;
     let userPassword = req.body.password;
 
-    let sql = `SELECT email, password, userId, isadmin FROM testdb.users WHERE email= ?`;
+    let sql = `SELECT email, password, id, isadmin FROM user WHERE email= ?`;
 
     connexion.query(sql, userEmail, (err, results, fields) => {
         if (err) console.log("Echec BD", err);
         const result = results;
-        const userId = result[0].userId;
+        const userId = result[0].id;
         const isadmin = result[0].isadmin;
 
         if (result == '') {
@@ -73,7 +73,7 @@ exports.login = (req, res, next) => {
 
 exports.getOneUser = (req, res, next) => {
 
-    const sql = `SELECT userId, email, pseudo, avatar FROM testdb.users WHERE userId= ?`;
+    const sql = `SELECT id, email, pseudo, avatar FROM user WHERE id= ?`;
     const userId = req.params.userId;
 
     connexion.query(sql, userId, (err, results, fields) => {
@@ -89,7 +89,7 @@ exports.modifyUser = (req, res, next) => {
     const userId = req.params.userId;
     const pseudo = req.body.pseudo;
     const avatar = req.body.avatar;
-    const sql = 'UPDATE users SET pseudo=\'' + pseudo + '\', avatar=\'' + avatar + '\' WHERE userId=' + userId;
+    const sql = 'UPDATE user SET pseudo=\'' + pseudo + '\', avatar=\'' + avatar + '\' WHERE id=' + userId;
 
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec BD", err);
@@ -106,7 +106,7 @@ exports.modifyUser = (req, res, next) => {
 exports.deletUser = (req, res, next) => {
 
     const userId = req.params.userId;
-    const sql = 'UPDATE users SET deleted_at= NOW(), password=null, pseudo=\'«utilisateur supprimé»\' WHERE userId=' + userId;
+    const sql = 'UPDATE user SET deleted_at= NOW(), password=null, pseudo=\'«utilisateur supprimé»\' WHERE id=' + userId;
 
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec BD", err);
@@ -123,7 +123,7 @@ exports.deletUser = (req, res, next) => {
 
 exports.getAllUsers = (req, res, next) => {
 
-    const sql = 'SELECT userId, pseudo, deleted_at, isadmin, email FROM users LIMIT 0, 1000';
+    const sql = 'SELECT id, pseudo, deleted_at, isadmin, email FROM user LIMIT 0, 1000';
 
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec BD", err);

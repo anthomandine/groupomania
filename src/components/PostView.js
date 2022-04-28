@@ -170,7 +170,7 @@ const PostView = (props) => {
             });
             comments = (await reponse).data;
             lazyComment.stop = !(Number.isInteger(comments.length / 5));
-
+console.log(comments);
             if (comments.length === 0) {
                 viewComments[idpost] = {
                     render:
@@ -184,16 +184,16 @@ const PostView = (props) => {
                     render:
                         <div>{comments.map((comment, i) => {
                             return <div className='comment_div' key={i}>
-                                {(comment.userId === parseInt(userId) || parseInt(isadmin) === 1) && <div className='delete-button-comment'>
-                                    <IconButton aria-label="delete" size="small" onClick={() => handleDeleteComment(comment.idcomment, idpost)} >
+                                {(comment.id_user === parseInt(userId) || parseInt(isadmin) === 1) && <div className='delete-button-comment'>
+                                    <IconButton aria-label="delete" size="small" onClick={() => handleDeleteComment(comment.id, idpost)} >
                                         <DeleteIcon />
                                     </IconButton>
                                 </div>}
                                 <div className='author'>
                                     <Avatar alt="avatar" src={comment.avatar} sx={{ width: 40, height: 40 }} />
-                                    <p>{renderDate(comment.com_created_at)}, {comment.pseudo} à commenté :</p>
+                                    <p>{renderDate(comment.created_at)}, {comment.pseudo} à commenté :</p>
                                 </div>
-                                <p>{comment.comment}</p>
+                                <p>{comment.text}</p>
                             </div>
                         })}
                             {!lazyComment.stop && <div className='more-comment'>
@@ -250,23 +250,22 @@ const PostView = (props) => {
     }, []);
 
     //--------------render/return viewpost------------------//
-
     return (
         <div ref={postsContent}>
             {success && <div className='delet-success'><Alert severity="success">Post supprimé !</Alert></div>}
             {posts.map((post, index) => (
                 <div className='post-view' key={index}>
-                    {(post.idAuthor === parseInt(userId) || parseInt(isadmin) === 1) && <div className='delete-button-post'>
-                        <IconButton aria-label="delete" size="large" onClick={() => handleDeletePost(post.idpost, post.imageUrl)} >
+                    {(post.id_user === parseInt(userId) || parseInt(isadmin) === 1) && <div className='delete-button-post'>
+                        <IconButton aria-label="delete" size="large" onClick={() => handleDeletePost(post.id, post.imageUrl)} >
                             <DeleteIcon />
                         </IconButton>
                     </div>}
                     <p>{renderDate(post.created_at)} {post.pseudo} à posté : </p>
                     {post.imageUrl.length > 0 &&
-                        <img className='post-img' src={post.imageUrl} alt={'image post n:' + post.idpost} />}
-                    <p className='text-color-3'>{post.post}</p>
+                        <img className='post-img' src={post.imageUrl} alt={'image post n:' + post.id} />}
+                    <p className='text-color-3'>{post.text}</p>
                     <div className='post-footer'>
-                        <LikeComponent idpost={post.idpost} isLiked={post.islike} />
+                        <LikeComponent idpost={post.id} isLiked={post.islike} />
                         <Button onClick={() => setAddComment(index)} size="small" endIcon={<MessageIcon />}>Ajouter un Commentaire</Button>
                     </div>
                     <div className='add-comment' key={index} style={{ display: index === addComment ? "flex" : "none" }}>
@@ -278,17 +277,17 @@ const PostView = (props) => {
                             value={data.comment}
                             error={commentErr}
                         ></TextField>
-                        <Button onClick={() => handleAddComment(post.idpost)} size="small">publier votre commentaire</Button>
+                        <Button onClick={() => handleAddComment(post.id)} size="small">publier votre commentaire</Button>
                     </div>
                     <Button onClick={() => {
-                        viewComments[post.idpost] ? hiddenComments(post.idpost) : renderComments(post.idpost)
+                        viewComments[post.id] ? hiddenComments(post.id) : renderComments(post.id)
                     }}>
-                        {viewComments[post.idpost] ? 'Masquer les commentaires' : 'Afficher les commentaires'}
+                        {viewComments[post.id] ? 'Masquer les commentaires' : 'Afficher les commentaires'}
                     </Button>
                     <div className='comment-content'>
-                        <Slide direction='down' timeout={800} in={(viewComments[post.idpost] && viewComments[post.idpost].isShow)}>
+                        <Slide direction='down' timeout={800} in={(viewComments[post.id] && viewComments[post.id].isShow)}>
                             <div className='comment'>
-                                {viewComments[post.idpost] && viewComments[post.idpost].render}
+                                {viewComments[post.id] && viewComments[post.id].render}
                             </div>
                         </Slide>
                     </div>

@@ -206,7 +206,7 @@ export default function CustomizedDialogsAdmin(props) {
 
     let rows = data.map((user) => (
         {
-            userId: user.userId,
+            userId: user.id,
             pseudo: user.pseudo,
             deleted_at: user.deleted_at ? moment(user.deleted_at).format('L') : '',
             email: user.email,
@@ -232,9 +232,9 @@ export default function CustomizedDialogsAdmin(props) {
 
     let rows2 = dataPosts.map((post) => (
         {
-            idpost: post.idpost,
-            post: post.post,
-            idAuthor: post.idAuthor,
+            idpost: post.id,
+            post: post.text,
+            idAuthor: post.id_user,
             pseudo: post.pseudo,
             delet_button: renderButtonDelete(post)
         }

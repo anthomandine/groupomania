@@ -8,7 +8,7 @@ exports.createComment = (req, res, next) => {
     let idpost = req.body.idpost;
     let idAuthor = req.body.idAuthor;
 
-    let sql = 'INSERT INTO comment (comment, idpost, idAuthor, com_created_at) VALUES (\'' + comment + '\', ' + idpost + ', ' + idAuthor + ',  Now() )';
+    let sql = 'INSERT INTO comment (text, id_post, id_user, created_at) VALUES (\'' + comment + '\', ' + idpost + ', ' + idAuthor + ',  Now() )';
 
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec d'enregistrement à BD", err);
@@ -24,7 +24,7 @@ exports.deletComment = (req, res, next) => {
 
     let idcomment = req.params.idcomment;
 
-    let sql = 'DELETE FROM comment WHERE idcomment=' + idcomment;
+    let sql = 'DELETE FROM comment c WHERE c.id=' + idcomment;
 
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec de suppréssion en BD", err);

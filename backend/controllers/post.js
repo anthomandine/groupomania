@@ -9,7 +9,7 @@ exports.createPost = (req, res, next) => {
     let userId = req.body.userId;
     let imageUrl = req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : '';
 
-    let sql = 'INSERT INTO posts (post, imageUrl, idAuthor, created_at) VALUES (\'' + post + '\', \'' + imageUrl + '\', \'' + userId + '\', Now() )';
+    let sql = 'INSERT INTO post (text, imageUrl, id_user, created_at) VALUES (\'' + post + '\', \'' + imageUrl + '\', \'' + userId + '\', Now() )';
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec d'enregistrement à BD", err);
         else {
@@ -22,10 +22,10 @@ exports.createPost = (req, res, next) => {
 
 exports.getAllPosts = (req, res, next) => {
 
-    let userId = req.params.userId;
+    //let userId = req.params.userId;
     let limit = req.params.limit;
 
-    let sql = 'SELECT * FROM testdb.posts LEFT JOIN users_posts ON posts.idpost = users_posts.posts_idpost AND ' + userId + ' = users_posts.users_userId LEFT JOIN testdb.users ON testdb.posts.idAuthor = testdb.users.userId ORDER BY idpost DESC LIMIT 0, ' + limit;
+    let sql = 'SELECT p.id, p.text, p.imageUrl, p.id_user, p.created_at, u.pseudo, us.islike, SUM(islike = 1) AS liked, SUM(islike = 0) as unliked FROM post p LEFT JOIN user_post us ON p.id = us.post_id LEFT JOIN user u ON p.id_user = u.id  GROUP BY p.id, us.islike ORDER BY p.id DESC LIMIT 0,'+limit;
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec BD", err);
         else {
@@ -39,7 +39,7 @@ exports.getAllPosts = (req, res, next) => {
 exports.deletPost = (req, res, next) => {
 
     let idpost = req.params.idpost;
-    let sql = 'DELETE FROM testdb.posts WHERE idpost=' + idpost;
+    let sql = 'DELETE FROM post WHERE id=' + idpost;
 
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec de suppréssion en BD", err);
@@ -63,7 +63,7 @@ exports.getComments = (req, res, next) => {
 
     let idpost = req.params.idpost;
     let limit = req.params.limit;
-    let sql = 'SELECT * FROM comment INNER JOIN posts ON posts.idpost = comment.idPost LEFT JOIN users ON users.userId = comment.idAuthor WHERE posts.idpost = ' + idpost + ' ORDER BY comment.idcomment DESC LIMIT 0, ' + limit;
+    let sql = 'SELECT c.id, c.text, c.id_user, c.id_post, c.created_at, p.id_user, email, pseudo, avatar  FROM comment c LEFT JOIN post p ON p.id = c.id_post LEFT JOIN user u ON u.id = c.id_user WHERE p.id ='+idpost+' ORDER BY c.id DESC LIMIT 0,'+limit
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec BD");
         else {
@@ -81,7 +81,7 @@ exports.likePost = (req, res, next) => {
     let like = req.body[0].like;
     let userId = req.body[0].userId;
 
-    let sqlSelect = 'SELECT users_userId, posts_idpost, islike FROM users_posts WHERE users_userId = ' + userId + ' AND posts_idpost = ' + idpost + '';
+    let sqlSelect = 'SELECT user_id, post_id, islike FROM user_post WHERE user_id = ' + userId + ' AND post_id = ' + idpost + '';
 
     connexion.query(sqlSelect, (err, results) => {
         if (err) console.log('echec BD', err);
@@ -89,7 +89,7 @@ exports.likePost = (req, res, next) => {
             const result = Object.values(JSON.parse(JSON.stringify(results)));
 
             if (!result.length) {
-                let sqlInsert = 'INSERT INTO users_posts (users_userId, posts_idpost, islike) VALUES (' + userId + ', ' + idpost + ', ' + like + ')';
+                let sqlInsert = 'INSERT INTO user_post (user_id, post_id, islike) VALUES (' + userId + ', ' + idpost + ', ' + like + ')';
                 connexion.query(sqlInsert, (err, results) => {
                     if (err) console.log('echec BD', err);
                     else {
@@ -99,7 +99,7 @@ exports.likePost = (req, res, next) => {
                 });
             }
             if (result.length && like === null) {
-                let sqlDelet = 'DELETE FROM users_posts WHERE users_userId = ' + userId + ' AND posts_idpost = ' + idpost + '';
+                let sqlDelet = 'DELETE FROM user_post WHERE user_id = ' + userId + ' AND post_id = ' + idpost + '';
                 connexion.query(sqlDelet, (err, results) => {
                     if (err) console.log('echec BD', err);
                     else {
@@ -109,7 +109,7 @@ exports.likePost = (req, res, next) => {
                 });
             }
             if (result.length && like === false || result.length && like === true) {
-                let sqlUpdateDislike = 'UPDATE users_posts SET islike = ' + like + ' WHERE users_userId = ' + userId + ' AND posts_idpost = ' + idpost + '';
+                let sqlUpdateDislike = 'UPDATE user_post SET islike = ' + like + ' WHERE user_id = ' + userId + ' AND post_id = ' + idpost + '';
                 connexion.query(sqlUpdateDislike, (err, results, fields) => {
                     if (err) console.log('echec BD', err);
                     else {
@@ -126,7 +126,7 @@ exports.likePost = (req, res, next) => {
 exports.getSumLike = (req, res, next) => {
 
     let idpost = req.params.idpost;
-    let sql = 'SELECT posts_idpost, SUM(islike = 1) AS liked, SUM(islike = 0) AS disliked FROM users_posts WHERE posts_idpost =' + idpost;
+    let sql = 'SELECT post_id, SUM(islike = 1) AS liked, SUM(islike = 0) AS disliked FROM user_post WHERE post_id =' + idpost;
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec BD", err);
         else {

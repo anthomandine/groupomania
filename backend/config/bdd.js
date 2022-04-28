@@ -10,7 +10,7 @@ function connexion() {
         host: "localhost",
         user: "root",
         password: "Amandine2006+",
-        database : "testdb"
+        database : "groupomania"
       });
       db.connect(function (err) {
         if (!err) {
