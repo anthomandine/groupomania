@@ -243,11 +243,10 @@ const PostView = (props) => {
             setLimit(lazy.limit);
         }
     };
-
+console.log(posts);
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
     }, []);
-
     //--------------render/return viewpost------------------//
     return (
         <div ref={postsContent}>
@@ -264,7 +263,7 @@ const PostView = (props) => {
                         <img className='post-img' src={post.imageUrl} alt={'image post n:' + post.id} />}
                     <p className='text-color-3'>{post.text}</p>
                     <div className='post-footer'>
-                        <LikeComponent idpost={post.id} isLiked={post.islike} />
+                        <LikeComponent idpost={post.id} liked={post.liked} disliked={post.disliked} id_user={post.id_user} />
                         <Button onClick={() => setAddComment(index)} size="small" endIcon={<MessageIcon />}>Ajouter un Commentaire</Button>
                     </div>
                     <div className='add-comment' key={index} style={{ display: index === addComment ? "flex" : "none" }}>

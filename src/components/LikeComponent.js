@@ -6,45 +6,83 @@ import axios from 'axios';
 
 const LikeComponent = (props) => {
     //---------Init variables----------//
+    let like = null;
+
+    let [liked, setLiked] = useState(props.liked);
+    let [disliked, setDisliked] = useState(props.disliked);
 
     const [state, setState] = useState({
-        likeActive: props.isLiked === 1,
-        dislikeActive: props.isLiked === 0
+        likeActive: '',
+        dislikeActive: ''
     });
-    let like = null;
-    const [sumlike, setSumlike] = useState([]);
+
+
+    //---------Récupération des données ----------//
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        let idpost = props.idpost;
+        let userId = props.id_user;
+        const axiosGet = async () => {
+            const reponse = await axios.get('http://localhost:3000/api/post/' + idpost + '/like/' + userId, {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+            console.log(reponse.data[0]);
+            if (reponse.data[0] === undefined) {
+                setState({
+                    likeActive: null,
+                    dislikeActive: null
+                });
+            }
+            else {
+                setState({
+                    likeActive: reponse.data[0].islike === 1,
+                    dislikeActive: reponse.data[0].islike === 0
+                });
+            }
+
+        };
+        axiosGet();
+        // eslint-disable-next-line
+    }, []);
 
     //---------fonction click like----------//
 
     const handleLike = () => {
-        
+
         if (state.likeActive) {
-            sumlike.liked -- ;
+            setLiked(liked - 1);
             setState({ likeActive: false, dislikeActive: false });
         }
         else {
-            if (state.dislikeActive) { sumlike.disliked -- ; }
-            sumlike.liked ++ ;
+            if (state.dislikeActive) { setDisliked(disliked - 1); }
+            setLiked(liked + 1);
             setState({ likeActive: true, dislikeActive: false });
             like = true;
         }
         axiosPostLike();
+
+
     };
 
     //---------fonction click dislike----------//
 
     const handleDislike = () => {
+
         if (state.dislikeActive) {
-            sumlike.disliked -- ;
+            setDisliked(disliked - 1);
             setState({ likeActive: false, dislikeActive: false });
         }
         else {
-            if (state.likeActive) { sumlike.liked -- ; };
-            sumlike.disliked ++ ;
+            if (state.likeActive) { setLiked(liked - 1); };
+            setDisliked(disliked + 1);
             setState({ likeActive: false, dislikeActive: true });
             like = false;
         }
         axiosPostLike();
+
     };
 
     //---------Fonction envoi des données post pour les likes----------//
@@ -71,33 +109,17 @@ const LikeComponent = (props) => {
             })
     };
 
-    //---------Récupération des données somme des likes et dislikes par post----------//
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        let idpost = props.idpost;
-        const axiosGet = async () => {
-            const reponse = await axios.get('http://localhost:3000/api/post/' + idpost + '/sumlike', {
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                }
-            });
-            setSumlike(reponse.data[0]);
-        };
-        axiosGet();
-        // eslint-disable-next-line
-    }, []);
 
     return (
         <div>
             <IconButton aria-label="like" size="small" onClick={() => handleLike()}>
                 <ThumbUpIcon color={state.likeActive ? 'primary' : 'default'} />
             </IconButton>
-            <span className='count-like'>{sumlike.liked ? sumlike.liked : '0' }</span>
+            <span className='count-like'>{liked ? liked : '0'}</span>
             <IconButton aria-label="dislike" size="small" onClick={() => handleDislike()}>
                 <ThumbDownAltIcon color={state.dislikeActive ? 'error' : 'default'} />
             </IconButton>
-            <span className='count-like'>{sumlike.disliked ? sumlike.disliked : '0'}</span>
+            <span className='count-like'>{disliked ? disliked : '0'}</span>
         </div>
     );
 };

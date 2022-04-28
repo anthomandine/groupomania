@@ -25,7 +25,7 @@ exports.getAllPosts = (req, res, next) => {
     //let userId = req.params.userId;
     let limit = req.params.limit;
 
-    let sql = 'SELECT p.id, p.text, p.imageUrl, p.id_user, p.created_at, u.pseudo, us.islike, SUM(islike = 1) AS liked, SUM(islike = 0) as unliked FROM post p LEFT JOIN user_post us ON p.id = us.post_id LEFT JOIN user u ON p.id_user = u.id  GROUP BY p.id, us.islike ORDER BY p.id DESC LIMIT 0,'+limit;
+    let sql = 'SELECT p.id, p.text, p.imageUrl, p.id_user, p.created_at, u.pseudo, SUM(islike = 1) AS liked, SUM(islike = 0) as disliked FROM post p LEFT JOIN user_post us ON p.id = us.post_id LEFT JOIN user u ON p.id_user = u.id GROUP BY p.id ORDER BY p.id DESC LIMIT 0,'+limit;
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec BD", err);
         else {
@@ -113,7 +113,7 @@ exports.likePost = (req, res, next) => {
                 connexion.query(sqlUpdateDislike, (err, results, fields) => {
                     if (err) console.log('echec BD', err);
                     else {
-                        console.log("dislike appliqué !")
+                        console.log("dislike/like appliqué !")
                         return res.status(200).json({ message: "dislike/like appliqué !" });
                     }
                 });
@@ -123,10 +123,14 @@ exports.likePost = (req, res, next) => {
 };
 
 
-exports.getSumLike = (req, res, next) => {
+
+exports.getLike = (req, res, next) => {
 
     let idpost = req.params.idpost;
-    let sql = 'SELECT post_id, SUM(islike = 1) AS liked, SUM(islike = 0) AS disliked FROM user_post WHERE post_id =' + idpost;
+    let userId = req.params.userId;
+    
+
+    let sql = 'SELECT islike FROM user_post WHERE post_id ='+idpost+' AND user_id ='+userId;
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec BD", err);
         else {
@@ -134,3 +138,8 @@ exports.getSumLike = (req, res, next) => {
         }
     })
 };
+
+
+
+
+
