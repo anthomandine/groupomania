@@ -10,32 +10,10 @@ const LikeComponent = (props) => {
     let [liked, setLiked] = useState(props.liked);
     let [disliked, setDisliked] = useState(props.disliked);
     const [state, setState] = useState({
-        likeActive: null,
-        dislikeActive: null
+        likeActive: props.islikeactive === 1,
+        dislikeActive: props.islikeactive === 0
     });
-
-    //---------Récupération des données ----------//
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        let idpost = props.idpost;
-        let userId = localStorage.getItem('userId');
-        const axiosGet = async () => {
-            const reponse = await axios.get('http://localhost:3000/api/post/' + idpost + '/like/' + userId, {
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                }
-            });
-            if (reponse.data[0]) {
-                setState({
-                    likeActive: reponse.data[0].islike === 1,
-                    dislikeActive: reponse.data[0].islike === 0
-                });
-            }
-        };
-        axiosGet();
-        // eslint-disable-next-line
-    }, []);
+   
 
     //---------fonction click like----------//
 

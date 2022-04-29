@@ -48,7 +48,7 @@ const PostView = (props) => {
         // eslint-disable-next-line
     }, [limit, props.isload]);
     //--------------Fonction delete post------------------//
-
+console.log(posts);
     const handleDeletePost = (idpost, imageUrl) => {
         let token = localStorage.getItem('token');
         let url = imageUrl;
@@ -262,7 +262,7 @@ const PostView = (props) => {
                         <img className='post-img' src={post.imageUrl} alt={'image post n:' + post.id} />}
                     <p className='text-color-3'>{post.text}</p>
                     <div className='post-footer'>
-                        <LikeComponent idpost={post.id} liked={post.liked} disliked={post.disliked} id_user={post.id_user} />
+                        <LikeComponent idpost={post.id} liked={post.liked} disliked={post.disliked} id_user={post.id_user} islikeactive={post.islikeactive} />
                         <Button onClick={() => setAddComment(index)} size="small" endIcon={<MessageIcon />}>Ajouter un Commentaire</Button>
                     </div>
                     <div className='add-comment' key={index} style={{ display: index === addComment ? "flex" : "none" }}>

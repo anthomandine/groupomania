@@ -22,10 +22,10 @@ exports.createPost = (req, res, next) => {
 
 exports.getAllPosts = (req, res, next) => {
 
-    //let userId = req.params.userId;
+    let userId = req.params.userId;
     let limit = req.params.limit;
 
-    let sql = 'SELECT p.id, p.text, p.imageUrl, p.id_user, p.created_at, u.pseudo, SUM(islike = 1) AS liked, SUM(islike = 0) as disliked FROM post p LEFT JOIN user_post us ON p.id = us.post_id LEFT JOIN user u ON p.id_user = u.id GROUP BY p.id ORDER BY p.id DESC LIMIT 0,' + limit;
+    let sql = 'SELECT t.id, p.text, p.imageUrl, p.id_user, p.created_at, u.pseudo, (SELECT MAX(islike)FROM user_post us WHERE us.user_id ='+userId+' AND us.post_id = t.id ) AS islikeactive, t.liked, t.disliked FROM ( SELECT p.id, SUM(islike = 1) AS liked, SUM(islike = 0) as disliked  FROM post p LEFT OUTER JOIN user_post us ON p.id = us.post_id LEFT OUTER JOIN user u ON p.id_user = u.id GROUP BY p.id ) t INNER JOIN post p ON p.id = t.id INNER JOIN user u ON p.id_user = u.id ORDER BY p.id DESC LIMIT 0,'+limit;
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec BD", err);
         else {
@@ -120,20 +120,6 @@ exports.likePost = (req, res, next) => {
             }
         }
     });
-};
-
-exports.getLike = (req, res, next) => {
-
-    let idpost = req.params.idpost;
-    let userId = req.params.userId;
-    let sql = 'SELECT * FROM user_post WHERE user_id =' + userId + ' AND post_id =' + idpost;
-    connexion.query(sql, (err, results, fields) => {
-        if (err) console.log("Echec BD", err);
-        else {
-            const result = Object.values(JSON.parse(JSON.stringify(results)));
-            return res.status(200).json(result);
-        }
-    })
 };
 
 
