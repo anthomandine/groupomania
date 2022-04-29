@@ -7,15 +7,12 @@ import axios from 'axios';
 const LikeComponent = (props) => {
     //---------Init variables----------//
     let like = null;
-
     let [liked, setLiked] = useState(props.liked);
     let [disliked, setDisliked] = useState(props.disliked);
-
     const [state, setState] = useState({
         likeActive: null,
         dislikeActive: null
     });
-
 
     //---------Récupération des données ----------//
 
@@ -55,8 +52,6 @@ const LikeComponent = (props) => {
             like = true;
         }
         axiosPostLike();
-
-
     };
 
     //---------fonction click dislike----------//
@@ -74,7 +69,6 @@ const LikeComponent = (props) => {
             like = false;
         }
         axiosPostLike();
-
     };
 
     //---------Fonction envoi des données post pour les likes----------//
@@ -100,7 +94,6 @@ const LikeComponent = (props) => {
                 console.log('err post like front', erreur);
             })
     };
-
 
     return (
         <div>

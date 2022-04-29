@@ -25,7 +25,7 @@ exports.getAllPosts = (req, res, next) => {
     //let userId = req.params.userId;
     let limit = req.params.limit;
 
-    let sql = 'SELECT p.id, p.text, p.imageUrl, p.id_user, p.created_at, u.pseudo, SUM(islike = 1) AS liked, SUM(islike = 0) as disliked FROM post p LEFT JOIN user_post us ON p.id = us.post_id LEFT JOIN user u ON p.id_user = u.id GROUP BY p.id ORDER BY p.id DESC LIMIT 0,'+limit;
+    let sql = 'SELECT p.id, p.text, p.imageUrl, p.id_user, p.created_at, u.pseudo, SUM(islike = 1) AS liked, SUM(islike = 0) as disliked FROM post p LEFT JOIN user_post us ON p.id = us.post_id LEFT JOIN user u ON p.id_user = u.id GROUP BY p.id ORDER BY p.id DESC LIMIT 0,' + limit;
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec BD", err);
         else {
@@ -63,7 +63,7 @@ exports.getComments = (req, res, next) => {
 
     let idpost = req.params.idpost;
     let limit = req.params.limit;
-    let sql = 'SELECT c.id, c.text, c.id_user, c.id_post, c.created_at, email, pseudo, avatar  FROM comment c LEFT JOIN post p ON p.id = c.id_post LEFT JOIN user u ON u.id = c.id_user WHERE p.id ='+idpost+' ORDER BY c.id DESC LIMIT 0,'+limit
+    let sql = 'SELECT c.id, c.text, c.id_user, c.id_post, c.created_at, email, pseudo, avatar  FROM comment c LEFT JOIN post p ON p.id = c.id_post LEFT JOIN user u ON u.id = c.id_user WHERE p.id =' + idpost + ' ORDER BY c.id DESC LIMIT 0,' + limit
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec BD");
         else {
@@ -122,16 +122,11 @@ exports.likePost = (req, res, next) => {
     });
 };
 
-
-
 exports.getLike = (req, res, next) => {
 
     let idpost = req.params.idpost;
     let userId = req.params.userId;
-
-    
-
-    let sql = 'SELECT * FROM user_post WHERE user_id ='+userId+' AND post_id ='+idpost;
+    let sql = 'SELECT * FROM user_post WHERE user_id =' + userId + ' AND post_id =' + idpost;
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec BD", err);
         else {
