@@ -243,7 +243,6 @@ const PostView = (props) => {
             setLimit(lazy.limit);
         }
     };
-console.log(posts);
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
     }, []);

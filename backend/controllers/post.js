@@ -128,13 +128,15 @@ exports.getLike = (req, res, next) => {
 
     let idpost = req.params.idpost;
     let userId = req.params.userId;
+
     
 
-    let sql = 'SELECT islike FROM user_post WHERE post_id ='+idpost+' AND user_id ='+userId;
+    let sql = 'SELECT * FROM user_post WHERE user_id ='+userId+' AND post_id ='+idpost;
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec BD", err);
         else {
-            return res.status(200).json(results);
+            const result = Object.values(JSON.parse(JSON.stringify(results)));
+            return res.status(200).json(result);
         }
     })
 };

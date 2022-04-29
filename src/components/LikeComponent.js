@@ -12,8 +12,8 @@ const LikeComponent = (props) => {
     let [disliked, setDisliked] = useState(props.disliked);
 
     const [state, setState] = useState({
-        likeActive: '',
-        dislikeActive: ''
+        likeActive: null,
+        dislikeActive: null
     });
 
 
@@ -22,27 +22,19 @@ const LikeComponent = (props) => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         let idpost = props.idpost;
-        let userId = props.id_user;
+        let userId = localStorage.getItem('userId');
         const axiosGet = async () => {
             const reponse = await axios.get('http://localhost:3000/api/post/' + idpost + '/like/' + userId, {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
             });
-            console.log(reponse.data[0]);
-            if (reponse.data[0] === undefined) {
-                setState({
-                    likeActive: null,
-                    dislikeActive: null
-                });
-            }
-            else {
+            if (reponse.data[0]) {
                 setState({
                     likeActive: reponse.data[0].islike === 1,
                     dislikeActive: reponse.data[0].islike === 0
                 });
             }
-
         };
         axiosGet();
         // eslint-disable-next-line
