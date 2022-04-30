@@ -101,8 +101,7 @@ export default function CustomizedDialogsAdmin(props) {
     //---------------Fonction delete users et posts -------------//
 
     const handleDelet = (props) => {
-
-        if (props.idpost) {
+        if (props.id_user) {
             swal({
                 title: "Etes vous sure de vouloir supprimer ce post ?",
                 text: "La suppression sera définitive !",
@@ -116,7 +115,7 @@ export default function CustomizedDialogsAdmin(props) {
                             icon: "success",
                         });
                         let token = localStorage.getItem('token');
-                        let idpost = props.idpost;
+                        let idpost = props.id;
                         let url = props.imageUrl;
 
                         axios({
@@ -154,7 +153,7 @@ export default function CustomizedDialogsAdmin(props) {
                             icon: "success",
                         });
                         let token = localStorage.getItem('token');
-                        let userId = props.userId;
+                        let userId = props.id;
                         axios({
                             method: 'put',
                             url: 'http://localhost:3000/api/auth/delete/' + userId,

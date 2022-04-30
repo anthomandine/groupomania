@@ -9,8 +9,8 @@ const LikeComponent = (props) => {
 
     //---------Init variables----------//
     let like = null;
-    let [liked, setLiked] = useState(props.liked);
-    let [disliked, setDisliked] = useState(props.disliked);
+    let [liked, setLiked] = useState();
+    let [disliked, setDisliked] = useState();
     const [state, setState] = useState({
         likeActive: '',
         dislikeActive: ''
@@ -21,6 +21,8 @@ const LikeComponent = (props) => {
             likeActive: props.islikeactive === 1,
             dislikeActive: props.islikeactive === 0
         });
+        setLiked(props.liked);
+        setDisliked(props.disliked);
     }, [props]);
 
     //---------fonction click like----------//
