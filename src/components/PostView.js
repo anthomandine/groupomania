@@ -27,6 +27,7 @@ const PostView = (props) => {
     const [limit, setLimit] = useState(lazy.limit);
     const postsContent = useRef(null);
     const [success, setSuccess] = useState(false);
+    
 
     //--------------Récupération des posts 5 par 5------------------//
 
@@ -47,8 +48,9 @@ const PostView = (props) => {
         axiosGet();
         // eslint-disable-next-line
     }, [limit, props.isload]);
+
     //--------------Fonction delete post------------------//
-console.log(posts);
+
     const handleDeletePost = (idpost, imageUrl) => {
         let token = localStorage.getItem('token');
         let url = imageUrl;
@@ -233,7 +235,7 @@ console.log(posts);
 
     const handleScroll = () => {
         if (lazy.stop) return;
-        
+
         let contentWidth = postsContent.current.scrollHeight;
         let scrollY = window.pageYOffset;
 
@@ -243,9 +245,11 @@ console.log(posts);
             setLimit(lazy.limit);
         }
     };
+
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
     }, []);
+    
     //--------------render/return viewpost------------------//
     return (
         <div ref={postsContent}>
@@ -262,7 +266,13 @@ console.log(posts);
                         <img className='post-img' src={post.imageUrl} alt={'image post n:' + post.id} />}
                     <p className='text-color-3'>{post.text}</p>
                     <div className='post-footer'>
-                        <LikeComponent idpost={post.id} liked={post.liked} disliked={post.disliked} id_user={post.id_user} islikeactive={post.islikeactive} />
+                        <LikeComponent
+                            idpost={post.id}
+                            liked={post.liked}
+                            disliked={post.disliked}
+                            id_user={post.id_user}
+                            islikeactive={post.islikeactive}
+                        />
                         <Button onClick={() => setAddComment(index)} size="small" endIcon={<MessageIcon />}>Ajouter un Commentaire</Button>
                     </div>
                     <div className='add-comment' key={index} style={{ display: index === addComment ? "flex" : "none" }}>

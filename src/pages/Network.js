@@ -20,10 +20,10 @@ const Network = () => {
 
     const [isload, setisload] = useState(false);
 
-    function isLoadF(){
+    function isLoadF() {
         setisload(!isload)
     };
-    
+
 
     //---------condition connexion ----------//
 
@@ -56,10 +56,13 @@ const Network = () => {
             <BackHome />
             <HeaderComponent />
             <NetworkHeaderComponent isLoadF={isLoadF} isload={isload} />
-            <div className='refresh'><IconButton onClick={() => window.location.reload()}><CachedIcon />actualiser</IconButton></div>
+            <div className='refresh'>
+                <IconButton onClick={() => window.location.reload()}>
+                    <CachedIcon />actualiser</IconButton>
+            </div>
             <PostAddView isLoadF={isLoadF} isload={isload} />
             <FooterComponent />
-            <PostView isLoadF={isLoadF} isload={isload}/>
+            <PostView isLoadF={isLoadF} isload={isload} />
         </div>
     );
 };

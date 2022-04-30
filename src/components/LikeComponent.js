@@ -5,15 +5,23 @@ import { IconButton } from '@mui/material';
 import axios from 'axios';
 
 const LikeComponent = (props) => {
+
+
     //---------Init variables----------//
     let like = null;
     let [liked, setLiked] = useState(props.liked);
     let [disliked, setDisliked] = useState(props.disliked);
     const [state, setState] = useState({
-        likeActive: props.islikeactive === 1,
-        dislikeActive: props.islikeactive === 0
+        likeActive: '',
+        dislikeActive: ''
     });
-   
+    
+    useEffect(() => {
+        setState({
+            likeActive: props.islikeactive === 1,
+            dislikeActive: props.islikeactive === 0
+        });
+    }, [props]);
 
     //---------fonction click like----------//
 

@@ -84,7 +84,7 @@ const PostAddView = (props) => {
             <form method="post" onSubmit={handleSubmit}>
                 <p>Ajouter un post:</p>
                 <TextField id="text-post" label="Écrire votre post"
-                    helperText={postError ?'Post non valide' : ""}
+                    helperText={postError ? 'Post non valide' : ""}
                     name='post'
                     multiline maxRows={6} fullWidth
                     onChange={handleChange}
