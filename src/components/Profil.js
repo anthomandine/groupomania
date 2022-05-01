@@ -54,7 +54,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function CustomizedDialogs() {
+export default function CustomizedDialogs(props) {
   const [open, setOpen] = React.useState(false);
 
   const [confirm, setConfirm] = useState(false);
@@ -114,6 +114,7 @@ export default function CustomizedDialogs() {
     })
       .then(function (reponse) {
         setConfirm(true);
+        props.isProfilLoad();
         // eslint-disable-next-line
         setTimeout(() => (window.location.reload(), setOpen(false)), 2000);
       })

@@ -24,6 +24,12 @@ const Network = () => {
         setisload(!isload)
     };
 
+    const [profilLoad, setProfilLoad] = useState(false);
+
+    function isProfilLoad() {
+        setProfilLoad(!profilLoad)
+    };
+
 
     //---------condition connexion ----------//
 
@@ -55,7 +61,12 @@ const Network = () => {
         <div>
             <BackHome />
             <HeaderComponent />
-            <NetworkHeaderComponent isLoadF={isLoadF} isload={isload} />
+            <NetworkHeaderComponent
+                isLoadF={isLoadF}
+                isload={isload}
+                profilLoad={profilLoad}
+                isProfilLoad={isProfilLoad}
+            />
             <div className='refresh'>
                 <IconButton onClick={() => window.location.reload()}>
                     <CachedIcon />actualiser</IconButton>
