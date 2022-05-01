@@ -249,18 +249,20 @@ const PostView = (props) => {
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
     }, []);
-
+    
     //--------------render/return viewpost------------------//
     return (
         <div ref={postsContent}>
             {success && <div className='delet-success'><Alert severity="success">Post supprimé !</Alert></div>}
             {posts.map((post, index) => (
                 <div className='post-view' key={index}>
+                    <Avatar alt="avatar" src={post.avatar} sx={{ width: 40, height: 40 }}></Avatar>
                     {(post.id_user === parseInt(userId) || parseInt(isadmin) === 1) && <div className='delete-button-post'>
                         <IconButton aria-label="delete" size="large" onClick={() => handleDeletePost(post.id, post.imageUrl)} >
                             <DeleteIcon />
                         </IconButton>
                     </div>}
+
                     <p>{renderDate(post.created_at)} {post.pseudo} à posté : </p>
                     {post.imageUrl.length > 0 &&
                         <img className='post-img' src={post.imageUrl} alt={'image post n:' + post.id} />}
