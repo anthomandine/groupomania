@@ -27,7 +27,7 @@ const PostView = (props) => {
     const [limit, setLimit] = useState(lazy.limit);
     const postsContent = useRef(null);
     const [success, setSuccess] = useState(false);
-    
+
 
     //--------------Récupération des posts 5 par 5------------------//
 
@@ -42,7 +42,7 @@ const PostView = (props) => {
                 }
             });
             let data = (await reponse).data;
-            lazy.stop = (posts.length === data.length) || !(Number.isInteger(data.length / 5));
+            lazy.stop = ((posts.length === data.length) && !(Number.isInteger(data.length / 5)));
             setPosts((await reponse).data);
         };
         axiosGet();
@@ -249,7 +249,7 @@ const PostView = (props) => {
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
     }, []);
-    
+
     //--------------render/return viewpost------------------//
     return (
         <div ref={postsContent}>
