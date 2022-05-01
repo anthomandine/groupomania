@@ -36,7 +36,7 @@ const PostView = (props) => {
         let userId = localStorage.getItem('userId');
         const axiosGet = async () => {
 
-            const reponse = axios.get('http://localhost:3000/api/post/all/' + userId + '/' + limit, {
+            const reponse = axios.get('http://localhost:3000/api/post/' + userId + '/' + limit +'/posts', {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
