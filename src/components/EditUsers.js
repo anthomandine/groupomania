@@ -249,10 +249,10 @@ export default function CustomizedDialogsAdmin(props) {
         setLoading(true);
         let token = localStorage.getItem('token');
         let userId = localStorage.getItem('userId');
-        let limit = 50;
+        let limit = 100;
 
         const axiosGet = async () => {
-            const reponse = axios.get('http://localhost:3000/api/post/all/' + userId + '/' + limit, {
+            const reponse = axios.get('http://localhost:3000/api/post/' + userId + '/' + limit + '/posts', {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }

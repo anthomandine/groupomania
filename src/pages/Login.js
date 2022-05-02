@@ -129,7 +129,7 @@ const Login = () => {
                                 type="password"
                                 error={pwdError}
                             />
-                            <Button type='submit' onClick={validate}>Conexion</Button>
+                            <Button type='submit' onClick={validate}>Connexion</Button>
                             {errorMessage && (<p className="error"> {errorMessage} </p>)}
                         </form>
                     </div>
