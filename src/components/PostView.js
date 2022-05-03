@@ -8,6 +8,7 @@ import LikeComponent from './LikeComponent';
 import moment from 'moment';
 import "moment/locale/fr";
 import { validComment } from '../components/Regex';
+import swal from 'sweetalert';
 
 //---------Init variables limit sql posts et commentaires----------//
 
@@ -36,7 +37,7 @@ const PostView = (props) => {
         let userId = localStorage.getItem('userId');
         const axiosGet = async () => {
 
-            const reponse = axios.get('http://localhost:3000/api/post/' + userId + '/' + limit +'/posts', {
+            const reponse = axios.get('http://localhost:3000/api/post/' + userId + '/' + limit + '/posts', {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
@@ -52,28 +53,46 @@ const PostView = (props) => {
     //--------------Fonction delete post------------------//
 
     const handleDeletePost = (idpost, imageUrl) => {
-        let token = localStorage.getItem('token');
-        let url = imageUrl;
 
-        axios({
-            method: 'delete',
-            url: 'http://localhost:3000/api/post/' + idpost,
-            headers: {
-                'Authorization': 'Bearer ' + token
-            },
-            data: { url }
+        swal({
+            title: "Etes vous sure de vouloir supprimer ce post ?",
+            text: "La suppression sera définitive !",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
         })
-            .then(function (reponse) {
-                setSuccess(true);
-                setTimeout(() => {
-                    setSuccess(false);
-                    props.isLoadF();
-                }, 1200);
-            })
-            .catch(function (err) {
-                console.log(err);
-            });
+            .then((willDelete) => {
+                if (willDelete) {
+                    swal("Le post à été supprimer!", {
+                        icon: "success",
+                    });
+                    let token = localStorage.getItem('token');
+                    let url = imageUrl;
 
+                    axios({
+                        method: 'delete',
+                        url: 'http://localhost:3000/api/post/' + idpost,
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        },
+                        data: { url }
+                    })
+                        .then(function (reponse) {
+                            setSuccess(true);
+                            setTimeout(() => {
+                                setSuccess(false);
+                                props.isLoadF();
+                            }, 1200);
+                        })
+                        .catch(function (err) {
+                            console.log(err);
+                        });
+                } else {
+                    swal("Action Annulé !", {
+                        icon: "error",
+                    });
+                }
+            });
     };
 
     //--------------Fonction récupération input commentaire------------------//
@@ -126,20 +145,39 @@ const PostView = (props) => {
     //--------------Fonction delete commentaire------------------//
 
     const handleDeleteComment = (idcomment, idpost) => {
-        let token = localStorage.getItem('token');
-        axios({
-            method: 'delete',
-            url: 'http://localhost:3000/api/comment/' + idcomment,
-            headers: {
-                'Authorization': 'Bearer ' + token
-            }
+
+        swal({
+            title: "Etes vous sure de vouloir supprimer ce commentaire ?",
+            text: "La suppression sera définitive !",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
         })
-            .then(function (reponse) {
-                console.log("commentaire supprimé");
-                renderComments(idpost);
-            })
-            .catch(function (err) {
-                console.log(err);
+            .then((willDelete) => {
+                if (willDelete) {
+                    swal("Le commentaire à été supprimer!", {
+                        icon: "success",
+                    });
+                    let token = localStorage.getItem('token');
+                    axios({
+                        method: 'delete',
+                        url: 'http://localhost:3000/api/comment/' + idcomment,
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    })
+                        .then(function (reponse) {
+                            console.log("commentaire supprimé");
+                            renderComments(idpost);
+                        })
+                        .catch(function (err) {
+                            console.log(err);
+                        });
+                } else {
+                    swal("Action Annulé !", {
+                        icon: "error",
+                    });
+                }
             });
     };
 
@@ -249,7 +287,7 @@ const PostView = (props) => {
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
     }, []);
-    
+
     //--------------render/return viewpost------------------//
     return (
         <div ref={postsContent}>
