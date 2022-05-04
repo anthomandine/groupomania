@@ -10,6 +10,7 @@ import CachedIcon from '@mui/icons-material/Cached';
 import { IconButton } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import FooterComponent from '../components/FooterComponent';
+import { URL } from '../App';
 
 const Network = () => {
 
@@ -43,7 +44,7 @@ const Network = () => {
 
     //---------Récupération des données user----------//
 
-    axios.get('http://localhost:3000/api/auth/' + userId,
+    axios.get(URL + '/api/auth/' + userId,
         {
             headers: {
                 'Authorization': 'Bearer ' + token

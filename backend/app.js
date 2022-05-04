@@ -11,7 +11,6 @@ const commentRoutes = require('./routes/comment');
 const app = express();
 
 //-------Acceptation cross platform---------//
-
 app.use(cors())
 
 //--------Chargement de la fonction bodyParser(analyseur de corps de requête)---------//
@@ -32,7 +31,7 @@ app.use('/api/auth', userRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
 
-  module.exports = app;
+module.exports = app;
 
 //bash: npm install
 //bash: npm install body-parser

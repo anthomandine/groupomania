@@ -5,6 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
 import axios from 'axios';
 import { validPost } from '../components/Regex';
+import { URL } from '../App';
 
 const PostAddView = (props) => {
 
@@ -57,7 +58,7 @@ const PostAddView = (props) => {
 
         axios({
             method: 'post',
-            url: 'http://localhost:3000/api/post',
+            url: URL + '/api/post',
             data: form,
             headers: {
                 'Authorization': 'Bearer ' + token

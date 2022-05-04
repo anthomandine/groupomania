@@ -16,6 +16,7 @@ import moment from 'moment';
 import "moment/locale/fr";
 import swal from 'sweetalert';
 import { CircularProgress } from '@mui/material';
+import { URL } from '../App';
 
 //--------------MUI dialog---------------------//
 
@@ -86,7 +87,7 @@ export default function CustomizedDialogsAdmin(props) {
         let token = localStorage.getItem('token');
         let isadmin = localStorage.getItem('isadmin');
         const axiosGet = async () => {
-            const reponse = await axios.get('http://localhost:3000/api/auth/' + isadmin + '/users', {
+            const reponse = await axios.get(URL + '/api/auth/' + isadmin + '/users', {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
@@ -120,7 +121,7 @@ export default function CustomizedDialogsAdmin(props) {
 
                         axios({
                             method: 'delete',
-                            url: 'http://localhost:3000/api/post/' + idpost,
+                            url: URL + '/api/post/' + idpost,
                             headers: {
                                 'Authorization': 'Bearer ' + token
                             },
@@ -156,7 +157,7 @@ export default function CustomizedDialogsAdmin(props) {
                         let userId = props.id;
                         axios({
                             method: 'put',
-                            url: 'http://localhost:3000/api/auth/delete/' + userId,
+                            url: URL + '/api/auth/delete/' + userId,
                             headers: {
                                 'Authorization': 'Bearer ' + token
                             }
@@ -252,7 +253,7 @@ export default function CustomizedDialogsAdmin(props) {
         let limit = 100;
 
         const axiosGet = async () => {
-            const reponse = axios.get('http://localhost:3000/api/post/' + userId + '/' + limit + '/posts', {
+            const reponse = axios.get(URL + '/api/post/' + userId + '/' + limit + '/posts', {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }

@@ -9,6 +9,7 @@ import { Avatar } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { validEmail, validPassword, validPseudo } from '../components/Regex';
+import { URL } from '../App';
 
 const SignIn = () => {
 
@@ -97,13 +98,13 @@ const SignIn = () => {
         };
         axios({
             method: 'post',
-            url: 'http://localhost:3000/api/auth/signin',
+            url: URL + '/api/auth/signin',
             data: userData
         })
             .then(function (reponse) {
                 console.log("profil créé!");
                 setConfirm(true);
-                setTimeout(() => navigate(`/Login`), 2000);
+                setTimeout(() => navigate(`/login`), 2000);
 
             })
             .catch(function (erreur) {

@@ -3,6 +3,7 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import { IconButton } from '@mui/material';
 import axios from 'axios';
+import { URL } from '../App';
 
 const LikeComponent = (props) => {
 
@@ -69,7 +70,7 @@ const LikeComponent = (props) => {
 
         axios({
             method: 'post',
-            url: 'http://localhost:3000/api/post/' + idpost + '/like',
+            url: URL + '/api/post/' + idpost + '/like',
             data: [data],
             headers: {
                 'Authorization': 'Bearer ' + token

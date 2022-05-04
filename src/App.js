@@ -6,15 +6,18 @@ import NotFound from './pages/NotFound';
 import SignIn from './pages/SignIn';
 import Network from './pages/Network';
 
+export const URL = 'http://app.weeking.fr';
+//export const URL = 'http://localhost:8100';
+
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" exact element={<Home/>}></Route>
-        <Route path="/Login" exact element={<Login/>}></Route>
-        <Route path="/SignIn" exact element={<SignIn/>}></Route>
-        <Route path='/Network' exact element={<Network/>}></Route>
-        <Route path="*" element={<NotFound/>}></Route>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/signIn" element={<SignIn />}></Route>
+        <Route path='/network' element={<Network />}></Route>
+        <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </BrowserRouter>
   );

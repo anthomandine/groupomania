@@ -8,6 +8,8 @@ import FooterComponent from '../components/FooterComponent';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { validEmail, validPassword } from '../components/Regex';
+import { URL } from '../App';
+
 
 const Login = () => {
 
@@ -79,14 +81,14 @@ const Login = () => {
         };
         axios({
             method: 'post',
-            url: 'http://localhost:3000/api/auth/login',
-            data: userData
+            url: URL + '/api/auth/login',
+            data: userData,
         })
             .then(function (reponse) {
                 localStorage.setItem('userId', reponse.data.userId);
                 localStorage.setItem('token', reponse.data.token);
                 localStorage.setItem('isadmin', reponse.data.isadmin);
-                navigate(`/Network`);
+                navigate(`/network`);
                 window.location.reload();
             })
             .catch(function (err) {

@@ -8,7 +8,7 @@ const Home = () => {
     let navigate = useNavigate();
     useEffect(() => {
         if (localStorage.length > 0) {
-            navigate(`/Network`);
+            navigate(`/network`);
         };
         // eslint-disable-next-line
     }, [])

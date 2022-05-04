@@ -9,6 +9,7 @@ import moment from 'moment';
 import "moment/locale/fr";
 import { validComment } from '../components/Regex';
 import swal from 'sweetalert';
+import { URL } from '../App';
 
 //---------Init variables limit sql posts et commentaires----------//
 
@@ -37,7 +38,7 @@ const PostView = (props) => {
         let userId = localStorage.getItem('userId');
         const axiosGet = async () => {
 
-            const reponse = axios.get('http://localhost:3000/api/post/' + userId + '/' + limit + '/posts', {
+            const reponse = axios.get(URL + '/api/post/' + userId + '/' + limit + '/posts', {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
@@ -71,7 +72,7 @@ const PostView = (props) => {
 
                     axios({
                         method: 'delete',
-                        url: 'http://localhost:3000/api/post/' + idpost,
+                        url: URL + '/api/post/' + idpost,
                         headers: {
                             'Authorization': 'Bearer ' + token
                         },
@@ -125,7 +126,7 @@ const PostView = (props) => {
         else {
             axios({
                 method: 'post',
-                url: 'http://localhost:3000/api/comment',
+                url: URL + '/api/comment',
                 data: commentData,
                 headers: {
                     'Authorization': 'Bearer ' + token
@@ -161,7 +162,7 @@ const PostView = (props) => {
                     let token = localStorage.getItem('token');
                     axios({
                         method: 'delete',
-                        url: 'http://localhost:3000/api/comment/' + idcomment,
+                        url: URL + '/api/comment/' + idcomment,
                         headers: {
                             'Authorization': 'Bearer ' + token
                         }
@@ -203,7 +204,7 @@ const PostView = (props) => {
         setViewComments([...viewComments]);
 
         const axiosGet = async () => {
-            const reponse = axios.get('http://localhost:3000/api/post/' + idpost + '/' + lazyComment.limit + '/comments', {
+            const reponse = axios.get(URL + '/api/post/' + idpost + '/' + lazyComment.limit + '/comments', {
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }

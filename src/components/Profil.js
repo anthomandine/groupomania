@@ -13,6 +13,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { useState } from 'react';
 import axios from 'axios';
 import swal from 'sweetalert';
+import { URL } from '../App';
 
 //--------------MUI dialog---------------------//
 
@@ -106,7 +107,7 @@ export default function CustomizedDialogs(props) {
     let token = localStorage.getItem('token');
     axios({
       method: 'put',
-      url: 'http://localhost:3000/api/auth/' + userId,
+      url: URL + '/api/auth/' + userId,
       data: userData,
       headers: {
         'Authorization': 'Bearer ' + token
@@ -145,7 +146,7 @@ export default function CustomizedDialogs(props) {
 
           axios({
             method: 'put',
-            url: 'http://localhost:3000/api/auth/delete/' + userId,
+            url: URL + '/api/auth/delete/' + userId,
             headers: {
               'Authorization': 'Bearer ' + token
             }
