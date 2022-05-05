@@ -23,6 +23,11 @@ body{
     margin: auto;
 }
 
+.MuiPaper-root{
+    width: 100%;
+    max-width: 1000px!important;
+}
+
 a{
     color: black;
     text-decoration: none;
