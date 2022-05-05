@@ -8,9 +8,9 @@ exports.createComment = (req, res, next) => {
     let idpost = req.body.idpost;
     let idAuthor = req.body.idAuthor;
 
-    let sql = 'INSERT INTO comment (text, id_post, id_user, created_at) VALUES (\'' + comment + '\', ' + idpost + ', ' + idAuthor + ',  Now() )';
+    let sql = 'INSERT INTO comment (text, id_post, id_user, created_at) VALUES (?, ' + idpost + ', ' + idAuthor + ',  Now() )';
 
-    connexion.query(sql, (err, results, fields) => {
+    connexion.query(sql,comment, (err, results, fields) => {
         if (err) console.log("Echec d'enregistrement à BD", err);
         else {
             return res.status(200).json({ message: "commentaire créé !" });
