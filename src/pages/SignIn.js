@@ -90,7 +90,7 @@ const SignIn = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (validate()) {
+        if (validEmail.test(data.email) && validPassword.test(data.password) && validPseudo.test(data.pseudo) ) {
             const userData = {
                 email: data.email,
                 password: data.password,

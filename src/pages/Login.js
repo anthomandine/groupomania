@@ -75,25 +75,30 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const userData = {
-            email: data.email,
-            password: data.password
-        };
-        axios({
-            method: 'post',
-            url: URL + '/api/auth/login',
-            data: userData,
-        })
-            .then(function (reponse) {
-                localStorage.setItem('userId', reponse.data.userId);
-                localStorage.setItem('token', reponse.data.token);
-                localStorage.setItem('isadmin', reponse.data.isadmin);
-                navigate(`/network`);
-                window.location.reload();
+        if (validEmail.test(data.email) && validPassword.test(data.password)) {
+            const userData = {
+                email: data.email,
+                password: data.password
+            };
+            axios({
+                method: 'post',
+                url: URL + '/api/auth/login',
+                data: userData,
             })
-            .catch(function (err) {
-                setErrorMessage('Email ou mot de passe incorrect ! ');
-            });
+                .then(function (reponse) {
+                    localStorage.setItem('userId', reponse.data.userId);
+                    localStorage.setItem('token', reponse.data.token);
+                    localStorage.setItem('isadmin', reponse.data.isadmin);
+                    navigate(`/network`);
+                    window.location.reload();
+                })
+                .catch(function (err) {
+                    setErrorMessage('Email ou mot de passe incorrect ! ');
+                });
+        }
+        else {
+            return;
+        }
     };
 
     return (
