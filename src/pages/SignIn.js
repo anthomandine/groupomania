@@ -90,26 +90,31 @@ const SignIn = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const userData = {
-            email: data.email,
-            password: data.password,
-            pseudo: data.pseudo,
-            avatar: avatars[avatar]
-        };
-        axios({
-            method: 'post',
-            url: URL + '/api/auth/signin',
-            data: userData
-        })
-            .then(function (reponse) {
-                console.log("profil créé!");
-                setConfirm(true);
-                setTimeout(() => navigate(`/login`), 2000);
-
+        if (validate()) {
+            const userData = {
+                email: data.email,
+                password: data.password,
+                pseudo: data.pseudo,
+                avatar: avatars[avatar]
+            };
+            axios({
+                method: 'post',
+                url: URL + '/api/auth/signin',
+                data: userData
             })
-            .catch(function (erreur) {
-                setErrorMessage('Email déjà utilisé');
-            });
+                .then(function (reponse) {
+                    console.log("profil créé!");
+                    setConfirm(true);
+                    setTimeout(() => navigate(`/login`), 2000);
+
+                })
+                .catch(function (erreur) {
+                    setErrorMessage('Email déjà utilisé');
+                });
+        }
+        else {
+            return;
+        }
     };
 
     return (
