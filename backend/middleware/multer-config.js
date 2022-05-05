@@ -5,17 +5,18 @@ const MIME_TYPES = {
   'image/jpg': 'jpg',
   'image/jpeg': 'jpeg',
   'image/png': 'png',
+  'image/webp': 'webp',
   'image/gif': 'gif'
 };
 
-let folder = './images';
+let folder = '/home/asanna/www/groupomania/backend/images';
 if (!fs.existsSync(folder)) {
   fs.mkdirSync(folder);
 };
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, './images');
+    callback(null, '/home/asanna/www/groupomania/backend/images');
   },
   filename: (req, file, callback) => {
     const name = file.originalname.split(' ').join('_');
