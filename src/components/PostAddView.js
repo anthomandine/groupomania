@@ -49,35 +49,41 @@ const PostAddView = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('token');
-        const userId = localStorage.getItem('userId');
-        const form = new FormData();
-        form.append('post', data.post);
-        form.append('image', data.image);
-        form.append('userId', userId);
+        if (validPost.test(data.post)) {
+            const token = localStorage.getItem('token');
+            const userId = localStorage.getItem('userId');
+            const form = new FormData();
+            form.append('post', data.post);
+            form.append('image', data.image);
+            form.append('userId', userId);
 
-        axios({
-            method: 'post',
-            url: URL + '/api/post',
-            data: form,
-            headers: {
-                'Authorization': 'Bearer ' + token
-            }
-        })
-            .then(function (reponse) {
-                props.isLoadF();
-                setSuccess(true);
-                setTimeout(() => {
-                    setSuccess(false);
-                }, 2000);
+            axios({
+                method: 'post',
+                url: URL + '/api/post',
+                data: form,
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
             })
-            .catch(function (err) {
-                console.log(err);
-                setAlert(true);
-                setTimeout(() => {
-                    setAlert(false);
-                }, 2000);
-            });
+                .then(function (reponse) {
+                    props.isLoadF();
+                    setSuccess(true);
+                    setTimeout(() => {
+                        setSuccess(false);
+                    }, 2000);
+                })
+                .catch(function (err) {
+                    console.log(err);
+                    setAlert(true);
+                    setTimeout(() => {
+                        setAlert(false);
+                    }, 2000);
+                });
+        }
+        else {
+            return;
+        }
+
     };
 
     return (

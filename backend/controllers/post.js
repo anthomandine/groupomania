@@ -9,8 +9,8 @@ exports.createPost = (req, res, next) => {
     let userId = req.body.userId;
     let imageUrl = req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : '';
 
-    let sql = 'INSERT INTO post (text, imageUrl, id_user, created_at) VALUES (\'' + post + '\', \'' + imageUrl + '\', \'' + userId + '\', Now() )';
-    connexion.query(sql, (err, results, fields) => {
+    let sql = 'INSERT INTO post (text, imageUrl, id_user, created_at) VALUES (?, \'' + imageUrl + '\', \'' + userId + '\', Now() )';
+    connexion.query(sql,post, (err, results, fields) => {
         if (err) console.log("Echec d'enregistrement à BD", err);
         else {
             return res.status(200).json({ message: "post créé !" });

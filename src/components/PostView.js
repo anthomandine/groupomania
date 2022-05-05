@@ -120,10 +120,7 @@ const PostView = (props) => {
         let token = localStorage.getItem('token');
 
         //---------Verification Regex----------//
-        if (!validComment.test(data.comment)) {
-            setCommentErr(true);
-        }
-        else {
+        if (validComment.test(data.comment)) {
             axios({
                 method: 'post',
                 url: URL + '/api/comment',
@@ -140,6 +137,11 @@ const PostView = (props) => {
                     console.log(erreur);
                 });
             setAddComment('');
+        }
+        else {
+            
+            setCommentErr(true);
+            return;
         }
     };
 
