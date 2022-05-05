@@ -46,7 +46,7 @@ exports.deletPost = (req, res, next) => {
         else {
             if (req.body.url.length > 0) {
                 const filename = req.body.url.split('/images/')[1];
-                fs.unlink(`images/${filename}`, () => {
+                fs.unlink(`/home/asanna/www/groupomania/backend/images/${filename}`, () => {
                     return res.status(200).json({ message: 'post supprimé !' })
                 });
             }
