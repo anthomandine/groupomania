@@ -268,7 +268,7 @@ export default function CustomizedDialogsAdmin(props) {
     //---------------- render --------------//
 
     return (
-        <div>
+        <div className='edit-users'>
             <Button variant="text" color='error' startIcon={<EditIcon />} onClick={handleClickOpen}>
                 Gestion ADMIN
             </Button>

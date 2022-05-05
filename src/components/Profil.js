@@ -171,7 +171,7 @@ export default function CustomizedDialogs(props) {
   };
 
   return (
-    <div>
+    <div className='profil'>
       <Button variant="text" startIcon={<EditIcon />} onClick={handleClickOpen}>
         Editer profil
       </Button>

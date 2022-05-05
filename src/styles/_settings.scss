@@ -33,6 +33,11 @@ p, h1, h2{
     text-align: center;
 }
 
+.MuiPaper-root{
+    width: 100%;
+    max-width: 1000px!important;
+}
+
 
 @media (max-width: 500px) {
     p,
