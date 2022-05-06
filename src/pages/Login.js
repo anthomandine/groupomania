@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField } from '@mui/material';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
 import { Button } from '@mui/material';
 import Navigation from '../components/Navigation';
 import HeaderComponent from '../components/HeaderComponent';
@@ -140,19 +140,16 @@ const Login = () => {
                                 value={data.password}
                                 type={showPassword ? "text" : "password"}
                                 error={pwdError}
+                                InputProps={{
+                                    endAdornment: <InputAdornment position="start">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={() => { setShowPassword(!showPassword); }}>
+                                            {showPassword ? <VisibilityOffIcon color='action' /> : <VisibilityIcon color='action' />}
+                                        </IconButton>
+                                    </InputAdornment>,
+                                  }}
                             />
-                            {showPassword ?
-                                <VisibilityOffIcon
-                                    color='action'
-                                    fontSize='small'
-                                    onClick={() => { setShowPassword(!showPassword); }}
-                                    style={{ cursor: 'pointer', position: 'absolute', right: 25, bottom: 110 }} />
-                                :
-                                <VisibilityIcon
-                                    color='action'
-                                    fontSize='small'
-                                    onClick={() => { setShowPassword(!showPassword); }}
-                                    style={{ cursor: 'pointer', position: 'absolute', right: 25, bottom: 110 }} />}
                             <Button type='submit' onClick={validate}>Connexion</Button>
                             {errorMessage && (<p className="error"> {errorMessage} </p>)}
                         </form>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, IconButton, TextField } from '@mui/material';
+import { Alert, IconButton, InputAdornment, TextField } from '@mui/material';
 import { Button } from '@mui/material';
 import HeaderComponent from '../components/HeaderComponent';
 import Navigation from '../components/Navigation';
@@ -155,20 +155,16 @@ const SignIn = () => {
                                 value={data.password}
                                 type={showPassword ? "text" : "password"}
                                 error={pwdError}
+                                InputProps={{
+                                    endAdornment: <InputAdornment position="start">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={() => { setShowPassword(!showPassword); }}>
+                                            {showPassword ? <VisibilityOffIcon color='action' /> : <VisibilityIcon color='action' />}
+                                        </IconButton>
+                                    </InputAdornment>,
+                                }}
                             />
-                            {showPassword ?
-                                <VisibilityOffIcon
-                                    color='action'
-                                    fontSize='small'
-                                    onClick={() => { setShowPassword(!showPassword); }}
-                                    style={{ cursor: 'pointer', position: 'absolute', right: 25, bottom: 110 }} />
-                                :
-                                <VisibilityIcon
-                                    color='action'
-                                    fontSize='small'
-                                    onClick={() => { setShowPassword(!showPassword); }}
-                                    style={{ cursor: 'pointer', position: 'absolute', right: 25, bottom: 110 }} />}
-
                             <TextField
                                 id="input-pseudo"
                                 required
