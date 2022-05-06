@@ -10,6 +10,8 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import { validEmail, validPassword, validPseudo } from '../components/Regex';
 import { URL } from '../App';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const SignIn = () => {
 
@@ -41,6 +43,7 @@ const SignIn = () => {
         "../images/avatar/8.png",
         "../images/avatar/9.png"
     ];
+    const [showPassword, setShowPassword] = useState(false);
 
     //---------Verification Regex----------//
 
@@ -125,7 +128,7 @@ const SignIn = () => {
                 <div className='box-signin'>
                     <h1>Inscription</h1>
                     <div className='box-input'>
-                        <form methode='post' onSubmit={handleSubmit}>
+                        <form methode='post' onSubmit={handleSubmit} style={{ position: 'relative' }}>
                             <TextField
                                 id="input-email"
                                 required
@@ -149,9 +152,21 @@ const SignIn = () => {
                                 helperText={pwdError ? 'Votre mot de passe doit contenir au moins 8 caractères, 1 nombre et 1 majuscule' : "Saisissez votre mot de passe"}
                                 onChange={handleChange}
                                 value={data.password}
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 error={pwdError}
                             />
+                            {showPassword ?
+                                <VisibilityOffIcon
+                                    color='action'
+                                    fontSize='small'
+                                    onClick={() => { setShowPassword(!showPassword); }}
+                                    style={{ cursor: 'pointer', position: 'absolute', right: 25, top: 135 }} />
+                                :
+                                <VisibilityIcon
+                                    color='action'
+                                    fontSize='small'
+                                    onClick={() => { setShowPassword(!showPassword); }}
+                                    style={{ cursor: 'pointer', position: 'absolute', right: 25, top: 135 }} />}
                             <TextField
                                 id="input-pseudo"
                                 required
