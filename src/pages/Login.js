@@ -9,6 +9,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { validEmail, validPassword } from '../components/Regex';
 import { URL } from '../App';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+
 
 
 const Login = () => {
@@ -26,6 +29,8 @@ const Login = () => {
 
     const [focusEmail, setFocusEmail] = useState(false);
     const [focusPwd, setFocusPwd] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
 
     //---------Verification Regex----------//
 
@@ -109,7 +114,7 @@ const Login = () => {
                 <div className='box-login'>
                     <h1>Se connecter</h1>
                     <div className='box-input'>
-                        <form method="post" onSubmit={handleSubmit}>
+                        <form method="post" onSubmit={handleSubmit} style={{ position: 'relative' }}>
                             <TextField
                                 id="input-email"
                                 color={focusEmail ? "success" : "primary"}
@@ -133,9 +138,21 @@ const Login = () => {
                                 required
                                 onChange={handleChange}
                                 value={data.password}
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 error={pwdError}
                             />
+                            {showPassword ?
+                                <VisibilityOffIcon
+                                    color='action'
+                                    fontSize='small'
+                                    onClick={() => { setShowPassword(!showPassword); }}
+                                    style={{ cursor: 'pointer', position: 'absolute', right: 25, bottom: 110 }} />
+                                :
+                                <VisibilityIcon
+                                    color='action'
+                                    fontSize='small'
+                                    onClick={() => { setShowPassword(!showPassword); }}
+                                    style={{ cursor: 'pointer', position: 'absolute', right: 25, bottom: 110 }} />}
                             <Button type='submit' onClick={validate}>Connexion</Button>
                             {errorMessage && (<p className="error"> {errorMessage} </p>)}
                         </form>
