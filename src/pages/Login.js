@@ -81,7 +81,6 @@ const Login = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validEmail.test(data.email) && validPassword.test(data.password)) {
-            console.log('ici');
             const userData = {
                 email: data.email,
                 password: data.password
