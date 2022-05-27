@@ -13,6 +13,7 @@ const PostAddView = (props) => {
 
     const [data, setData] = useState({ post: '', image: '', userId: '' });
     const [postError, setPostError] = useState(false);
+    const [lienError, setLienError] = useState(false);
     const [alert, setAlert] = useState(false);
     const [success, setSuccess] = useState(false);
 
@@ -32,9 +33,16 @@ const PostAddView = (props) => {
             ...data,
             'image': file,
         });
-        let preview = document.getElementById('preview');
-        preview.style.display = "inline";
-        preview.src = window.URL.createObjectURL(file);
+        let imgPreview = document.getElementById('preview-img');
+        let pdfPreview = document.getElementById('preview-pdf');
+        if (file.type.split("/")[0] === 'image') {
+            imgPreview.style.display = "inline";
+            imgPreview.src = window.URL.createObjectURL(file);
+        }
+        if (file.type.split("/")[0] === 'application') {
+            pdfPreview.style.display = "inline";
+            pdfPreview.data = window.URL.createObjectURL(file);
+        }
     };
 
     const handleChange = (e) => {
@@ -43,6 +51,23 @@ const PostAddView = (props) => {
             ...data,
             'post': value,
         });
+    };
+
+    const handleChangeLien = (e) => {
+        const value = e.target.value;
+        const regexp = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/;
+        const match = value.match(regexp);
+        if (!match) {
+            setLienError(true);
+            return;
+        }
+        else {
+            setLienError(false);
+            setData({
+                ...data,
+                'lien': match[6],
+            });
+        }
     };
 
     //---------Fonction envoi des données post ------------------//
@@ -56,6 +81,10 @@ const PostAddView = (props) => {
             form.append('post', data.post);
             form.append('image', data.image);
             form.append('userId', userId);
+            if (data.lien) {
+                form.append('lien', data.lien);
+            }
+            else { form.append('lien', null); }
 
             axios({
                 method: 'post',
@@ -83,7 +112,6 @@ const PostAddView = (props) => {
         else {
             return;
         }
-
     };
 
     return (
@@ -99,10 +127,24 @@ const PostAddView = (props) => {
                     error={postError}
                 >
                 </TextField>
+
+                <TextField
+                    id="lien-post"
+                    type={'url'}
+                    style={{ marginTop: '10px' }}
+                    pattern="https://.*"
+                    label="Ajouter un lien youtube"
+                    helperText={lienError ? 'Entrer un lien youtube valide' : ''}
+                    name='lien'
+                    onChange={handleChangeLien}
+                    fullWidth
+                    error={lienError}
+                >
+                </TextField>
                 <div className='add-img'>
                     <label>
                         <Button component="span">
-                            <AddIcon />Ajouter une image
+                            <AddIcon />Ajouter un fichier
                             <input
                                 id="image"
                                 name="image"
@@ -111,7 +153,8 @@ const PostAddView = (props) => {
                             />
                         </Button>
                     </label>
-                    <img id="preview" alt="apercu" />
+                    <img id='preview-img' alt="apercu" />
+                    <object id="preview-pdf" type="application/pdf" aria-label='pdf'></object>
                 </div>
                 <Button type='submit' onClick={validate}>Publier</Button>
                 {alert && <Alert severity="error">Erreur Post</Alert>}

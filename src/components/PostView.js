@@ -95,7 +95,6 @@ const PostView = (props) => {
                 }
             });
     };
-
     //--------------Fonction récupération input commentaire------------------//
 
     const handleChange = (e) => {
@@ -139,7 +138,7 @@ const PostView = (props) => {
             setAddComment('');
         }
         else {
-            
+
             setCommentErr(true);
             return;
         }
@@ -305,9 +304,17 @@ const PostView = (props) => {
                     </div>}
 
                     <p>{renderDate(post.created_at)} {post.pseudo} à posté : </p>
-                    {post.imageUrl.length > 0 &&
-                        <img className='post-img' src={post.imageUrl} alt={'image post n:' + post.id} />}
+
+                    {(post.imageUrl.length > 0) &&
+                        (post.imageUrl.split('.')[post.imageUrl.split('.').length - 1] === 'pdf' ?
+                            <object type="application/pdf" data={post.imageUrl} aria-label='pdf'></object> :
+                            <img className='post-img' src={post.imageUrl} alt={'image post n:' + post.id}
+                            />)}
                     <p className='text-color-3'>{post.text}</p>
+                    {(post.lienUrl && post.lienUrl !== 'null') &&
+                        //<object type="application/pdf" data={post.lienUrl} aria-label='pdf'></object>
+                        <embed className='video' src={`https://www.youtube.com/embed/${post.lienUrl}`} allowFullScreen></embed>
+                    }
                     <div className='post-footer'>
                         <LikeComponent
                             idpost={post.id}

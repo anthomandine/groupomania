@@ -12,6 +12,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    object{
+        height: 500px;
+        width: 800px;
+    }
+    .video{
+        width: 800px;
+        height: 500px;
+        margin: 10px 0px;
+    }
+    .post-lien:hover{
+        opacity: 0.6;
+    }
     .delete-button-post{
         position: absolute;
         top: 0;
@@ -94,17 +106,47 @@
     }
 }
 
-
+@media(max-width: 910px){
+    
+    .post-view object{
+        width: 700px;
+    }
+    .post-view .video{
+        width: 600px;
+        height: 350px;
+    }
+}
 
 @media(max-width: 800px){
     .post-view .post-img{
         width: 60%;
+    }
+    .post-view object{
+        width: 600px;
+    }
+}
+
+@media(max-width: 680px){
+    .post-view object{
+        width: 400px;
+        height: 350px;
+    }
+    .post-view .video{
+        width: 400px;
+        height: 250px;
     }
 }
 
 @media(max-width: 500px){
     .post-view .post-img{
         width: 60%;
+    }
+    .post-view object{
+        width: 300px;
+    }
+    .post-view .video{
+        width: 300px;
+        height: 200px;
     }
     .post-footer div{
         display: flex;
@@ -117,5 +159,16 @@
     }
     .post-view .comment-content{
         width: 100%;
+    }
+}
+
+@media(max-width: 350px){
+    .post-view object{
+        width: 200px;
+        height: 100px;
+    }
+    .post-view .video{
+        width: 200px;
+        height: 100px;
     }
 }

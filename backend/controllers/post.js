@@ -8,8 +8,9 @@ exports.createPost = (req, res, next) => {
     let post = req.body.post;
     let userId = req.body.userId;
     let imageUrl = req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : '';
+    let lien = req.body.lien;
 
-    let sql = 'INSERT INTO post (text, imageUrl, id_user, created_at) VALUES (?, \'' + imageUrl + '\', \'' + userId + '\', Now() )';
+    let sql = 'INSERT INTO post (text, imageUrl, id_user, created_at, lienUrl) VALUES (?, \'' + imageUrl + '\', \'' + userId + '\', Now(),  \'' + lien + '\' )';
     connexion.query(sql,post, (err, results, fields) => {
         if (err) console.log("Echec d'enregistrement à BD", err);
         else {
@@ -25,7 +26,7 @@ exports.getAllPosts = (req, res, next) => {
     let userId = req.params.userId;
     let limit = req.params.limit;
 
-    let sql = 'SELECT t.id, p.text, p.imageUrl, p.id_user, p.created_at, u.pseudo, u.avatar, (SELECT MAX(islike)FROM user_post us WHERE us.user_id ='+userId+' AND us.post_id = t.id ) AS islikeactive, t.liked, t.disliked FROM ( SELECT p.id, SUM(islike = 1) AS liked, SUM(islike = 0) as disliked  FROM post p LEFT OUTER JOIN user_post us ON p.id = us.post_id LEFT OUTER JOIN user u ON p.id_user = u.id GROUP BY p.id ) t INNER JOIN post p ON p.id = t.id INNER JOIN user u ON p.id_user = u.id ORDER BY p.id DESC LIMIT 0,'+limit;
+    let sql = 'SELECT t.id, p.text, p.imageUrl, p.lienUrl, p.id_user, p.created_at, u.pseudo, u.avatar, (SELECT MAX(islike)FROM user_post us WHERE us.user_id ='+userId+' AND us.post_id = t.id ) AS islikeactive, t.liked, t.disliked FROM ( SELECT p.id, SUM(islike = 1) AS liked, SUM(islike = 0) as disliked  FROM post p LEFT OUTER JOIN user_post us ON p.id = us.post_id LEFT OUTER JOIN user u ON p.id_user = u.id GROUP BY p.id ) t INNER JOIN post p ON p.id = t.id INNER JOIN user u ON p.id_user = u.id ORDER BY p.id DESC LIMIT 0,'+limit;
     connexion.query(sql, (err, results, fields) => {
         if (err) console.log("Echec BD", err);
         else {
