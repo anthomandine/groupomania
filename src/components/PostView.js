@@ -311,9 +311,11 @@ const PostView = (props) => {
                             <img className='post-img' src={post.imageUrl} alt={'image post n:' + post.id}
                             />)}
                     <p className='text-color-3'>{post.text}</p>
+                    
                     {(post.lienUrl && post.lienUrl !== 'null') &&
-                        //<object type="application/pdf" data={post.lienUrl} aria-label='pdf'></object>
-                        <embed className='video' src={`https://www.youtube.com/embed/${post.lienUrl}`} allowFullScreen></embed>
+                        (post.lienUrl.split('.')[post.lienUrl.split('.').length - 1] === 'pdf' ?
+                            <object type="application/pdf" data={post.lienUrl} aria-label='pdf'></object> :
+                            <embed className='video' src={`https://www.youtube.com/embed/${post.lienUrl}`} allowFullScreen></embed>)
                     }
                     <div className='post-footer'>
                         <LikeComponent
@@ -349,8 +351,9 @@ const PostView = (props) => {
                         </Slide>
                     </div>
                 </div>
-            ))}
-        </div>
+            ))
+            }
+        </div >
     );
 };
 

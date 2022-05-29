@@ -55,18 +55,35 @@ const PostAddView = (props) => {
 
     const handleChangeLien = (e) => {
         const value = e.target.value;
+        let pdfPreviewLien = document.getElementById('preview-pdf-lien');
+        let previewVideo = document.getElementById('preview-video');
+        // eslint-disable-next-line
         const regexp = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/;
         const match = value.match(regexp);
-        if (!match) {
-            setLienError(true);
-            return;
-        }
-        else {
+
+        if (value.split('.')[value.split('.').length - 1] === 'pdf') {
             setLienError(false);
             setData({
                 ...data,
-                'lien': match[6],
+                'lien': value,
             });
+            previewVideo.style.display = "none";
+            pdfPreviewLien.style.display = "inline";
+        }
+        else {
+            if (!match) {
+                setLienError(true);
+                return;
+            }
+            else {
+                setLienError(false);
+                setData({
+                    ...data,
+                    'lien': match[6],
+                });
+                pdfPreviewLien.style.display = "none";
+                previewVideo.style.display = "inline";
+            }
         }
     };
 
@@ -155,6 +172,8 @@ const PostAddView = (props) => {
                     </label>
                     <img id='preview-img' alt="apercu" />
                     <object id="preview-pdf" type="application/pdf" aria-label='pdf'></object>
+                    <object id="preview-pdf-lien" data={data.lien} type="application/pdf" aria-label='pdf'></object>
+                    <embed id="preview-video" className='video' src={`https://www.youtube.com/embed/${data.lien}`} allowFullScreen></embed>
                 </div>
                 <Button type='submit' onClick={validate}>Publier</Button>
                 {alert && <Alert severity="error">Erreur Post</Alert>}
