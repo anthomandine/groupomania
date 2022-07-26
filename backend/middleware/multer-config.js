@@ -9,6 +9,7 @@ const MIME_TYPES = {
   'application/pdf': 'pdf'
 };
 
+//let folder = '/home/asanna/www/groupomania/backend/images';
 let folder = './images';
 if (!fs.existsSync(folder)) {
   fs.mkdirSync(folder);
@@ -16,6 +17,7 @@ if (!fs.existsSync(folder)) {
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
+    //callback(null, '/home/asanna/www/groupomania/backend/images');
     callback(null, './images');
   },
   filename: (req, file, callback) => {

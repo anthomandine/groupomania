@@ -1,0 +1,21 @@
+.notfound{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-style: italic;
+    margin: 20px;
+}
+    img {
+        object-fit: cover;
+    }
+    p{
+        margin: 10px;
+    }
+    a{
+        align-items: center;
+        display: flex;
+        align-items: center;
+        margin: 10px;
+        font-size: 25px;
+    }
+    
