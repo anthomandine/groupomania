@@ -20,7 +20,8 @@ app.use(express.json());
 
 //--------Demande URL vers l'arboraissance des images---------//
 
-app.use('/images', express.static(path.join('/home/asanna/www/groupomania/backend/', 'images')));
+//app.use('/images', express.static(path.join('/home/asanna/www/groupomania/backend/', 'images')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 //--------Demande URL vers les routes inscription et connexion  ---------//
 
@@ -33,6 +34,4 @@ app.use('/api/comment', commentRoutes);
 
 module.exports = app;
 
-//bash: npm install
-//bash: npm install body-parser
 
