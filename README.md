@@ -5,25 +5,35 @@ Le projet _Groupomania_ est un réseau social interne d'entreprise permettant au
 ### Pré-requis  
    
 - telecharger node js  
+- préparer la base de donné avec le dump SQL
    
 ### Installation et démarrage  
   
-Executer la commande :  
+Executer la commande à la racine :  
   
-- cd /groupomania : ``make start``
+ ``make start``
 La page web s'ouvre ...  
   
 ou  
   
  - cd /groupomania/backend : ``npm install``
- - cd /groupomania/backend : ``nodemon server``  
+ - cd /groupomania/backend : ``nodemon server`` ou ``node server``
    
  Le back est en marche ...  
+  
  et  
    
  - cd /groupomania : ``npm install``
  - cd /groupomania : ``npm start``  
    
  La page web s'ouvre ...  
+   
+     
+       
+### Arrêter le projet  
+  
+  Executer la commande à la racine : 
+    
+``make stop``
 
 
