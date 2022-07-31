@@ -56,6 +56,11 @@ const Network = () => {
 
             localStorage.setItem('user', pseudo);
             localStorage.setItem('avatar', avatar);
+        })
+        .catch(function (err) {
+            console.log(err);
+            localStorage.clear();
+            navigate(`/`);
         });
 
     return (

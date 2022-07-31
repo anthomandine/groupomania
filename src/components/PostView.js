@@ -131,6 +131,7 @@ const PostView = (props) => {
                 .then(function (reponse) {
                     console.log("commentaire envoyer");
                     renderComments(idpost);
+                    setData({ comment: '' });
                 })
                 .catch(function (erreur) {
                     console.log(erreur);
@@ -274,7 +275,7 @@ const PostView = (props) => {
     //--------------Fonction limit pour la requete des posts au scroll------------------//
 
     const handleScroll = () => {
-        if (lazy.stop) return;
+        if (lazy.stop || (window.location.pathname !== '/network')) return;
 
         let contentWidth = postsContent.current.scrollHeight;
         let scrollY = window.pageYOffset;

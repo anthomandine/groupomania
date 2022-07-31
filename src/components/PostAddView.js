@@ -117,6 +117,7 @@ const PostAddView = (props) => {
                     setTimeout(() => {
                         setSuccess(false);
                     }, 2000);
+                    setData({ post: '', image: '', userId: '' });
                 })
                 .catch(function (err) {
                     console.log(err);

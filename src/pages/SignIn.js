@@ -93,7 +93,8 @@ const SignIn = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (validate()) {
+        
+        if (validate) {
             const userData = {
                 email: data.email,
                 password: data.password,
@@ -116,6 +117,7 @@ const SignIn = () => {
                 });
         }
         else {
+            setErrorMessage('Un problème est survenu !');
             return;
         }
     };
