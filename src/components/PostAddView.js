@@ -92,6 +92,8 @@ const PostAddView = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validPost.test(data.post)) {
+            let imgPreview = document.getElementById('preview-img');
+            let pdfPreview = document.getElementById('preview-pdf');
             const token = localStorage.getItem('token');
             const userId = localStorage.getItem('userId');
             const form = new FormData();
@@ -118,6 +120,8 @@ const PostAddView = (props) => {
                         setSuccess(false);
                     }, 2000);
                     setData({ post: '', image: '', userId: '' });
+                    pdfPreview.style.display = "none";
+                    imgPreview.style.display = "none";
                 })
                 .catch(function (err) {
                     console.log(err);
