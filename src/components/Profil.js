@@ -57,7 +57,6 @@ BootstrapDialogTitle.propTypes = {
 
 export default function CustomizedDialogs(props) {
   const [open, setOpen] = React.useState(false);
-
   const [confirm, setConfirm] = useState(false);
 
   const handleClickOpen = () => {
@@ -128,7 +127,6 @@ export default function CustomizedDialogs(props) {
 
   const handleDelet = (e) => {
     e.preventDefault();
-
     swal({
       title: "Etes vous sure de vouloir supprimer votre compte ?",
       text: "La suppression sera définitive et votre adresse email inutilisable sur notre site !",

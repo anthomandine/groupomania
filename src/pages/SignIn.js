@@ -93,7 +93,7 @@ const SignIn = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
         if (validate) {
             const userData = {
                 email: data.email,
@@ -164,9 +164,8 @@ const SignIn = () => {
                                             {showPassword ? <VisibilityOffIcon color='action' /> : <VisibilityIcon color='action' />}
                                         </IconButton>
                                     </InputAdornment>,
-                                  }}
+                                }}
                             />
-
                             <TextField
                                 id="input-pseudo"
                                 required

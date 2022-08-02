@@ -7,7 +7,6 @@ import { URL } from '../App';
 
 const LikeComponent = (props) => {
 
-
     //---------Init variables----------//
     let like = null;
     let [liked, setLiked] = useState();

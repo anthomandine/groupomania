@@ -149,7 +149,6 @@ const PostAddView = (props) => {
                     error={postError}
                 >
                 </TextField>
-
                 <TextField
                     id="lien-post"
                     type={'url'}

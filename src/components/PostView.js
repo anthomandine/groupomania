@@ -30,7 +30,6 @@ const PostView = (props) => {
     const postsContent = useRef(null);
     const [success, setSuccess] = useState(false);
 
-
     //--------------Récupération des posts 5 par 5------------------//
 
     useEffect(() => {
@@ -139,7 +138,6 @@ const PostView = (props) => {
             setAddComment('');
         }
         else {
-
             setCommentErr(true);
             return;
         }
@@ -312,7 +310,7 @@ const PostView = (props) => {
                             <img className='post-img' src={post.imageUrl} alt={'image post n:' + post.id}
                             />)}
                     <p className='text-color-3'>{post.text}</p>
-                    
+
                     {(post.lienUrl && post.lienUrl !== 'null') &&
                         (post.lienUrl.split('.')[post.lienUrl.split('.').length - 1] === 'pdf' ?
                             <object type="application/pdf" data={post.lienUrl} aria-label='pdf'></object> :

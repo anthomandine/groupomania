@@ -31,7 +31,6 @@ const Network = () => {
         setProfilLoad(!profilLoad)
     };
 
-
     //---------condition connexion ----------//
 
     let navigate = useNavigate();

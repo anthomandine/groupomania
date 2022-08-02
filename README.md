@@ -32,7 +32,7 @@ ou
        
 ### Arrêter le projet  
   
-  Executer la commande à la racine : 
+  Executer la commande à la racine : (pkill node)
     
 ``make stop``
 

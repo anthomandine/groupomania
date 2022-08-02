@@ -12,7 +12,6 @@ import { URL } from '../App';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
-
 const Login = () => {
 
     //---------Init variables----------//
@@ -104,7 +103,6 @@ const Login = () => {
         else {
             return;
         }
-
     };
 
     return (
@@ -149,7 +147,7 @@ const Login = () => {
                                             {showPassword ? <VisibilityOffIcon color='action' /> : <VisibilityIcon color='action' />}
                                         </IconButton>
                                     </InputAdornment>,
-                                  }}
+                                }}
                             />
                             <Button type='submit' onClick={validate}>Connexion</Button>
                             {errorMessage && (<p className="error"> {errorMessage} </p>)}
