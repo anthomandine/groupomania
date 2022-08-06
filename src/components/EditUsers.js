@@ -17,6 +17,7 @@ import "moment/locale/fr";
 import swal from 'sweetalert';
 import { CircularProgress } from '@mui/material';
 import { URL } from '../App';
+import EditPost from './EditPost';
 
 //--------------MUI dialog---------------------//
 
@@ -78,6 +79,8 @@ export default function CustomizedDialogsAdmin(props) {
     const [postsIsEmpty, setpostIsEmpty] = useState(true);
     const [loading, setLoading] = useState(false);
 
+
+
     //---------------render users in admin -------------//
 
     const renderUsers = () => {
@@ -98,6 +101,31 @@ export default function CustomizedDialogsAdmin(props) {
         };
         axiosGet();
     };
+
+    //---------------render posts in admin -------------//
+
+    const renderPosts = () => {
+
+        setusersIsEmpty(true);
+        setData([]);
+        setLoading(true);
+        let token = localStorage.getItem('token');
+        let userId = localStorage.getItem('userId');
+        let limit = 100;
+
+        const axiosGet = async () => {
+            const reponse = axios.get(URL + '/api/post/' + userId + '/' + limit + '/posts', {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            });
+            setDataPosts((await reponse).data);
+            setpostIsEmpty(false);
+            setLoading(false);
+        };
+        axiosGet();
+    };
+
 
     //---------------Fonction delete users et posts -------------//
 
@@ -192,6 +220,17 @@ export default function CustomizedDialogsAdmin(props) {
         )
     };
 
+    const renderButtonEdit = (props, isLoad) => {
+        return (
+            <EditPost postId={props.id}
+            postText={props.text}
+            imgUrl={props.imageUrl}
+            isLoadF={isLoad} 
+            renderPost={renderPosts}
+            />
+        )
+    };
+
     const columns = [
         { field: 'userId', headerName: 'UserId', width: 70 },
         { field: 'pseudo', headerName: 'Pseudo', width: 180 },
@@ -227,6 +266,11 @@ export default function CustomizedDialogsAdmin(props) {
             field: 'delet_button', headerName: 'Supprimer post', width: 130, renderCell: (val) => {
                 return val.row.delet_button;
             }
+        },
+        {
+            field: 'edit_button', headerName: 'Modifier post', width: 130, renderCell: (val) => {
+                return val.row.edit_button;
+            }
         }
     ];
 
@@ -236,35 +280,13 @@ export default function CustomizedDialogsAdmin(props) {
             post: post.text,
             idAuthor: post.id_user,
             pseudo: post.pseudo,
-            delet_button: renderButtonDelete(post)
+            delet_button: renderButtonDelete(post),
+            edit_button: renderButtonEdit(post, props.isLoadF)
         }
     ));
     //---------------/table posts-------------//
 
-    //---------------render posts in admin -------------//
-
-    const renderPosts = () => {
-
-        setusersIsEmpty(true);
-        setData([]);
-        setLoading(true);
-        let token = localStorage.getItem('token');
-        let userId = localStorage.getItem('userId');
-        let limit = 100;
-
-        const axiosGet = async () => {
-            const reponse = axios.get(URL + '/api/post/' + userId + '/' + limit + '/posts', {
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                }
-            });
-            setDataPosts((await reponse).data);
-            setpostIsEmpty(false);
-            setLoading(false);
-        };
-        axiosGet();
-    };
-
+    
     //---------------- render --------------//
 
     return (

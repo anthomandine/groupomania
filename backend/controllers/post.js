@@ -19,6 +19,23 @@ exports.createPost = (req, res, next) => {
     });
 };
 
+//---------middleware post pour modifier 1 post ----------//
+
+exports.editPost = (req, res, next) => {
+
+    let text = req.body.text;
+    let image = req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : '';
+    let idpost = req.params.idpost
+    let sql = `UPDATE post SET text = ?, imageUrl= ? WHERE id = ${idpost}`;
+
+    connexion.query(sql,[text, image], (err, results, fields) => {
+        if (err) console.log("Echec d'enregistrement à BD", err);
+        else {
+            return res.status(200).json({ message: "post modifié !" });
+        }
+    });
+};
+
 //---------middleware post pour récupérer tous les posts ----------//
 
 exports.getAllPosts = (req, res, next) => {

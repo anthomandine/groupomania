@@ -5,7 +5,12 @@ Le projet _Groupomania_ est un réseau social interne d'entreprise permettant au
 ### Pré-requis  
    
 - telecharger node js  
-- préparer la base de donné avec le dump SQL
+- préparer la base de donné avec le dump SQL :
+    port: 3306
+    host: localhost
+    user: root
+    password: Amandine2006+
+    database: groupomania
    
 ### Installation et démarrage  
   

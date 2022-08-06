@@ -10,6 +10,7 @@ import "moment/locale/fr";
 import { validComment } from '../components/Regex';
 import swal from 'sweetalert';
 import { URL } from '../App';
+import EditPost from './EditPost';
 
 //---------Init variables limit sql posts et commentaires----------//
 
@@ -300,6 +301,13 @@ const PostView = (props) => {
                         <IconButton aria-label="delete" size="large" onClick={() => handleDeletePost(post.id, post.imageUrl)} >
                             <DeleteIcon />
                         </IconButton>
+                        <EditPost
+                            postId={post.id}
+                            postText={post.text}
+                            imgUrl={post.imageUrl}
+                            isLoadF={props.isLoadF} 
+                            isload={props.isload}
+                        />
                     </div>}
 
                     <p>{renderDate(post.created_at)} {post.pseudo} à posté : </p>
